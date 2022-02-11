@@ -31,7 +31,7 @@ public class UserDomain extends BaseDomain {
 
     private String preferredWorkplaceId;
     @ManyToOne(cascade = {CascadeType.PERSIST}, fetch = FetchType.LAZY)
-    @JoinColumn(name = "preferredworkplaceId", updatable = false, insertable = false)
+    @JoinColumn(name = "preferredWorkplaceId", updatable = false, insertable = false)
     private WorkplaceDomain preferredWorkplace;
 
     @Override
