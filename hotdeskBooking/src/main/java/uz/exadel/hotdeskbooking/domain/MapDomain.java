@@ -20,9 +20,4 @@ public class MapDomain extends BaseDomain {
     private Boolean kitchen;
 
     private Boolean confRooms;
-
-    @Override
-    public String getEntityKey() {
-        return "map";
-    }
 }

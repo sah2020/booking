@@ -19,9 +19,4 @@ public class OfficeDomain extends BaseDomain {
     private String address;
 
     private Boolean isFreeParkingAvailable;
-
-    @Override
-    public String getEntityKey() {
-        return "office";
-    }
 }

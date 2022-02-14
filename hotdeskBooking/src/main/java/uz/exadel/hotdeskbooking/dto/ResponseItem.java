@@ -13,23 +13,12 @@ import java.io.Serializable;
 public class ResponseItem<T> implements Serializable {
     private T data;
     private String message;
-    private String serverMessage;
     private String status;
     private int httpStatusCode;
 
-    public ResponseItem(T data) {
-        this(data, null, null, "success", 200);
-    }
-
-    public ResponseItem(T data, String message) {
-        this(data, message, null, "success", 200);
-    }
-
     public ResponseItem(T data, String message, String status) {
-        this(data, message, null, status, 200);
-    }
-
-    public ResponseItem(T data, String message, String serverMessage, String status) {
-        this(data, message, serverMessage, status, 200);
+        this.data = data;
+        this.message = message;
+        this.status = status;
     }
 }

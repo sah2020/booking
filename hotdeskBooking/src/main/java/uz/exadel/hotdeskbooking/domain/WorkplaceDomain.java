@@ -40,9 +40,4 @@ public class WorkplaceDomain extends BaseDomain {
 
     @ColumnDefault(value = "false")
     private Boolean hasHeadset;
-
-    @Override
-    public String getEntityKey() {
-        return "workplace";
-    }
 }

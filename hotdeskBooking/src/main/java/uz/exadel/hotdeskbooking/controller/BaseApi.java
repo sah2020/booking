@@ -7,7 +7,7 @@ import uz.exadel.hotdeskbooking.dto.ResponseItem;
 
 public abstract class BaseApi {
     private <T> ResponseEntity<ResponseItem<T>> send(T data, String message, String status, HttpStatus httpStatusCode) {
-        return new ResponseEntity<>(new ResponseItem<>(data, message, null, status, httpStatusCode.value()), getHttpHeaders(), HttpStatus.OK);
+        return new ResponseEntity<>(new ResponseItem<>(data, message, status, httpStatusCode.value()), getHttpHeaders(), HttpStatus.OK);
     }
 
     protected <T> ResponseEntity<ResponseItem<T>> success(T data, String message) {
