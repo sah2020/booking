@@ -1,31 +1,39 @@
-package uz.exadel.model;
+package uz.exadel.hotdeskbooking.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
-@Entity
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
-public class Office {
+@Entity
+public class Address {
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid")
     @Column(columnDefinition = "CHAR(32)")
     @Id
     private String id;
 
-    @Column(nullable = false, unique = true)
-    private String name;
     @Column(nullable = false)
     private String country;
+
     @Column(nullable = false)
     private String city;
-    @Column(nullable = false)
-    private boolean isParkingAvailable;
+
     @Column(nullable = false)
     private String address;
 }
+
+
+
+
+
+

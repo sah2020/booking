@@ -1,13 +1,22 @@
 package uz.exadel.hotdeskbooking.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 public class Map {
-
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid")
+    @Column(columnDefinition = "CHAR(32)")
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private String id;
 
     @Column(nullable = false)
     private boolean isKitchenPresent;
@@ -16,5 +25,5 @@ public class Map {
     private boolean isMeetingRoomPresent;
 
     @ManyToOne(optional = false)
-    private Office officeId;
+    private Office office;
 }
