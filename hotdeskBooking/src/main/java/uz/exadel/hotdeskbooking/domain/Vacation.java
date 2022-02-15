@@ -9,13 +9,12 @@ import java.util.Date;
 @Getter
 @Setter
 @Entity
-@Table(name = "vacation")
-public class VacationDomain extends BaseDomain{
+public class Vacation extends BaseDomain{
 
     private String userId;
     @ManyToOne(cascade = {CascadeType.PERSIST}, fetch = FetchType.LAZY)
     @JoinColumn(name = "userId", updatable = false, insertable = false)
-    private UserDomain user;
+    private User user;
 
     private Date vacationStart;
 

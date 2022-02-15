@@ -10,15 +10,13 @@ import java.io.Serializable;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ResponseItem<T> implements Serializable {
-    private T data;
+public class ResponseItem implements Serializable {
     private String message;
-    private String status;
-    private int httpStatusCode;
+    private boolean success;
+    private Object object;
 
-    public ResponseItem(T data, String message, String status) {
-        this.data = data;
+    public ResponseItem(String message, boolean success) {
         this.message = message;
-        this.status = status;
+        this.success = success;
     }
 }

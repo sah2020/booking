@@ -8,8 +8,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-@Table(name = "office")
-public class OfficeDomain extends BaseDomain {
+public class Office extends BaseDomain {
     private String name;
 
     private String country;

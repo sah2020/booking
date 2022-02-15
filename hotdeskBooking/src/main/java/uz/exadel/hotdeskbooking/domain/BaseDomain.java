@@ -1,20 +1,23 @@
 package uz.exadel.hotdeskbooking.domain;
 
 
-import com.sun.istack.NotNull;
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.proxy.HibernateProxy;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
+import java.sql.Timestamp;
 
 @Getter
 @Setter
 @MappedSuperclass
+@EntityListeners(value = AuditingEntityListener.class)
 public abstract class BaseDomain implements Serializable {
     @Id
     @GeneratedValue(generator = "uuid")
@@ -22,48 +25,17 @@ public abstract class BaseDomain implements Serializable {
     @Column(columnDefinition = "CHAR(32)")
     private String id;
 
-    @NotNull
-    @Getter(AccessLevel.NONE)
-    @Setter(AccessLevel.NONE)
-    @Column(nullable = false)
-    private Date createdDate;
+    @Column(updatable = false)
+    @CreationTimestamp
+    private Timestamp createdAt;
 
-    @NotNull
-    @Getter(AccessLevel.NONE)
-    @Setter(AccessLevel.NONE)
-    @Column(nullable = false)
-    private Date modifiedDate;
+    @UpdateTimestamp
+    private Timestamp updatedAt;
 
-    @PreUpdate
-    public void preUpdate() {
-        this.setModifiedDate(new Date(System.currentTimeMillis()));
-    }
+    @CreatedBy
+    @Column(updatable = false)
+    private String createdById;
 
-    @PrePersist
-    public void prePersist() {
-        if (this.isNew() && this.getCreatedDate() == null) {
-            this.setCreatedDate(new Date(System.currentTimeMillis()));
-        }
-        this.setModifiedDate(new Date(System.currentTimeMillis()));
-    }
-
-    public Date getCreatedDate() {
-        return createdDate != null ? new Date(createdDate.getTime()) : null;
-    }
-
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate != null ? new Date(createdDate.getTime()) : null;
-    }
-
-    public Date getModifiedDate() {
-        return modifiedDate != null ? new Date(modifiedDate.getTime()) : null;
-    }
-
-    public void setModifiedDate(Date modifiedDate) {
-        this.modifiedDate = modifiedDate != null ? new Date(modifiedDate.getTime()) : null;
-    }
-
-    public boolean isNew() {
-        return this.id == null;
-    }
+    @LastModifiedBy
+    private String updateById;
 }
