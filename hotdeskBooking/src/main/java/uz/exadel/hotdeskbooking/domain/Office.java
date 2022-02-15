@@ -1,13 +1,14 @@
-package uz.exadel.hotdeskbooking.dto;
+package uz.exadel.hotdeskbooking.domain;
 
 import lombok.Getter;
 import lombok.Setter;
 
-import java.io.Serializable;
+import javax.persistence.*;
 
 @Getter
 @Setter
-public class OfficeResponseTO implements Serializable {
+@Entity
+public class Office extends BaseDomain {
     private String name;
 
     private String country;
@@ -17,6 +18,4 @@ public class OfficeResponseTO implements Serializable {
     private String address;
 
     private Boolean isFreeParkingAvailable;
-
-    private MapResponseTO[] maps;
 }

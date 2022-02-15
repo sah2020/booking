@@ -4,32 +4,21 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.http.HttpStatus;
 
 import java.io.Serializable;
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ResponseItem<T> implements Serializable {
-    private T data;
+public class ResponseItem implements Serializable {
     private String message;
-    private String serverMessage;
-    private String status;
-    private int httpStatusCode;
+    private boolean success;
+    private Object object;
+    private HttpStatus httpStatusCode = HttpStatus.OK;
 
-    public ResponseItem(T data) {
-        this(data, null, null, "success", 200);
-    }
-
-    public ResponseItem(T data, String message) {
-        this(data, message, null, "success", 200);
-    }
-
-    public ResponseItem(T data, String message, String status) {
-        this(data, message, null, status, 200);
-    }
-
-    public ResponseItem(T data, String message, String serverMessage, String status) {
-        this(data, message, serverMessage, status, 200);
+    public ResponseItem(String message, boolean success) {
+        this.message = message;
+        this.success = success;
     }
 }
