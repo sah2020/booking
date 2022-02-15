@@ -17,6 +17,12 @@ public class ResponseItem implements Serializable {
     private Object object;
     private HttpStatus httpStatusCode = HttpStatus.OK;
 
+    public ResponseItem(String message, boolean success, HttpStatus httpStatusCode) {
+        this.message = message;
+        this.success = success;
+        this.httpStatusCode = httpStatusCode;
+    }
+
     public ResponseItem(String message, boolean success) {
         this.message = message;
         this.success = success;
