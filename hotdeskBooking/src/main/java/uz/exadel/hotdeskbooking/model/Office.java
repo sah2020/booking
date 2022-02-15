@@ -1,15 +1,16 @@
 package uz.exadel.hotdeskbooking.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.Hibernate;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 @Entity
 @Table(uniqueConstraints = {@UniqueConstraint(columnNames = "name", name = "u_key_office_name")})
 public class Office {
@@ -29,4 +30,9 @@ public class Office {
     @JoinColumn(name = "address_id")
     private Address address;
 
+    public Office(String name, boolean isParkingAvailable, Address address) {
+        this.name = name;
+        this.isParkingAvailable = isParkingAvailable;
+        this.address = address;
+    }
 }

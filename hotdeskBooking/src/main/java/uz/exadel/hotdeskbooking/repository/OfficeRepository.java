@@ -10,9 +10,7 @@ import java.util.Optional;
 @Repository
 public interface OfficeRepository extends JpaRepository<Office, String> {
 
-     Optional<Office> findOfficeByCountry(String country);
+    boolean existsByName(String name);
 
-     Optional<Office> findOfficeByName(String name);
-
-     void deleteOfficeByName(String officeName);
+    boolean existsOfficeByAddress_Id(String address_id);
 }

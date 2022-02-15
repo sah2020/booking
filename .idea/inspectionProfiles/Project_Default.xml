@@ -5,6 +5,7 @@
       <option name="excludeList">
         <list>
           <option value="javax.validation:validation-api" />
+          <option value="commons-configuration:commons-configuration" />
         </list>
       </option>
     </inspection_tool>
