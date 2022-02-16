@@ -14,7 +14,7 @@ public class RestExceptionHandler {
         return ResponseEntity.status(ex.getStatus()).body(
                 new ResponseItem(
                         ex.getMessage(),
-                        false
+                        500
                 )
         );
     }
@@ -25,7 +25,7 @@ public class RestExceptionHandler {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
                 new ResponseItem(
                         "Server error",
-                        false
+                        500
                 )
         );
     }

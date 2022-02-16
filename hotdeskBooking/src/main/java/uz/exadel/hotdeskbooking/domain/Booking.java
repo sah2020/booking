@@ -36,6 +36,8 @@ public class Booking extends BaseDomain {
 
     private Integer frequency;
 
+    private Boolean active = true;
+
     public Booking(String workplaceId, Workplace workplace, String userId, User user, Date startDate, Date endDate, Boolean isRecurring, Integer frequency) {
         this.workplaceId = workplaceId;
         this.workplace = workplace;
