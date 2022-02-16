@@ -2,6 +2,7 @@ package uz.exadel.hotdeskbooking.controller;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import uz.exadel.hotdeskbooking.dto.MapDto;
@@ -11,7 +12,7 @@ import uz.exadel.hotdeskbooking.service.MapService;
 
 @RestController
 @RequestMapping("/map")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class MapController {
 
     @Autowired

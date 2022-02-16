@@ -1,6 +1,7 @@
 package uz.exadel.hotdeskbooking.controller;
 
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import uz.exadel.hotdeskbooking.model.Address;
@@ -11,7 +12,7 @@ import java.util.List;
 
 @RequestMapping("/address")
 @RestController
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class AddressController {
     @Autowired
     private final AddressService addressService;
