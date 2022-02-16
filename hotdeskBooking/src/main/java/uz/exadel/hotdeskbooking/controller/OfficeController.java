@@ -18,23 +18,23 @@ public class OfficeController extends BaseResponse {
     @Autowired
     OfficeService officeService;
 
-    @GetMapping("/get")
+    @GetMapping
     public ApiResponse getOfficeList(){
         return officeService.getOfficeList();
     }
 
-    @PostMapping("/add/{addressId}")
+    @PostMapping("/{addressId}")
     public ApiResponse addOffice(@RequestBody Office office, @PathVariable String addressId){
         return officeService.addOffice(office, addressId);
     }
 
 
-    @PutMapping("/update/{officeId}")
+    @PutMapping("/{officeId}")
     public ApiResponse updateOffice(@RequestBody Office editingOffice, @PathVariable String officeId){
         return officeService.updateOffice(editingOffice, officeId);
     }
 
-    @DeleteMapping("/delete/{officeId}")
+    @DeleteMapping("/{officeId}")
     public ApiResponse deleteOffice(@PathVariable String officeId){
         return officeService.deleteOffice(officeId);
     }

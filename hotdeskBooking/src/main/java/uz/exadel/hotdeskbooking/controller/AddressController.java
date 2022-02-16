@@ -15,12 +15,12 @@ public class AddressController {
     AddressService addressService;
 
 
-    @GetMapping("/get")
+    @GetMapping
     public ApiResponse getAddressList(){
         return addressService.getAddressList();
     }
 
-    @PostMapping("/add")
+    @PostMapping
     public ApiResponse addAddress(@RequestBody Address address){
         return addressService.addAddress(address);
     }

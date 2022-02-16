@@ -67,13 +67,11 @@ public class OfficeService extends BaseResponse {
         }
     }
 
-    public ApiResponse deleteOffice(String officeId){ //if the specific office is deleted, then all the maps and the address will be deleted too
+    public ApiResponse deleteOffice(String officeId){
         Optional<Office> byId = officeRepository.findById(officeId);
         if (byId.isEmpty()) return NOT_FOUND;
         else {
-            mapRepository.deleteMapsByOffice_Id(officeId); //todo not working properly
             officeRepository.deleteById(officeId);
-//            addressRepository.deleteById(office.getAddress().getId());
             return SUCCESS_ONLY;
         }
     }

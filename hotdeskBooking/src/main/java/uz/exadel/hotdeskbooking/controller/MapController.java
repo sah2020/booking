@@ -18,22 +18,22 @@ public class MapController {
     private final MapService mapService;
 
 
-    @GetMapping("/get")
+    @GetMapping
     public ApiResponse getMapList(){
         return mapService.getList();
     }
 
-    @PostMapping("/add")
+    @PostMapping
     public ApiResponse addMap(@RequestBody MapDto mapDto){
         return mapService.addMap(mapDto);
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}")
     public ApiResponse updateMap(@RequestBody Map map, @PathVariable String id){
         return mapService.updateMap(map, id);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ApiResponse deleteMap(@PathVariable String id){
         return mapService.deleteMap(id);
     }
