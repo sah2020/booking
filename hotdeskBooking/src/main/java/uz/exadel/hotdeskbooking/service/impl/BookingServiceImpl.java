@@ -1,10 +1,12 @@
 package uz.exadel.hotdeskbooking.service.impl;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
 import uz.exadel.hotdeskbooking.dto.BookingCreateTO;
 import uz.exadel.hotdeskbooking.dto.ResponseItem;
 import uz.exadel.hotdeskbooking.service.BookingService;
 
+@Service
 public class BookingServiceImpl implements BookingService {
     @Override
     public ResponseItem create(BookingCreateTO bookingCreateTO) {

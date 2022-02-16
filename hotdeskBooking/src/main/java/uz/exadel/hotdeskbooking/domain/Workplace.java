@@ -12,9 +12,8 @@ import javax.persistence.*;
 @Entity
 public class Workplace extends BaseDomain {
 
-    private String mapId;
     @ManyToOne(cascade = {CascadeType.PERSIST}, fetch = FetchType.LAZY)
-    @JoinColumn(name = "mapId", updatable = false, insertable = false)
+    @JoinColumn(name = "map_id", updatable = false, insertable = false)
     private Map map;
 
     private String workplaceNumber;
@@ -39,4 +38,16 @@ public class Workplace extends BaseDomain {
 
     @ColumnDefault(value = "false")
     private Boolean hasHeadset;
+
+    public Workplace(Map map, String workplaceNumber, WorkplaceTypeEnum type, Boolean nextToWindow, Boolean hasPC, Boolean hasMonitor, Boolean hasKeyboard, Boolean hasMouse, Boolean hasHeadset) {
+        this.map = map;
+        this.workplaceNumber = workplaceNumber;
+        this.type = type;
+        this.nextToWindow = nextToWindow;
+        this.hasPC = hasPC;
+        this.hasMonitor = hasMonitor;
+        this.hasKeyboard = hasKeyboard;
+        this.hasMouse = hasMouse;
+        this.hasHeadset = hasHeadset;
+    }
 }
