@@ -7,6 +7,6 @@ import uz.exadel.hotdeskbooking.model.Office;
 
 public interface MapRepository extends JpaRepository<Map, String> {
 
-    void deleteMapsByOffice_Id(String office_id);
+    void deleteAllByOffice_Id(String office_id);
     boolean existsByFloorAndOfficeName(int floor, String office_name);
 }

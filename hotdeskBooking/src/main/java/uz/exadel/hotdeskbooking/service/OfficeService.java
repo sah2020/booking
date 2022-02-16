@@ -71,6 +71,7 @@ public class OfficeService extends BaseResponse {
         Optional<Office> byId = officeRepository.findById(officeId);
         if (byId.isEmpty()) return NOT_FOUND;
         else {
+            mapRepository.deleteAllByOffice_Id(officeId);
             officeRepository.deleteById(officeId);
             return SUCCESS_ONLY;
         }

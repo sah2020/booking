@@ -1,6 +1,7 @@
 package uz.exadel.hotdeskbooking.controller;
 
 
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import uz.exadel.hotdeskbooking.dto.OfficeDto;
@@ -11,12 +12,13 @@ import uz.exadel.hotdeskbooking.service.OfficeService;
 
 import java.util.List;
 
+@AllArgsConstructor
 @RequestMapping("/office")
 @RestController
 public class OfficeController extends BaseResponse {
 
     @Autowired
-    OfficeService officeService;
+    private final OfficeService officeService;
 
     @GetMapping
     public ApiResponse getOfficeList(){
