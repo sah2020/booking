@@ -1,6 +1,7 @@
 package uz.exadel.hotdeskbooking.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
@@ -25,17 +26,21 @@ public abstract class BaseDomain implements Serializable {
     @Column(columnDefinition = "CHAR(32)")
     private String id;
 
+    @JsonIgnore
     @Column(updatable = false)
     @CreationTimestamp
     private Timestamp createdAt;
 
+    @JsonIgnore
     @UpdateTimestamp
     private Timestamp updatedAt;
 
+    @JsonIgnore
     @CreatedBy
     @Column(updatable = false)
     private String createdById;
 
+    @JsonIgnore
     @LastModifiedBy
     private String updateById;
 }

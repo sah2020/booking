@@ -4,9 +4,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -35,6 +32,8 @@ public class Booking extends BaseDomain {
     private Boolean isRecurring;
 
     private Integer frequency;
+
+    private Boolean active = true;
 
     public Booking(String workplaceId, Workplace workplace, String userId, User user, Date startDate, Date endDate, Boolean isRecurring, Integer frequency) {
         this.workplaceId = workplaceId;
