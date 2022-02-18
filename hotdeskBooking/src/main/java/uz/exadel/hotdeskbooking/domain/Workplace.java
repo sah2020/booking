@@ -41,16 +41,4 @@ public class Workplace extends BaseDomain {
 
     @ColumnDefault(value = "false")
     private Boolean hasHeadset;
-
-    public Workplace(Map map, String workplaceNumber, WorkplaceTypeEnum type, Boolean nextToWindow, Boolean hasPC, Boolean hasMonitor, Boolean hasKeyboard, Boolean hasMouse, Boolean hasHeadset) {
-        this.map = map;
-        this.workplaceNumber = workplaceNumber;
-        this.type = type;
-        this.nextToWindow = nextToWindow;
-        this.hasPC = hasPC;
-        this.hasMonitor = hasMonitor;
-        this.hasKeyboard = hasKeyboard;
-        this.hasMouse = hasMouse;
-        this.hasHeadset = hasHeadset;
-    }
 }
