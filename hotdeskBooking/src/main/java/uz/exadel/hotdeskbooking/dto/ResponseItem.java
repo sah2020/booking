@@ -14,7 +14,7 @@ import java.io.Serializable;
 public class ResponseItem implements Serializable {
     private String message;
     private boolean success;
-    private Object object;
+    private Object data;
     private HttpStatus httpStatusCode = HttpStatus.OK;
 
     public ResponseItem(String message, boolean success, HttpStatus httpStatusCode) {

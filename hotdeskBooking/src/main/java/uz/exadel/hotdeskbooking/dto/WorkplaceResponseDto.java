@@ -5,12 +5,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import uz.exadel.hotdeskbooking.enums.WorkplaceTypeEnum;
 
-import java.util.List;
-
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class WorkplaceCreateDto {
+public class WorkplaceResponseDto {
+    private String id;
+    private String mapId;
     private String number;
     private WorkplaceTypeEnum type;
     private boolean nextToWindow;
@@ -18,7 +18,7 @@ public class WorkplaceCreateDto {
     private boolean hasMonitor;
     private boolean hasKeyboard;
     private boolean hasMouse;
-    private boolean hasHeadSet;
+    private boolean hasHeadset;
     private boolean floor;
     private boolean kitchen;
     private boolean confRoom;

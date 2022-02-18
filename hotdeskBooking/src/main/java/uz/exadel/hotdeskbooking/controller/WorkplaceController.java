@@ -1,36 +1,42 @@
 package uz.exadel.hotdeskbooking.controller;
 
-import uz.exadel.hotdeskbooking.domain.Workplace;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import uz.exadel.hotdeskbooking.dto.ResponseItem;
+import uz.exadel.hotdeskbooking.dto.WorkplaceCreateDto;
+import uz.exadel.hotdeskbooking.dto.WorkplaceUpdateDto;
+import uz.exadel.hotdeskbooking.service.WorkplaceService;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
 
 @RestController
-@RequestMapping("/office/{office_id}")
+@RequiredArgsConstructor
 public class WorkplaceController {
 
-    @GetMapping("/workplace")
-    public ResponseEntity<List<Workplace>> getWorkplaceList(@PathVariable UUID office_id){
-        return ResponseEntity.ok(new ArrayList<>()/*there will be service method*/);
+    private final WorkplaceService workplaceService;
+
+    @GetMapping("/office/{office_id}/workplace")
+    public ResponseEntity<ResponseItem> getWorkplaceList(@PathVariable String office_id){
+        ResponseItem responseItem = workplaceService.getWorkplaceList(office_id);
+        return new ResponseEntity<>(responseItem,responseItem.getHttpStatusCode());
     }
 
     @GetMapping("/workplace/{workplace_id}")
-    public ResponseEntity<Workplace> getWorkplace(@PathVariable UUID office_id, @PathVariable UUID workplace_id){
-        return ResponseEntity.ok(new Workplace()/*there will be service method*/);
+    public ResponseEntity<ResponseItem> getWorkplace(@PathVariable String workplace_id){
+        ResponseItem responseItem = workplaceService.getOne(workplace_id);
+        return new ResponseEntity<>(responseItem,responseItem.getHttpStatusCode());
     }
 
     @PostMapping("/map/{map_id}/workplace")
-    public ResponseEntity<?> addWorkplace(@PathVariable UUID office_id, @PathVariable UUID map_id, @RequestBody Workplace workplace){
-        /*there will be service add method*/
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    public ResponseEntity<ResponseItem> addWorkplace(@PathVariable String map_id, @RequestBody WorkplaceCreateDto workplaceCreateDto){
+        ResponseItem responseItem = workplaceService.create(map_id,workplaceCreateDto);
+        return new ResponseEntity<>(responseItem,responseItem.getHttpStatusCode());
     }
 
     @PutMapping("/workplace/{workplace_id}")
-    public ResponseEntity<?> editWorkPlace(@PathVariable UUID office_id, @PathVariable UUID workplace_id){
-        return ResponseEntity.status(HttpStatus.OK).build();
+    public ResponseEntity<ResponseItem> editWorkPlace(@PathVariable String workplace_id, @RequestBody WorkplaceUpdateDto workplaceUpdateDto){
+        ResponseItem responseItem = workplaceService.edit(workplace_id,workplaceUpdateDto);
+        return new ResponseEntity<>(responseItem, responseItem.getHttpStatusCode());
     }
 }

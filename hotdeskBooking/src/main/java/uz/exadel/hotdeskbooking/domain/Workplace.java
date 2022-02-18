@@ -1,7 +1,9 @@
 package uz.exadel.hotdeskbooking.domain;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.annotations.ColumnDefault;
 import uz.exadel.hotdeskbooking.enums.WorkplaceTypeEnum;
 
@@ -10,10 +12,11 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
+@NoArgsConstructor
 public class Workplace extends BaseDomain {
 
     @ManyToOne(cascade = {CascadeType.PERSIST}, fetch = FetchType.LAZY)
-    @JoinColumn(name = "map_id", updatable = false, insertable = false)
+    @JoinColumn(name = "map_id")
     private Map map;
 
     private String workplaceNumber;
