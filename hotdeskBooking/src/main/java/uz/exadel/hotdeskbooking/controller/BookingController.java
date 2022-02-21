@@ -2,6 +2,7 @@ package uz.exadel.hotdeskbooking.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import uz.exadel.hotdeskbooking.dto.BookingCreateTO;
 import uz.exadel.hotdeskbooking.dto.ResponseItem;
@@ -22,6 +23,7 @@ public class BookingController {
         return new ResponseEntity<>(responseItem, HttpStatus.valueOf(responseItem.getStatusCode()));
     }
 
+    @PreAuthorize("hasAnyRole('COMMON_USER', 'ADMIN', 'MANAGER', 'MAP_EDITOR')")
     @GetMapping("/{id}")
     public ResponseEntity<ResponseItem> get(@PathVariable("id") String id) {
         ResponseItem responseItem = bookingService.getOne(id);

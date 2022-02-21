@@ -35,6 +35,8 @@ public class User extends BaseDomain implements UserDetails {
 
     private Date employmentEnd;
 
+    private String password;
+
     private String preferredWorkplaceId;
     @ManyToOne(cascade = {CascadeType.PERSIST}, fetch = FetchType.LAZY)
     @JoinColumn(name = "preferredWorkplaceId", updatable = false, insertable = false)
@@ -44,12 +46,12 @@ public class User extends BaseDomain implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles;
+        return this.roles;
     }
 
     @Override
     public String getPassword() {
-        return "password";
+        return this.password;
     }
 
     @Override

@@ -1,5 +1,6 @@
 package uz.exadel.hotdeskbooking.service.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -27,20 +28,20 @@ import java.util.Optional;
 @Service
 public class AuthServiceImpl implements AuthService, UserDetailsService {
     private final ResponseItem unauthorizedResponse = new ResponseItem("User not found. Please contact the administration.", HttpStatus.UNAUTHORIZED.value());
+    @Autowired
+    private JWTProvider jwtProvider;
+    @Autowired
+    private UserRepository userRepository;
 
-    private final JWTProvider jwtProvider;
-    private final UserRepository userRepository;
-    private final AuthenticationManager authenticationManager;
+    private AuthenticationManager authenticationManager;
 
-    public AuthServiceImpl(JWTProvider jwtProvider, UserRepository userRepository, @Lazy AuthenticationManager authenticationManager) {
-        this.jwtProvider = jwtProvider;
-        this.userRepository = userRepository;
+    public AuthServiceImpl(@Lazy AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<User> user = userRepository.findByTelegramIdAndEnabledTrue(username);
+        Optional<User> user = userRepository.findFirstByTelegramIdAndEnabledTrue(username);
         if (user.isEmpty()) {
             throw new RestException("User not found. Please contact the administration.", HttpStatus.UNAUTHORIZED);
         }

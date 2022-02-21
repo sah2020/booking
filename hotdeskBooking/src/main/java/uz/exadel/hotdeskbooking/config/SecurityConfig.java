@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.domain.AuditorAware;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -20,6 +22,7 @@ import uz.exadel.hotdeskbooking.service.impl.AuthServiceImpl;
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
+@EnableJpaAuditing
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final AuthServiceImpl authServiceImpl;
@@ -49,13 +52,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .httpBasic().disable()
                 .authorizeRequests()
                 .antMatchers(
-                        "/api/v1/swagger-ui/",
-                        "/api/v1/login")
+                        "/**",
+                        "/swagger-ui/",
+                        "/login")
                 .permitAll()
                 .anyRequest()
                 .authenticated();
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+    }
+
+    @Bean
+    AuditorAware<String> auditorAware() {
+        return new SpringAware();
     }
 
 }

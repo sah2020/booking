@@ -6,5 +6,5 @@ import uz.exadel.hotdeskbooking.domain.User;
 import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, String> {
-    Optional<User> findByTelegramIdAndEnabledTrue(String telegramId);
+    Optional<User> findFirstByTelegramIdAndEnabledTrue(String telegramId);
 }

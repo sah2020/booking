@@ -18,6 +18,11 @@ public class JWTFilter extends OncePerRequestFilter {
     private JWTProvider jwtProvider;
     private AuthServiceImpl authServiceImpl;
 
+    public JWTFilter(JWTProvider jwtProvider, AuthServiceImpl authServiceImpl) {
+        this.jwtProvider = jwtProvider;
+        this.authServiceImpl = authServiceImpl;
+    }
+
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
