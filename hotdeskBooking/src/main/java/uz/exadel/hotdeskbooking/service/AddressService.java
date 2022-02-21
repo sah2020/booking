@@ -33,6 +33,14 @@ public class AddressService extends BaseResponse {
         }
     }
 
+    public ApiResponse deleteAddress(String addressId){
+        boolean exists = addressRepository.existsById(addressId);
+        if (!exists) return NOT_FOUND;
+        else {
+            addressRepository.deleteById(addressId);
+            return SUCCESS_ONLY;
+        }
+    }
 
 
 }

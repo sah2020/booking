@@ -1,9 +1,12 @@
 package uz.exadel.hotdeskbooking.model;
 
 import lombok.*;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import static org.hibernate.annotations.CascadeType.ALL;
 
 @Entity
 @AllArgsConstructor
@@ -24,6 +27,7 @@ public class Map {
     private boolean confRooms;
 
     @ManyToOne(optional = false)
+    @Cascade(ALL)
     private Office office;
 
     public Map(boolean isKitchenPresent, int floor, boolean isMeetingRoomPresent, Office office) {

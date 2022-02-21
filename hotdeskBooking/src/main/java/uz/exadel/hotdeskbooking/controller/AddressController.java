@@ -28,4 +28,9 @@ public class AddressController {
         return addressService.addAddress(address);
     }
 
+    @DeleteMapping("/{addressId}")
+    public ApiResponse deleteAddress(@PathVariable String addressId){
+        return addressService.deleteAddress(addressId);
+    }
+
 }

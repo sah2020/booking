@@ -2,10 +2,12 @@ package uz.exadel.hotdeskbooking.model;
 
 import lombok.*;
 import org.hibernate.Hibernate;
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.Objects;
+import static org.hibernate.annotations.CascadeType.ALL;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -28,6 +30,7 @@ public class Office {
 
     @OneToOne
     @JoinColumn(name = "address_id")
+    @Cascade(ALL)
     private Address address;
 
     public Office(String name, boolean isParkingAvailable, Address address) {
