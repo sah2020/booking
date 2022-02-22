@@ -32,8 +32,4 @@ public class BookingDomain extends BaseDomain {
 
     private Integer frequency;
 
-    @Override
-    public String getEntityKey() {
-        return "booking";
-    }
 }

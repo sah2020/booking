@@ -10,9 +10,9 @@ import java.io.Serializable;
 public class MapResponseTO implements Serializable {
     private String id;
 
-    private Integer floor;
+    private int floor;
 
-    private Boolean kitchen;
+    private boolean kitchen;
 
-    private Boolean confRooms;
+    private boolean confRooms;
 }

@@ -1,3 +1,325 @@
+GET http://localhost:8080/office
+
+<> 2022-02-23T022029.200.json
+
+###
+
+PUT http://localhost:8080/office/4028818a7f234d3c017f234d6fc90000
+Content-Type: application/json
+
+{
+  "name": "ozgardi",
+  "country" : "ozgardi",
+  "city" : "ozgardi",
+  "address": "ozgardi",
+  "is_parking_available" : false
+}
+
+<> 2022-02-23T022020.201.json
+
+###
+
+GET http://localhost:8080/office
+
+<> 2022-02-23T021928.200.json
+
+###
+
+POST http://localhost:8080/office
+Content-Type: application/json
+
+{
+  "name": "Makro4",
+  "country" : "Uzbek",
+  "city" : "Tashkent2",
+  "address": "Chilonzor2",
+  "is_parking_available" : true
+}
+
+<> 2022-02-23T021924.409.json
+
+###
+
+GET http://localhost:8080/office
+
+<> 2022-02-23T021915.200.json
+
+###
+
+POST http://localhost:8080/office
+Content-Type: application/json
+
+{
+  "name": "Makro4",
+  "country" : "Uzbek",
+  "city" : "Tashkent2",
+  "address": "Chilonzor2",
+  "is_parking_available" : true
+}
+
+<> 2022-02-23T021911.201.json
+
+###
+
+GET http://localhost:8080/office/4028818a7f2342d8017f234346b00000
+
+<> 2022-02-23T021013.201.json
+
+###
+
+GET http://localhost:8080/office/4028818a7f2342d8017f234346b00000
+
+<> 2022-02-23T020931.201.json
+
+###
+
+GET http://localhost:8080/office
+
+<> 2022-02-23T020824.200.json
+
+###
+
+GET http://localhost:8080/office
+
+<> 2022-02-23T020808.200.json
+
+###
+
+POST http://localhost:8080/office
+Content-Type: application/json
+
+{
+  "name": "Makro4",
+  "country" : "Uzbek",
+  "city" : "Tashkent2",
+  "address": "Chilonzor2",
+  "is_parking_available" : true
+}
+
+<> 2022-02-23T020806.201.json
+
+###
+
+GET http://localhost:8080/office
+
+<> 2022-02-23T020801.200.json
+
+###
+
+GET http://localhost:8080/office/4028818a7f231f95017f231fe77f0001
+
+<> 2022-02-23T020656.409.json
+
+###
+
+POST http://localhost:8080/office
+Content-Type: application/json
+
+{
+  "name": "Makro4",
+  "country" : "Uzbek",
+  "city" : "Tashkent2",
+  "address": "Chilonzor2",
+  "is_parking_available" : true
+}
+
+<> 2022-02-23T012939.409.json
+
+###
+
+GET http://localhost:8080/office
+
+<> 2022-02-23T012931.200.json
+
+###
+
+POST http://localhost:8080/office
+Content-Type: application/json
+
+{
+  "name": "Makro4",
+  "country" : "Uzbek",
+  "city" : "Tashkent2",
+  "address": "Chilonzor2",
+  "is_parking_available" : true
+}
+
+<> 2022-02-23T012927.201.json
+
+###
+
+GET http://localhost:8080/office
+
+<> 2022-02-23T012924.200.json
+
+###
+
+GET http://localhost:8080/office
+
+<> 2022-02-23T012833.200.json
+
+###
+
+POST http://localhost:8080/office
+Content-Type: application/json
+
+{
+  "name": "Makro4",
+  "country" : "Uzbek",
+  "city" : "Tashkent2",
+  "address": "Chilonzor2",
+  "is_parking_available" : true
+}
+
+<> 2022-02-23T012829.409.json
+
+###
+
+GET http://localhost:8080/office
+
+<> 2022-02-23T012818.200.json
+
+###
+
+POST http://localhost:8080/office
+Content-Type: application/json
+
+{
+  "name": "Makro4",
+  "country" : "Uzbek",
+  "city" : "Tashkent2",
+  "address": "Chilonzor2",
+  "is_parking_available" : true
+}
+
+<> 2022-02-23T012734.201.txt
+
+###
+
+GET http://localhost:8080/office
+
+<> 2022-02-23T012649.200.json
+
+###
+
+GET http://localhost:8080/office
+
+<> 2022-02-23T012418.200.json
+
+###
+
+POST http://localhost:8080/office
+Content-Type: application/json
+
+{
+  "name": "Makro4",
+  "country" : "Uzbek",
+  "city" : "Tashkent2",
+  "address": "Chilonzor2",
+  "is_parking_available" : true
+}
+
+<> 2022-02-23T012415.201.txt
+
+###
+
+GET http://localhost:8080/office
+
+<> 2022-02-23T012411.200.json
+
+###
+
+GET http://localhost:8080/office
+
+<> 2022-02-23T012316.500.json
+
+###
+
+POST http://localhost:8080/office
+Content-Type: application/json
+
+{
+  "name": "Makro4",
+  "country" : "Uzbek",
+  "city" : "Tashkent2",
+  "address": "Chilonzor2",
+  "is_parking_available" : true
+}
+
+<> 2022-02-23T012312.201.txt
+
+###
+
+POST http://localhost:8080/office
+Content-Type: application/json
+
+{
+  "name": "Makro3",
+  "country" : "Uzbek",
+  "city" : "Tashkent2",
+  "address": "Chilonzor2",
+  "is_parking_available" : true
+}
+
+<> 2022-02-23T012205.201.txt
+
+###
+
+POST http://localhost:8080/office
+Content-Type: application/json
+
+{
+  "name": "Makro2",
+  "country" : "Uzbek",
+  "city" : "Tashkent2",
+  "address": "Chilonzor2",
+  "is_parking_available" : true
+}
+
+<> 2022-02-23T012152.409.json
+
+###
+
+GET http://localhost:8080/office
+
+<> 2022-02-23T012135.200.json
+
+###
+
+POST http://localhost:8080/office
+Content-Type: application/json
+
+{
+  "name": "Makro2",
+  "country" : "Uzbek",
+  "city" : "Tashkent2",
+  "address": "Chilonzor2",
+  "is_parking_available" : true
+}
+
+<> 2022-02-23T012125.201.txt
+
+###
+
+POST http://localhost:8080/office
+Content-Type: application/json
+
+{
+  "name": "Makro",
+  "country" : "Uzb",
+  "city" : "Tashkent",
+  "address": "Chilonzor",
+  "is_parking_available" : true
+}
+
+<> 2022-02-23T012021.201.txt
+
+###
+
+GET http://localhost:8080/office
+
+###
+
 DELETE http://localhost:8080/address/4028818a7eff51c8017eff5327e90000
 
 <> 2022-02-16T205535.500.json
@@ -89,226 +411,6 @@ GET http://localhost:8080/office
 ###
 
 DELETE http://localhost:8080/office/delete/4028818a7eff8cfa017eff9037d10000
-
-###
-
-DELETE http://localhost:8080/office/delete/4028818a7eff8cfa017eff9037d10000
-
-<> 2022-02-16T035324.500.json
-
-###
-
-DELETE http://localhost:8080/office/delete/4028818a7eff8cfa017eff9037d10000
-
-<> 2022-02-16T035045.500.json
-
-###
-
-DELETE http://localhost:8080/office/delete/4028818a7eff8cfa017eff9037d10000
-
-<> 2022-02-16T035025.500.json
-
-###
-
-DELETE http://localhost:8080/office/delete/4028818a7eff8cfa017eff9037d10000
-
-<> 2022-02-16T035008.500.json
-
-###
-
-DELETE http://localhost:8080/office/delete/4028818a7eff8cfa017eff9037d10000
-
-<> 2022-02-16T034851.500.json
-
-###
-
-GET http://localhost:8080/map/get
-
-<> 2022-02-16T034846.200.json
-
-###
-
-DELETE http://localhost:8080/office/delete/4028818a7eff8cfa017eff9037d10000
-
-<> 2022-02-16T034646.500.json
-
-###
-
-GET http://localhost:8080/map/get
-
-<> 2022-02-16T034640.200.json
-
-###
-
-POST http://localhost:8080/map/add
-Content-Type: application/json
-
-{
-  "kitchen": false,
-  "floor": 6,
-  "confRooms" :false,
-  "officeId" : "4028818a7eff8cfa017eff9037d10000"
-}
-
-<> 2022-02-16T034637.200.json
-
-###
-
-GET http://localhost:8080/office/get
-
-<> 2022-02-16T034626.200.json
-
-###
-
-GET http://localhost:8080/office/get
-
-<> 2022-02-16T034621.200.json
-
-###
-
-GET http://localhost:8080/address/get
-
-<> 2022-02-16T034607.200.json
-
-###
-
-POST http://localhost:8080/map/add
-Content-Type: application/json
-
-{
-  "kitchen": false,
-  "floor": 6,
-  "confRooms" :false,
-  "officeId" : "4028818a7eff51c8017eff53d9370001"
-}
-
-<> 2022-02-16T034557.200.json
-
-###
-
-POST http://localhost:8080/office/add/4028818a7eff51c8017eff5327e90000
-Content-Type: application/json
-
-{
-  "name": "birinchi office",
-  "parkingAvailable" : true
-}
-
-<> 2022-02-16T034548.200.json
-
-###
-
-DELETE http://localhost:8080/office/delete/4028818a7eff51c8017eff53d9370001
-
-<> 2022-02-16T034244.500.json
-
-###
-
-GET http://localhost:8080/office/get
-
-<> 2022-02-16T034233.200.json
-
-###
-
-DELETE http://localhost:8080/office/delete/4028818a7eff51c8017eff53d9370001
-
-<> 2022-02-16T034221.500.json
-
-###
-
-DELETE http://localhost:8080/office/delete/4028818a7eff51c8017eff53d9370001
-
-<> 2022-02-16T030330.500.json
-
-###
-
-DELETE http://localhost:8080/office/delete/4028818a7eff51c8017eff53d9370001
-
-<> 2022-02-16T030255.500.json
-
-###
-
-DELETE http://localhost:8080/office/delete/4028818a7eff51c8017eff53d9370001
-
-<> 2022-02-16T030236.500.json
-
-###
-
-DELETE http://localhost:8080/office/delete/4028818a7eff51c8017eff53d9370001
-
-<> 2022-02-16T030124.500.json
-
-###
-
-DELETE http://localhost:8080/office/delete/4028818a7eff51c8017eff53d9370001
-
-<> 2022-02-16T030054.500.json
-
-###
-
-DELETE http://localhost:8080/office/delete/4028818a7eff51c8017eff53d9370001
-
-<> 2022-02-16T030050.500.json
-
-###
-
-GET http://localhost:8080/office/get
-
-<> 2022-02-16T025932.200.json
-
-###
-
-DELETE http://localhost:8080/office/delete/4028818a7eff51c8017eff53d9370001
-
-<> 2022-02-16T025923.500.json
-
-###
-
-DELETE http://localhost:8080/office/delete/4028818a7eff51c8017eff53d9370001
-
-<> 2022-02-16T025807.500.json
-
-###
-
-DELETE http://localhost:8080/office/delete/4028818a7eff51c8017eff53d9370001
-
-<> 2022-02-16T025752.500.json
-
-###
-
-DELETE http://localhost:8080/office/delete/4028818a7eff51c8017eff53d9370001
-
-<> 2022-02-16T025611.500.json
-
-###
-
-DELETE http://localhost:8080/office/delete/4028818a7eff51c8017eff53d9370001
-
-<> 2022-02-16T025606.500.json
-
-###
-
-GET http://localhost:8080/office/get
-
-<> 2022-02-16T025510.200.json
-
-###
-
-DELETE http://localhost:8080/office/delete/4028818a7eff51c8017eff53d9370001
-
-<> 2022-02-16T025456.500.json
-
-###
-
-GET http://localhost:8080/office/get
-
-<> 2022-02-16T025336.200.json
-
-###
-
-DELETE http://localhost:8080/office/delete/4028818a7eff51c8017eff53d9370001
-
-<> 2022-02-16T025258.500.json
 
 ###
 

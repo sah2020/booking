@@ -15,14 +15,9 @@ public class MapDomain extends BaseDomain {
     @JoinColumn(name = "officeId", updatable = false, insertable = false)
     private OfficeDomain office;
 
-    private Integer floor;
+    private int floor;
 
-    private Boolean kitchen;
+    private boolean kitchen;
 
-    private Boolean confRooms;
-
-    @Override
-    public String getEntityKey() {
-        return "map";
-    }
+    private boolean confRooms;
 }

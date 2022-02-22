@@ -34,8 +34,4 @@ public class UserDomain extends BaseDomain {
     @JoinColumn(name = "preferredWorkplaceId", updatable = false, insertable = false)
     private WorkplaceDomain preferredWorkplace;
 
-    @Override
-    public String getEntityKey() {
-        return "users";
-    }
 }

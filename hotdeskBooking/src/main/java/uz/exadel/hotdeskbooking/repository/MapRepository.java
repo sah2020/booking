@@ -1,12 +1,17 @@
 package uz.exadel.hotdeskbooking.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import uz.exadel.hotdeskbooking.model.Map;
-import uz.exadel.hotdeskbooking.model.Office;
+import org.springframework.data.jpa.repository.Query;
+import uz.exadel.hotdeskbooking.domain.MapDomain;
+
+import java.util.List;
 
 
-public interface MapRepository extends JpaRepository<Map, String> {
+public interface MapRepository extends JpaRepository<MapDomain, String> {
 
-    void deleteAllByOffice_Id(String office_id);
+    List<MapDomain> findAllByOfficeId(String officeId);
     boolean existsByFloorAndOfficeName(int floor, String office_name);
+
+    @Query(value = "select id from map m where m.office_id=?", nativeQuery = true)
+    List<String> findIdsByOfficeId(String officeId);
 }

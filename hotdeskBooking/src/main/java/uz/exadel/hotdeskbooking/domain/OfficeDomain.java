@@ -1,5 +1,6 @@
 package uz.exadel.hotdeskbooking.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,10 +19,7 @@ public class OfficeDomain extends BaseDomain {
 
     private String address;
 
-    private Boolean isFreeParkingAvailable;
+    @JsonProperty("is_parking_available")
+    private boolean isParkingAvailable;
 
-    @Override
-    public String getEntityKey() {
-        return "office";
-    }
 }

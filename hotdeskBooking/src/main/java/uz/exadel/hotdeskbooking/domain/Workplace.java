@@ -15,7 +15,7 @@ public class Workplace extends BaseDomain {
     private String mapId;
     @ManyToOne(cascade = {CascadeType.PERSIST}, fetch = FetchType.LAZY)
     @JoinColumn(name = "mapId", updatable = false, insertable = false)
-    private Map map;
+    private MapDomain map;
 
     private String workplaceNumber;
 

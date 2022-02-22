@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Getter
 @Setter
@@ -16,7 +17,7 @@ public class OfficeResponseTO implements Serializable {
 
     private String address;
 
-    private Boolean isFreeParkingAvailable;
+    private boolean isParkingAvailable;
 
-    private MapResponseTO[] maps;
+    private List<String> mapIds;
 }

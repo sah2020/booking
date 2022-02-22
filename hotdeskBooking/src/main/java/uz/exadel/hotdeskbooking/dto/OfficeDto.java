@@ -1,14 +1,22 @@
 package uz.exadel.hotdeskbooking.dto;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class OfficeDto {
+public class OfficeDto{
     private String name;
+
+    private String country;
+
+    private String city;
+
+    private String address;
+
+    @JsonProperty("is_parking_available")
     private boolean isParkingAvailable;
 }

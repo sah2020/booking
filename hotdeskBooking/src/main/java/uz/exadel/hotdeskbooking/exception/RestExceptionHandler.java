@@ -29,4 +29,12 @@ public class RestExceptionHandler {
                 )
         );
     }
+
+
+    @ExceptionHandler(OfficeCustomException.class)
+    public ResponseEntity<ResponseItem> handleOfficeException(OfficeCustomException exception){
+        ResponseItem apiExceptionResponse
+                = new ResponseItem(exception.getMessage(), 409);
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(apiExceptionResponse);
+    }
 }

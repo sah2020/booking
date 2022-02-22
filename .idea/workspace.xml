@@ -4,14 +4,82 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="269cb7c5-e6ac-4c6d-a844-80f1dea3b2de" name="Changes" comment="nnhn">
+    <list default="true" id="269cb7c5-e6ac-4c6d-a844-80f1dea3b2de" name="Changes" comment="mmm">
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_modelmapper_modelmapper_3_0_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/exception/OfficeCustomException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/util/BeanUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/2022-02-16T025258.500.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/2022-02-16T025336.200.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/2022-02-16T025456.500.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/2022-02-16T025510.200.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/2022-02-16T025606.500.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/2022-02-16T025611.500.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/2022-02-16T025752.500.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/2022-02-16T025807.500.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/2022-02-16T025923.500.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/2022-02-16T025932.200.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/2022-02-16T030050.500.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/2022-02-16T030054.500.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/2022-02-16T030124.500.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/2022-02-16T030236.500.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/2022-02-16T030255.500.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/2022-02-16T030330.500.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/2022-02-16T034221.500.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/2022-02-16T034233.200.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/2022-02-16T034244.500.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/2022-02-16T034548.200.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/2022-02-16T034557.200.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/2022-02-16T034607.200.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/2022-02-16T034621.200.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/2022-02-16T034626.200.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/2022-02-16T034637.200.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/2022-02-16T034640.200.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/2022-02-16T034646.500.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/http-requests-log.http" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/httpRequests/http-requests-log.http" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hotdeskBooking/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/hotdeskBooking/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/component/DataLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/component/DataLoader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/controller/AddressController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/controller/BaseApi.java" beforeDir="false" afterPath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/controller/BaseApi.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/controller/MapController.java" beforeDir="false" afterPath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/controller/MapController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/controller/OfficeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/controller/OfficeController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/domain/BookingDomain.java" beforeDir="false" afterPath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/domain/BookingDomain.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/domain/Map.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/domain/MapDomain.java" beforeDir="false" afterPath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/domain/MapDomain.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/domain/Office.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/domain/OfficeDomain.java" beforeDir="false" afterPath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/domain/OfficeDomain.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/domain/UserDomain.java" beforeDir="false" afterPath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/domain/UserDomain.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/domain/VacationDomain.java" beforeDir="false" afterPath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/domain/VacationDomain.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/domain/Workplace.java" beforeDir="false" afterPath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/domain/Workplace.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/domain/WorkplaceDomain.java" beforeDir="false" afterPath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/domain/WorkplaceDomain.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/dto/MapResponseTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/dto/MapResponseTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/dto/OfficeDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/dto/OfficeDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/dto/OfficeResponseTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/dto/OfficeResponseTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/exception/RestExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/exception/RestExceptionHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/model/Address.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/model/Map.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/model/Office.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/repository/AddressRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/repository/MapRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/repository/MapRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/repository/OfficeRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/repository/OfficeRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/response/BaseResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/response/BaseResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/service/AddressService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/service/MapService.java" beforeDir="false" afterPath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/service/MapService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/service/OfficeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/service/OfficeService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hotdeskBooking/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/hotdeskBooking/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
@@ -45,12 +113,14 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="DatabaseDriversLRU" value="postgresql" />
     <property name="RequestMappingsPanelOrder0" value="0" />
     <property name="RequestMappingsPanelOrder1" value="1" />
     <property name="RequestMappingsPanelWidth0" value="75" />
     <property name="RequestMappingsPanelWidth1" value="75" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="jdk.selected.JAVA_MODULE" value="openjdk-17" />
     <property name="nodejs_package_manager_path" value="npm" />
@@ -58,7 +128,22 @@
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Spring Boot.HotdeskBookingApplication">
+    <configuration name="generated-requests#1" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" runType="Run single request">
+      <method v="2" />
+    </configuration>
+    <configuration name="generated-requests#2" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" index="2" runType="Run single request">
+      <method v="2" />
+    </configuration>
+    <configuration name="generated-requests#3" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" index="3" runType="Run single request">
+      <method v="2" />
+    </configuration>
+    <configuration name="generated-requests#4" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" index="4" runType="Run single request">
+      <method v="2" />
+    </configuration>
+    <configuration name="generated-requests#8" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" index="8" runType="Run single request">
+      <method v="2" />
+    </configuration>
     <configuration name="HotdeskBookingApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
       <module name="hotdeskBooking" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="uz.exadel.hotdeskbooking.HotdeskBookingApplication" />
@@ -68,6 +153,23 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <list>
+      <item itemvalue="Spring Boot.HotdeskBookingApplication" />
+      <item itemvalue="HTTP Request.generated-requests#8" />
+      <item itemvalue="HTTP Request.generated-requests#1" />
+      <item itemvalue="HTTP Request.generated-requests#2" />
+      <item itemvalue="HTTP Request.generated-requests#3" />
+      <item itemvalue="HTTP Request.generated-requests#4" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="HTTP Request.generated-requests#2" />
+        <item itemvalue="HTTP Request.generated-requests#4" />
+        <item itemvalue="HTTP Request.generated-requests#1" />
+        <item itemvalue="HTTP Request.generated-requests#3" />
+        <item itemvalue="HTTP Request.generated-requests#8" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -79,6 +181,14 @@
       <updated>1645516248380</updated>
       <workItem from="1645516249707" duration="634000" />
     </task>
+    <task id="LOCAL-00001" summary="mmm">
+      <created>1645554707547</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1645554707547</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -103,6 +213,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="nnhn" />
-    <option name="LAST_COMMIT_MESSAGE" value="nnhn" />
+    <MESSAGE value="mmm" />
+    <option name="LAST_COMMIT_MESSAGE" value="mmm" />
   </component>
 </project>

@@ -21,8 +21,4 @@ public class VacationDomain extends BaseDomain{
 
     private Date vacationEnd;
 
-    @Override
-    public String getEntityKey() {
-        return "vacation";
-    }
 }
