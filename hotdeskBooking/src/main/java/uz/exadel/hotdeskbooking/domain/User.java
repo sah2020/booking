@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import uz.exadel.hotdeskbooking.enums.RoleTypeEnum;
+import uz.exadel.hotdeskbooking.dto.response.UserBasicResTO;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -34,44 +34,43 @@ public class User extends BaseDomain implements UserDetails {
 
     private Date employmentEnd;
 
+    private String password;
+
     private String preferredWorkplaceId;
     @ManyToOne(cascade = {CascadeType.PERSIST}, fetch = FetchType.LAZY)
     @JoinColumn(name = "preferredWorkplaceId", updatable = false, insertable = false)
     private Workplace preferredWorkplace;
 
-    private boolean accountNonExpired = true;
-    private boolean accountNonLocked = true;
-    private boolean credentialsNonExpired = true;
-    private boolean enabled;
+    private Boolean enabled;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles;
+        return this.roles;
     }
 
     @Override
     public String getPassword() {
-        return "password";
+        return this.password;
     }
 
     @Override
     public String getUsername() {
-        return this.email;
+        return this.telegramId;
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        return this.accountNonExpired;
+        return this.enabled;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return this.accountNonLocked;
+        return this.enabled;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return this.credentialsNonExpired;
+        return this.enabled;
     }
 
     @Override
@@ -88,5 +87,14 @@ public class User extends BaseDomain implements UserDetails {
         this.employmentEnd = employmentEnd;
         this.preferredWorkplaceId = preferredWorkplaceId;
         this.preferredWorkplace = preferredWorkplace;
+    }
+
+    public UserBasicResTO toBasic() {
+        UserBasicResTO userBasicResTO = new UserBasicResTO();
+        userBasicResTO.setId(this.getId());
+        userBasicResTO.setFirstName(this.getFirstName());
+        userBasicResTO.setLastName(this.getLastName());
+        userBasicResTO.setRole(this.getRoles().iterator().next().getRoleType().toString());
+        return userBasicResTO;
     }
 }
