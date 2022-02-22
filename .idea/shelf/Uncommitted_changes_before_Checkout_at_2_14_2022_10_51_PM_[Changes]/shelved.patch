@@ -1,0 +1,126 @@
+Index: hotdeskBooking/src/main/java/uz/exadel/model/Office.java
+===================================================================
+diff --git a/hotdeskBooking/src/main/java/uz/exadel/model/Office.java b/hotdeskBooking/src/main/java/uz/exadel/Entity/Office.java
+rename from hotdeskBooking/src/main/java/uz/exadel/model/Office.java
+rename to hotdeskBooking/src/main/java/uz/exadel/Entity/Office.java
+--- a/hotdeskBooking/src/main/java/uz/exadel/model/Office.java	
++++ b/hotdeskBooking/src/main/java/uz/exadel/Entity/Office.java	
+@@ -1,4 +1,4 @@
+-package uz.exadel.model;
++package uz.exadel.Entity;
+ 
+ import lombok.AllArgsConstructor;
+ import lombok.Data;
+@@ -20,12 +20,10 @@
+ 
+     @Column(nullable = false, unique = true)
+     private String name;
+-    @Column(nullable = false)
+-    private String country;
+-    @Column(nullable = false)
+-    private String city;
++
+     @Column(nullable = false)
+     private boolean isParkingAvailable;
+-    @Column(nullable = false)
+-    private String address;
++
++    @OneToOne(optional = false)
++    private Address address;
+ }
+Index: hotdeskBooking/src/main/java/uz/exadel/model/Map.java
+===================================================================
+diff --git a/hotdeskBooking/src/main/java/uz/exadel/model/Map.java b/hotdeskBooking/src/main/java/uz/exadel/Entity/Map.java
+rename from hotdeskBooking/src/main/java/uz/exadel/model/Map.java
+rename to hotdeskBooking/src/main/java/uz/exadel/Entity/Map.java
+--- a/hotdeskBooking/src/main/java/uz/exadel/model/Map.java	
++++ b/hotdeskBooking/src/main/java/uz/exadel/Entity/Map.java	
+@@ -1,4 +1,27 @@
+-package uz.exadel.model;
++package uz.exadel.Entity;
++
++import lombok.AllArgsConstructor;
++import lombok.Data;
++import lombok.NoArgsConstructor;
++import org.hibernate.annotations.GenericGenerator;
+ 
++import javax.persistence.*;
++
++@AllArgsConstructor
++@NoArgsConstructor
++@Data
++@Entity
+ public class Map {
++    @GeneratedValue(generator = "uuid")
++    @GenericGenerator(name = "uuid", strategy = "uuid")
++    @Column(columnDefinition = "CHAR(32)")
++    @Id
++    private String id;
++
++    private boolean isKitchenPresent;
++
++    private boolean isMeetingRoomPresent;
++
++    @ManyToOne(optional = false)
++    private Office office;
+ }
+Index: hotdeskBooking/src/main/java/uz/exadel/repository/OfficeRepository.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package uz.exadel.repository;\r\n\r\nimport org.springframework.data.jpa.repository.JpaRepository;\r\nimport org.springframework.data.jpa.repository.Query;\r\nimport org.springframework.stereotype.Repository;\r\nimport uz.exadel.model.Office;\r\n\r\nimport java.util.UUID;\r\n\r\n@Repository\r\npublic interface OfficeRepository extends JpaRepository<Office, String> {\r\n\r\n    @Query(\"select count(o) from Office o where o.name = ?1\")\r\n    public int getNumberOfOfficesWithSpecificName(String inputName);\r\n\r\n\r\n    @Query(\"select id from Office where Office.name = ?1\")\r\n    public String getIdUsingName(String name);\r\n}\r\n
+===================================================================
+diff --git a/hotdeskBooking/src/main/java/uz/exadel/repository/OfficeRepository.java b/hotdeskBooking/src/main/java/uz/exadel/repository/OfficeRepository.java
+--- a/hotdeskBooking/src/main/java/uz/exadel/repository/OfficeRepository.java	
++++ b/hotdeskBooking/src/main/java/uz/exadel/repository/OfficeRepository.java	
+@@ -3,9 +3,7 @@
+ import org.springframework.data.jpa.repository.JpaRepository;
+ import org.springframework.data.jpa.repository.Query;
+ import org.springframework.stereotype.Repository;
+-import uz.exadel.model.Office;
+-
+-import java.util.UUID;
++import uz.exadel.Entity.Office;
+ 
+ @Repository
+ public interface OfficeRepository extends JpaRepository<Office, String> {
+Index: hotdeskBooking/src/main/java/uz/exadel/controller/OfficeController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package uz.exadel.controller;\r\n\r\n\r\nimport org.springframework.beans.factory.annotation.Autowired;\r\nimport org.springframework.web.bind.annotation.*;\r\nimport uz.exadel.model.Office;\r\nimport uz.exadel.repository.OfficeRepository;\r\nimport uz.exadel.response.Response;\r\n\r\nimport java.util.List;\r\nimport java.util.Optional;\r\n\r\n@RestController\r\npublic class OfficeController implements Response {\r\n\r\n    @Autowired\r\n    OfficeRepository officeRepository;\r\n\r\n    @GetMapping(\"/office\")\r\n    public List<Office> getOfficeList(){\r\n       return officeRepository.findAll();\r\n    }\r\n\r\n    @GetMapping(\"/office/{name}\")\r\n    public Office getOfficeByName(@PathVariable String name){\r\n\r\n        int numberOfOfficesWithSpecificName = officeRepository.getNumberOfOfficesWithSpecificName(name);\r\n        if (numberOfOfficesWithSpecificName > 0) {\r\n            String idTaken = officeRepository.getIdUsingName(name);\r\n            officeRepository.deleteById(idTaken);\r\n            Optional<Office> byId = officeRepository.findById(idTaken);\r\n            return byId.get();\r\n        }else {\r\n            return null;\r\n        }\r\n    }\r\n\r\n    @PostMapping(\"/office\")\r\n    public String addOffice(@RequestBody Office office){\r\n        int numberOfOfficesWithSpecificName = officeRepository.getNumberOfOfficesWithSpecificName(office.getName());\r\n        if (numberOfOfficesWithSpecificName > 0) return NAME_TAKEN;\r\n        else {\r\n            officeRepository.save(office);\r\n            return OFFICE_ADDED;\r\n        }\r\n    }\r\n\r\n    @DeleteMapping(\"/office/{name}\")\r\n    public String deleteOfficeById(@PathVariable String name) {\r\n        int numberOfOfficesWithSpecificName = officeRepository.getNumberOfOfficesWithSpecificName(name);\r\n        if (numberOfOfficesWithSpecificName > 0) {\r\n            String idTaken = officeRepository.getIdUsingName(name);\r\n            officeRepository.deleteById(idTaken);\r\n            return OFFICE_DELETED;\r\n        } else {\r\n            return OFFICE_NOT_FOUND;\r\n        }\r\n    }\r\n}\r\n
+===================================================================
+diff --git a/hotdeskBooking/src/main/java/uz/exadel/controller/OfficeController.java b/hotdeskBooking/src/main/java/uz/exadel/controller/OfficeController.java
+--- a/hotdeskBooking/src/main/java/uz/exadel/controller/OfficeController.java	
++++ b/hotdeskBooking/src/main/java/uz/exadel/controller/OfficeController.java	
+@@ -3,7 +3,7 @@
+ 
+ import org.springframework.beans.factory.annotation.Autowired;
+ import org.springframework.web.bind.annotation.*;
+-import uz.exadel.model.Office;
++import uz.exadel.Entity.Office;
+ import uz.exadel.repository.OfficeRepository;
+ import uz.exadel.response.Response;
+ 
+@@ -11,7 +11,7 @@
+ import java.util.Optional;
+ 
+ @RestController
+-public class OfficeController implements Response {
++public class OfficeController {
+ 
+     @Autowired
+     OfficeRepository officeRepository;
+@@ -36,12 +36,12 @@
+     }
+ 
+     @PostMapping("/office")
+-    public String addOffice(@RequestBody Office office){
++    public Response addOffice(@RequestBody Office office){
+         int numberOfOfficesWithSpecificName = officeRepository.getNumberOfOfficesWithSpecificName(office.getName());
+         if (numberOfOfficesWithSpecificName > 0) return NAME_TAKEN;
+         else {
+             officeRepository.save(office);
+-            return OFFICE_ADDED;
++            return new Response();
+         }
+     }
+ 
