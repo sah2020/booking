@@ -1,0 +1,30 @@
+{
+  "message": "OK",
+  "status_code": 200,
+  "data": [
+    {
+      "id": "4028818a7f23604a017f236158d10000",
+      "name": "Makro4",
+      "country": "Uzbek",
+      "city": "Tashkent2",
+      "address": "Chilonzor2",
+      "is_parking_available": true
+    },
+    {
+      "id": "4028818a7f23604a017f23626bd10001",
+      "name": "Makro8",
+      "country": "Uzbek",
+      "city": "3 chi tashkent",
+      "address": "Chilonzor2",
+      "is_parking_available": true
+    },
+    {
+      "id": "4028818a7f234d3c017f234d6fc90000",
+      "name": "Makro",
+      "country": "Uzb",
+      "city": "Tashkent",
+      "address": "Chilonzor 9",
+      "is_parking_available": false
+    }
+  ]
+}

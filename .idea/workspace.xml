@@ -4,28 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="269cb7c5-e6ac-4c6d-a844-80f1dea3b2de" name="Changes" comment="office part is fully done!!!">
-      <change afterPath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/exception/MapCustomException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/2022-02-16T205500.500.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/2022-02-16T205527.200.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/2022-02-16T205535.500.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/http-requests-log.http" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/httpRequests/http-requests-log.http" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/config/SpringAware.java" beforeDir="false" afterPath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/config/SpringAware.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/controller/MapController.java" beforeDir="false" afterPath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/controller/MapController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/domain/Booking.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/domain/MapDomain.java" beforeDir="false" afterPath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/domain/MapDomain.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/domain/User.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/domain/Vacation.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/domain/Workplace.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/dto/MapDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/dto/MapDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/exception/RestExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/exception/RestExceptionHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/repository/MapRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/repository/MapRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/repository/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/repository/UserRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/service/MapService.java" beforeDir="false" afterPath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/service/MapService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/service/OfficeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/service/OfficeService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/service/impl/BookingServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/service/impl/BookingServiceImpl.java" afterDir="false" />
-    </list>
+    <list default="true" id="269cb7c5-e6ac-4c6d-a844-80f1dea3b2de" name="Changes" comment="map and office has been refactored (only map getAll is not working!)" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -174,7 +153,14 @@
       <option name="project" value="LOCAL" />
       <updated>1645568973624</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="map and office has been refactored (only map getAll is not working!)">
+      <created>1645572767779</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1645572767779</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -203,6 +189,7 @@
     <MESSAGE value="Office controller recreated" />
     <MESSAGE value="getCityList, getCityListByCountryName, getCountryList have been added" />
     <MESSAGE value="office part is fully done!!!" />
-    <option name="LAST_COMMIT_MESSAGE" value="office part is fully done!!!" />
+    <MESSAGE value="map and office has been refactored (only map getAll is not working!)" />
+    <option name="LAST_COMMIT_MESSAGE" value="map and office has been refactored (only map getAll is not working!)" />
   </component>
 </project>
