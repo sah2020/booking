@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import uz.exadel.hotdeskbooking.dto.UserBasicResTO;
+import uz.exadel.hotdeskbooking.dto.response.UserBasicResTO;
 
 import javax.persistence.*;
 import java.util.Collection;

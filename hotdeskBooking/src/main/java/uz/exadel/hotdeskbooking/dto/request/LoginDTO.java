@@ -1,4 +1,4 @@
-package uz.exadel.hotdeskbooking.dto;
+package uz.exadel.hotdeskbooking.dto.request;
 
 import lombok.Data;
 
