@@ -10,12 +10,13 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-public class Workplace extends BaseDomain {
+@Table(name = "workplace")
+public class WorkplaceDomain extends BaseDomain {
 
     private String mapId;
     @ManyToOne(cascade = {CascadeType.PERSIST}, fetch = FetchType.LAZY)
     @JoinColumn(name = "mapId", updatable = false, insertable = false)
-    private Map map;
+    private MapDomain map;
 
     private String workplaceNumber;
 
@@ -39,4 +40,5 @@ public class Workplace extends BaseDomain {
 
     @ColumnDefault(value = "false")
     private Boolean hasHeadset;
+
 }

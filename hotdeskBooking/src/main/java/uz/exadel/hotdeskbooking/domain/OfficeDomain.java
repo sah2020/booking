@@ -1,5 +1,6 @@
 package uz.exadel.hotdeskbooking.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,7 +9,8 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-public class Office extends BaseDomain {
+@Table(name = "office")
+public class OfficeDomain extends BaseDomain {
     private String name;
 
     private String country;
@@ -17,5 +19,7 @@ public class Office extends BaseDomain {
 
     private String address;
 
-    private Boolean isFreeParkingAvailable;
+    @JsonProperty("is_parking_available")
+    private boolean isParkingAvailable;
+
 }

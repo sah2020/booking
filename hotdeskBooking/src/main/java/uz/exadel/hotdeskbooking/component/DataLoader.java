@@ -13,24 +13,24 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class DataLoader implements CommandLineRunner {
+public class DataLoader  {
 
-    @Value("${spring.sql.init.mode}")
-    private String mode;
-
-    private final RoleRepository roleRepository;
-
-    @Override
-    public void run(String... args) throws Exception {
-        if (mode.equals("always")) {
-
-            List<Role> roleList = new ArrayList<>();
-            roleList.add(new Role(RoleTypeEnum.ADMIN));
-            roleList.add(new Role(RoleTypeEnum.COMMON_USER));
-            roleList.add(new Role(RoleTypeEnum.MANAGER));
-            roleList.add(new Role(RoleTypeEnum.MAP_EDITOR));
-            roleRepository.saveAll(roleList);
-
-        }
-    }
+//    @Value("${spring.sql.init.mode}")
+//    private String mode;
+//
+//    private final RoleRepository roleRepository;
+//
+//    @Override
+//    public void run(String... args) throws Exception {
+//        if (mode.equals("always")) {
+//
+//            List<Role> roleList = new ArrayList<>();
+//            roleList.add(new Role(RoleTypeEnum.ADMIN));
+//            roleList.add(new Role(RoleTypeEnum.COMMON_USER));
+//            roleList.add(new Role(RoleTypeEnum.MANAGER));
+//            roleList.add(new Role(RoleTypeEnum.MAP_EDITOR));
+//            roleRepository.saveAll(roleList);
+//
+//        }
+//    }
 }

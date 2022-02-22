@@ -1,5 +1,6 @@
 package uz.exadel.hotdeskbooking.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,15 +9,18 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-public class Map extends BaseDomain {
+@Table(name = "map")
+public class MapDomain extends BaseDomain {
+    @JsonProperty("office_id")
     private String officeId;
     @ManyToOne(cascade = {CascadeType.PERSIST}, fetch = FetchType.LAZY)
     @JoinColumn(name = "officeId", updatable = false, insertable = false)
-    private Office office;
+    private OfficeDomain office;
 
-    private Integer floor;
+    private int floor;
 
-    private Boolean kitchen;
+    private boolean kitchen;
 
-    private Boolean confRooms;
+    @JsonProperty("conf_rooms")
+    private boolean confRooms;
 }

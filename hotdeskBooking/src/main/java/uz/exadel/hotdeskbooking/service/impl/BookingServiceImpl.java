@@ -2,7 +2,7 @@ package uz.exadel.hotdeskbooking.service.impl;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import uz.exadel.hotdeskbooking.domain.Booking;
+import uz.exadel.hotdeskbooking.domain.BookingDomain;
 import uz.exadel.hotdeskbooking.dto.ResponseItem;
 import uz.exadel.hotdeskbooking.dto.request.BookingAnyTO;
 import uz.exadel.hotdeskbooking.dto.request.BookingCreateTO;
@@ -43,12 +43,12 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public ResponseItem getOne(String id) {
-        return new ResponseItem(new Booking());
+        return new ResponseItem(new BookingDomain());
     }
 
     @Override
     public ResponseItem getCurrent() {
-        return new ResponseItem(new Booking());
+        return new ResponseItem(new BookingDomain());
     }
 
     @Override
