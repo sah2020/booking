@@ -1,6 +1,7 @@
 package uz.exadel.hotdeskbooking.controller;
 
 
+import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +13,6 @@ import uz.exadel.hotdeskbooking.response.ApiResponse;
 import uz.exadel.hotdeskbooking.response.BaseResponse;
 import uz.exadel.hotdeskbooking.service.OfficeService;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-import java.util.List;
 
 @RequiredArgsConstructor
 @RequestMapping("/office")
@@ -29,7 +27,7 @@ public class OfficeController extends BaseResponse {
     }
 
     @PostMapping
-    public ResponseEntity<?> addOffice(@RequestBody @Valid OfficeDto officeDto){
+    public ResponseEntity<?> addOffice(@RequestBody OfficeDto officeDto){
         ApiResponse apiResponse = officeService.addOffice(officeDto);
         return ResponseEntity.status(201).body(apiResponse);
     }
