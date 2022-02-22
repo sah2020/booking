@@ -15,7 +15,7 @@ import java.io.Serializable;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ResponseItem implements Serializable {
     private String message;
-    private int statusCode;
+    private int statusCode = 200;
     private Object data;
 
     public ResponseItem(String message, int statusCode) {
