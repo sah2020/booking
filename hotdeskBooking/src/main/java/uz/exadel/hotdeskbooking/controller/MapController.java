@@ -4,19 +4,40 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import uz.exadel.hotdeskbooking.domain.MapDomain;
 import uz.exadel.hotdeskbooking.dto.MapDto;
 import uz.exadel.hotdeskbooking.response.ApiResponse;
 import uz.exadel.hotdeskbooking.service.MapService;
 
+import javax.validation.constraints.NotNull;
+
 @RestController
 @RequestMapping("/map")
 @RequiredArgsConstructor
 public class MapController {
 
-    @Autowired
     private final MapService mapService;
 
 
+    @PostMapping
+    public ResponseEntity<?> addMap(@RequestBody MapDto mapDto){
+        return ResponseEntity.ok(mapService.addMap(mapDto));
+    }
+
+    @GetMapping
+    public ResponseEntity<?> getMapList(){
+        return ResponseEntity.ok(mapService.getMapList());
+    }
+
+    @DeleteMapping("/{mapId}")
+    public ResponseEntity<?> deleteMap(@PathVariable String mapId){
+        return ResponseEntity.ok(mapService.deleteMap(mapId));
+    }
+
+    @PutMapping("/{mapId}")
+    public ResponseEntity<?> updateMap(@RequestBody MapDto mapDto,@NotNull @PathVariable String mapId){
+        return ResponseEntity.ok(mapService.updateMap(mapDto, mapId));
+    }
 }

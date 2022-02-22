@@ -96,7 +96,6 @@ public class OfficeService {
         return BaseResponse.SUCCESS;
     }
 
-
     public ApiResponse getMapListByOfficeId(String officeId){
         Optional<OfficeDomain> byId = officeRepository.findById(officeId);
         if (byId.isEmpty()) throw new OfficeCustomException("office not found!");
@@ -105,8 +104,6 @@ public class OfficeService {
         BaseResponse.SUCCESS.setData(allByOfficeId);
         return BaseResponse.SUCCESS;
     }
-
-
 
     //checking if the office has parking slot available
     public ApiResponse checkForParking(String officeId){
@@ -122,11 +119,8 @@ public class OfficeService {
         return BaseResponse.PARKING_NOT_AVAILABLE;
     }
 
-
-
     public void checkOfficeByName(String officeName){
         boolean exists = officeRepository.existsByName(officeName);
         if (exists) throw new OfficeCustomException("Office with this name already exists!");
     }
-
 }

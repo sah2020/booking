@@ -11,7 +11,7 @@ public interface MapRepository extends JpaRepository<MapDomain, String> {
 
     List<MapDomain> findAllByOfficeId(String officeId);
 
-    boolean existsByFloorAndOfficeName(int floor, String office_name);
+    boolean existsByFloorAndOfficeId(int floor, String officeId);
 
     @Query(value = "select id from map m where m.office_id=?", nativeQuery = true)
     List<String> findIdsByOfficeId(String officeId);

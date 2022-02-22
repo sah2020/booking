@@ -4,13 +4,27 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="269cb7c5-e6ac-4c6d-a844-80f1dea3b2de" name="Changes" comment="getCityList, getCityListByCountryName, getCountryList have been added">
+    <list default="true" id="269cb7c5-e6ac-4c6d-a844-80f1dea3b2de" name="Changes" comment="office part is fully done!!!">
+      <change afterPath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/exception/MapCustomException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/2022-02-16T205500.500.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/2022-02-16T205527.200.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/2022-02-16T205535.500.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/http-requests-log.http" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/httpRequests/http-requests-log.http" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/controller/OfficeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/controller/OfficeController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/config/SpringAware.java" beforeDir="false" afterPath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/config/SpringAware.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/controller/MapController.java" beforeDir="false" afterPath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/controller/MapController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/domain/Booking.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/domain/MapDomain.java" beforeDir="false" afterPath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/domain/MapDomain.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/domain/User.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/domain/Vacation.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/domain/Workplace.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/dto/MapDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/dto/MapDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/exception/RestExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/exception/RestExceptionHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/repository/MapRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/repository/MapRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/response/BaseResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/response/BaseResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/repository/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/repository/UserRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/service/MapService.java" beforeDir="false" afterPath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/service/MapService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/service/OfficeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/service/OfficeService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/service/impl/BookingServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/service/impl/BookingServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,6 +45,14 @@
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
   </component>
   <component name="JpbToolWindowState">
     <option name="myId2FirstActivated">
@@ -81,10 +103,10 @@
     <configuration name="generated-requests#4" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" index="4" runType="Run single request">
       <method v="2" />
     </configuration>
-    <configuration name="generated-requests#7" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" index="7" runType="Run single request">
+    <configuration name="generated-requests#5" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" index="5" runType="Run single request">
       <method v="2" />
     </configuration>
-    <configuration name="generated-requests#8" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" index="8" runType="Run single request">
+    <configuration name="generated-requests#7" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" index="7" runType="Run single request">
       <method v="2" />
     </configuration>
     <configuration name="HotdeskBookingApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
@@ -98,18 +120,18 @@
     </configuration>
     <list>
       <item itemvalue="Spring Boot.HotdeskBookingApplication" />
-      <item itemvalue="HTTP Request.generated-requests#1" />
-      <item itemvalue="HTTP Request.generated-requests#7" />
       <item itemvalue="HTTP Request.generated-requests#2" />
-      <item itemvalue="HTTP Request.generated-requests#8" />
+      <item itemvalue="HTTP Request.generated-requests#5" />
       <item itemvalue="HTTP Request.generated-requests#4" />
+      <item itemvalue="HTTP Request.generated-requests#7" />
+      <item itemvalue="HTTP Request.generated-requests#1" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="HTTP Request.generated-requests#8" />
+        <item itemvalue="HTTP Request.generated-requests#7" />
+        <item itemvalue="HTTP Request.generated-requests#5" />
         <item itemvalue="HTTP Request.generated-requests#4" />
         <item itemvalue="HTTP Request.generated-requests#2" />
-        <item itemvalue="HTTP Request.generated-requests#7" />
         <item itemvalue="HTTP Request.generated-requests#1" />
       </list>
     </recent_temporary>
@@ -145,7 +167,14 @@
       <option name="project" value="LOCAL" />
       <updated>1645566211397</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="office part is fully done!!!">
+      <created>1645568973624</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1645568973624</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -173,6 +202,7 @@
     <MESSAGE value="mmm" />
     <MESSAGE value="Office controller recreated" />
     <MESSAGE value="getCityList, getCityListByCountryName, getCountryList have been added" />
-    <option name="LAST_COMMIT_MESSAGE" value="getCityList, getCityListByCountryName, getCountryList have been added" />
+    <MESSAGE value="office part is fully done!!!" />
+    <option name="LAST_COMMIT_MESSAGE" value="office part is fully done!!!" />
   </component>
 </project>

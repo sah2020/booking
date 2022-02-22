@@ -1,3 +1,287 @@
+PUT http://localhost:8080/map/4028818a7f23c445017f23c562b90001
+Content-Type: application/json
+
+{
+  "floor": 1000,
+  "kitchen": true,
+  "conf_rooms": false
+}
+
+<> 2022-02-23T043101.200.json
+
+###
+
+PUT http://localhost:8080/map/4028818a7f23c445017f23c4e70f0000
+Content-Type: application/json
+
+{
+  "floor": 1000,
+  "kitchen": true,
+  "conf_rooms": false
+}
+
+<> 2022-02-23T043040.409.json
+
+###
+
+GET http://localhost:8080/map
+
+<> 2022-02-23T043016.500.json
+
+###
+
+POST http://localhost:8080/map
+Content-Type: application/json
+
+{
+  "office_id": "4028818a7f23c445017f23c4e70f0000",
+  "floor": 5,
+  "kitchen": true,
+  "conf_rooms": false
+}
+
+<> 2022-02-23T043012.200.json
+
+###
+
+GET http://localhost:8080/office
+
+<> 2022-02-23T042947.200.json
+
+###
+
+GET http://localhost:8080/office
+
+<> 2022-02-23T042944.200.json
+
+###
+
+POST http://localhost:8080/office
+Content-Type: application/json
+
+{
+  "name": "Makro8",
+  "country" : "Uzbek",
+  "city" : "3 chi tashkent",
+  "address": "Chilonzor2",
+  "is_parking_available" : true
+}
+
+<> 2022-02-23T042941.201.json
+
+###
+
+GET http://localhost:8080/office
+
+<> 2022-02-23T042930.200.json
+
+###
+
+GET http://localhost:8080/map
+
+<> 2022-02-23T042921.200.json
+
+###
+
+PUT http://localhost:8080/map/4028818a7f23bd16017f23c134990003
+Content-Type: application/json
+
+{
+  "floor": 15,
+  "kitchen": true,
+  "conf_rooms": false
+}
+
+<> 2022-02-23T042610.200.json
+
+###
+
+PUT http://localhost:8080/map/4028818a7f23bd16017f23bf4cdf0002
+Content-Type: application/json
+
+{
+  "floor": 12,
+  "kitchen": true,
+  "conf_rooms": false
+}
+
+<> 2022-02-23T042538.200.json
+
+###
+
+GET http://localhost:8080/map
+
+<> 2022-02-23T042351.500.json
+
+###
+
+POST http://localhost:8080/map
+Content-Type: application/json
+
+{
+  "office_id": "4028818a7f23bd16017f23be1aab0000",
+  "floor": 5,
+  "kitchen": true,
+  "conf_rooms": false
+}
+
+<> 2022-02-23T042334.200.json
+
+###
+
+GET http://localhost:8080/map
+
+<> 2022-02-23T042327.200.json
+
+###
+
+DELETE http://localhost:8080/map/4028818a7f23bd16017f23beac640001
+
+<> 2022-02-23T042324.200.json
+
+###
+
+GET http://localhost:8080/map
+
+<> 2022-02-23T042257.500.json
+
+###
+
+POST http://localhost:8080/map
+Content-Type: application/json
+
+{
+  "office_id": "4028818a7f23bd16017f23be1aab0000",
+  "floor": 5,
+  "kitchen": true,
+  "conf_rooms": false
+}
+
+<> 2022-02-23T042253.200.json
+
+###
+
+GET http://localhost:8080/office
+
+<> 2022-02-23T042241.200.json
+
+###
+
+POST http://localhost:8080/office
+Content-Type: application/json
+
+{
+  "name": "Makro8",
+  "country" : "Uzbek",
+  "city" : "3 chi tashkent",
+  "address": "Chilonzor2",
+  "is_parking_available" : true
+}
+
+<> 2022-02-23T042215.201.json
+
+###
+
+GET http://localhost:8080/office
+
+<> 2022-02-23T042211.200.json
+
+###
+
+GET http://localhost:8080/map
+
+<> 2022-02-23T041829.500.json
+
+###
+
+GET http://localhost:8080/office
+
+<> 2022-02-23T041740.200.json
+
+###
+
+GET http://localhost:8080/office
+
+<> 2022-02-23T041727.200.json
+
+###
+
+GET http://localhost:8080/office
+
+<> 2022-02-23T041602.200.json
+
+###
+
+GET http://localhost:8080/map
+
+<> 2022-02-23T041325.500.json
+
+###
+
+POST http://localhost:8080/map
+Content-Type: application/json
+
+{
+  "office_id": "4028818a7f234d3c017f234d6fc90000",
+  "floor": 5,
+  "kitchen": true,
+  "conf_rooms": false
+}
+
+<> 2022-02-23T041322.200.json
+
+###
+
+GET http://localhost:8080/map
+
+<> 2022-02-23T041311.200.json
+
+###
+
+DELETE http://localhost:8080/map/4028818a7f23b148017f23b1a65b0000
+
+<> 2022-02-23T041303-1.500.json
+
+###
+
+GET http://localhost:8080/map
+
+<> 2022-02-23T041303.500.json
+
+###
+
+GET http://localhost:8080/map
+
+<> 2022-02-23T040843.500.json
+
+###
+
+POST http://localhost:8080/map
+Content-Type: application/json
+
+{
+  "office_id": "4028818a7f234d3c017f234d6fc90000",
+  "floor": 5,
+  "kitchen": true,
+  "conf_rooms": false
+}
+
+<> 2022-02-23T040839.200.json
+
+###
+
+GET http://localhost:8080/office
+
+<> 2022-02-23T040704.200.json
+
+###
+
+GET http://localhost:8080/map
+
+<> 2022-02-23T040630.200.json
+
+###
+
 GET http://localhost:8080/office/parking/4028818a7f234d3c017f234d6fc90000
 
 <> 2022-02-23T032806.200.json
@@ -151,319 +435,6 @@ Content-Type: application/json
 GET http://localhost:8080/office
 
 <> 2022-02-23T021928.200.json
-
-###
-
-POST http://localhost:8080/office
-Content-Type: application/json
-
-{
-  "name": "Makro4",
-  "country" : "Uzbek",
-  "city" : "Tashkent2",
-  "address": "Chilonzor2",
-  "is_parking_available" : true
-}
-
-<> 2022-02-23T021924.409.json
-
-###
-
-GET http://localhost:8080/office
-
-<> 2022-02-23T021915.200.json
-
-###
-
-POST http://localhost:8080/office
-Content-Type: application/json
-
-{
-  "name": "Makro4",
-  "country" : "Uzbek",
-  "city" : "Tashkent2",
-  "address": "Chilonzor2",
-  "is_parking_available" : true
-}
-
-<> 2022-02-23T021911.201.json
-
-###
-
-GET http://localhost:8080/office/4028818a7f2342d8017f234346b00000
-
-<> 2022-02-23T021013.201.json
-
-###
-
-GET http://localhost:8080/office/4028818a7f2342d8017f234346b00000
-
-<> 2022-02-23T020931.201.json
-
-###
-
-GET http://localhost:8080/office
-
-<> 2022-02-23T020824.200.json
-
-###
-
-GET http://localhost:8080/office
-
-<> 2022-02-23T020808.200.json
-
-###
-
-POST http://localhost:8080/office
-Content-Type: application/json
-
-{
-  "name": "Makro4",
-  "country" : "Uzbek",
-  "city" : "Tashkent2",
-  "address": "Chilonzor2",
-  "is_parking_available" : true
-}
-
-<> 2022-02-23T020806.201.json
-
-###
-
-GET http://localhost:8080/office
-
-<> 2022-02-23T020801.200.json
-
-###
-
-GET http://localhost:8080/office/4028818a7f231f95017f231fe77f0001
-
-<> 2022-02-23T020656.409.json
-
-###
-
-POST http://localhost:8080/office
-Content-Type: application/json
-
-{
-  "name": "Makro4",
-  "country" : "Uzbek",
-  "city" : "Tashkent2",
-  "address": "Chilonzor2",
-  "is_parking_available" : true
-}
-
-<> 2022-02-23T012939.409.json
-
-###
-
-GET http://localhost:8080/office
-
-<> 2022-02-23T012931.200.json
-
-###
-
-POST http://localhost:8080/office
-Content-Type: application/json
-
-{
-  "name": "Makro4",
-  "country" : "Uzbek",
-  "city" : "Tashkent2",
-  "address": "Chilonzor2",
-  "is_parking_available" : true
-}
-
-<> 2022-02-23T012927.201.json
-
-###
-
-GET http://localhost:8080/office
-
-<> 2022-02-23T012924.200.json
-
-###
-
-GET http://localhost:8080/office
-
-<> 2022-02-23T012833.200.json
-
-###
-
-POST http://localhost:8080/office
-Content-Type: application/json
-
-{
-  "name": "Makro4",
-  "country" : "Uzbek",
-  "city" : "Tashkent2",
-  "address": "Chilonzor2",
-  "is_parking_available" : true
-}
-
-<> 2022-02-23T012829.409.json
-
-###
-
-GET http://localhost:8080/office
-
-<> 2022-02-23T012818.200.json
-
-###
-
-POST http://localhost:8080/office
-Content-Type: application/json
-
-{
-  "name": "Makro4",
-  "country" : "Uzbek",
-  "city" : "Tashkent2",
-  "address": "Chilonzor2",
-  "is_parking_available" : true
-}
-
-<> 2022-02-23T012734.201.txt
-
-###
-
-GET http://localhost:8080/office
-
-<> 2022-02-23T012649.200.json
-
-###
-
-GET http://localhost:8080/office
-
-<> 2022-02-23T012418.200.json
-
-###
-
-POST http://localhost:8080/office
-Content-Type: application/json
-
-{
-  "name": "Makro4",
-  "country" : "Uzbek",
-  "city" : "Tashkent2",
-  "address": "Chilonzor2",
-  "is_parking_available" : true
-}
-
-<> 2022-02-23T012415.201.txt
-
-###
-
-GET http://localhost:8080/office
-
-<> 2022-02-23T012411.200.json
-
-###
-
-GET http://localhost:8080/office
-
-<> 2022-02-23T012316.500.json
-
-###
-
-POST http://localhost:8080/office
-Content-Type: application/json
-
-{
-  "name": "Makro4",
-  "country" : "Uzbek",
-  "city" : "Tashkent2",
-  "address": "Chilonzor2",
-  "is_parking_available" : true
-}
-
-<> 2022-02-23T012312.201.txt
-
-###
-
-POST http://localhost:8080/office
-Content-Type: application/json
-
-{
-  "name": "Makro3",
-  "country" : "Uzbek",
-  "city" : "Tashkent2",
-  "address": "Chilonzor2",
-  "is_parking_available" : true
-}
-
-<> 2022-02-23T012205.201.txt
-
-###
-
-POST http://localhost:8080/office
-Content-Type: application/json
-
-{
-  "name": "Makro2",
-  "country" : "Uzbek",
-  "city" : "Tashkent2",
-  "address": "Chilonzor2",
-  "is_parking_available" : true
-}
-
-<> 2022-02-23T012152.409.json
-
-###
-
-GET http://localhost:8080/office
-
-<> 2022-02-23T012135.200.json
-
-###
-
-POST http://localhost:8080/office
-Content-Type: application/json
-
-{
-  "name": "Makro2",
-  "country" : "Uzbek",
-  "city" : "Tashkent2",
-  "address": "Chilonzor2",
-  "is_parking_available" : true
-}
-
-<> 2022-02-23T012125.201.txt
-
-###
-
-POST http://localhost:8080/office
-Content-Type: application/json
-
-{
-  "name": "Makro",
-  "country" : "Uzb",
-  "city" : "Tashkent",
-  "address": "Chilonzor",
-  "is_parking_available" : true
-}
-
-<> 2022-02-23T012021.201.txt
-
-###
-
-GET http://localhost:8080/office
-
-###
-
-DELETE http://localhost:8080/address/4028818a7eff51c8017eff5327e90000
-
-<> 2022-02-16T205535.500.json
-
-###
-
-GET http://localhost:8080/address
-
-<> 2022-02-16T205527.200.json
-
-###
-
-DELETE http://localhost:8080/address/4028818a7eff51c8017eff5327e90000
-
-<> 2022-02-16T205500.500.json
 
 ###
 
