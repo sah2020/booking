@@ -10,7 +10,7 @@ import uz.exadel.hotdeskbooking.dto.ResponseItem;
 @RestControllerAdvice
 public class RestExceptionHandler {
     @ExceptionHandler(value = {RestException.class})
-    public HttpEntity<ResponseItem> handleException(RestException ex) {
+    public ResponseEntity<ResponseItem> handleException(RestException ex) {
         return ResponseEntity.status(ex.getStatus()).body(
                 new ResponseItem(
                         ex.getMessage(),
