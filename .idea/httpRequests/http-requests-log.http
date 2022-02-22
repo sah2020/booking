@@ -1,3 +1,87 @@
+GET http://localhost:8080/office/cityList/Uzbek
+
+<> 2022-02-23T024232.200.json
+
+###
+
+POST http://localhost:8080/office
+Content-Type: application/json
+
+{
+  "name": "Makro8",
+  "country" : "Uzbek",
+  "city" : "3 chi tashkent",
+  "address": "Chilonzor2",
+  "is_parking_available" : true
+}
+
+<> 2022-02-23T024207.201.json
+
+###
+
+POST http://localhost:8080/office
+Content-Type: application/json
+
+{
+  "name": "Makro4",
+  "country" : "Uzbek",
+  "city" : "3 chi tashkent",
+  "address": "Chilonzor2",
+  "is_parking_available" : true
+}
+
+<> 2022-02-23T024157.409.json
+
+###
+
+GET http://localhost:8080/office/cityList
+
+<> 2022-02-23T024129.200.json
+
+###
+
+GET http://localhost:8080/office/countryList
+
+<> 2022-02-23T024114.200.json
+
+###
+
+POST http://localhost:8080/office
+Content-Type: application/json
+
+{
+  "name": "Makro4",
+  "country" : "Uzbek",
+  "city" : "Tashkent2",
+  "address": "Chilonzor2",
+  "is_parking_available" : true
+}
+
+<> 2022-02-23T024056.201.json
+
+###
+
+PUT http://localhost:8080/office/4028818a7f234d3c017f234d6fc90000
+Content-Type: application/json
+
+{
+  "name": "Makro",
+  "country" : "Uzb",
+  "city" : "Tashkent",
+  "address": "Chilonzor 9",
+  "is_parking_available" : true
+}
+
+<> 2022-02-23T024043.201.json
+
+###
+
+GET http://localhost:8080/office
+
+<> 2022-02-23T024012.200.json
+
+###
+
 GET http://localhost:8080/office
 
 <> 2022-02-23T022029.200.json
@@ -369,48 +453,6 @@ GET http://localhost:8080/office
 ###
 
 DELETE http://localhost:8080/office/4028818a7eff8cfa017eff9037d10000
-
-###
-
-DELETE http://localhost:8080/office/4028818a7eff8cfa017eff9037d10000
-
-###
-
-GET http://localhost:8080/office
-
-<> 2022-02-16T114728.200.json
-
-###
-
-DELETE http://localhost:8080/office/4028818a7eff8cfa017eff9037d10000
-
-<> 2022-02-16T114701.500.json
-
-###
-
-DELETE http://localhost:8080/office/4028818a7eff8cfa017eff9037d10000
-
-<> 2022-02-16T114607.500.json
-
-###
-
-DELETE http://localhost:8080/office/4028818a7eff8cfa017eff9037d10000
-
-<> 2022-02-16T113709.500.json
-
-###
-
-GET http://localhost:8080/office
-
-<> 2022-02-16T113650.200.json
-
-###
-
-GET http://localhost:8080/office
-
-###
-
-DELETE http://localhost:8080/office/delete/4028818a7eff8cfa017eff9037d10000
 
 ###
 

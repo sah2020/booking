@@ -58,7 +58,6 @@ public class OfficeService {
         return BaseResponse.SUCCESS;
     }
 
-
     public ApiResponse updateOffice(OfficeDto officeDto, String officeId){
         Optional<OfficeDomain> byId = officeRepository.findById(officeId);
         if (byId.isEmpty()) throw new OfficeCustomException("office not found");
@@ -75,9 +74,28 @@ public class OfficeService {
     }
 
     public ApiResponse deleteOffice(String officeId){
-        //
         return BaseResponse.SUCCESS_ONLY;
     }
+
+    //get all the city list (without country name)
+    public ApiResponse getCityList(){
+        List<String> cityNames = officeRepository.getCityNames();
+        BaseResponse.SUCCESS.setData(cityNames);
+        return BaseResponse.SUCCESS;
+    }
+
+    public ApiResponse getCityListByCountryName(String countryName){
+        List<String> cityNamesByCountryName = officeRepository.getCityNamesByCountryName(countryName);
+        BaseResponse.SUCCESS.setData(cityNamesByCountryName);
+        return BaseResponse.SUCCESS;
+    }
+
+    public ApiResponse getCountryList(){
+        List<String> countryNames = officeRepository.getCountryNames();
+        BaseResponse.SUCCESS.setData(countryNames);
+        return BaseResponse.SUCCESS;
+    }
+
 
 
 

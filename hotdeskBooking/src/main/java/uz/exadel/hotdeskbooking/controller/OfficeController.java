@@ -20,7 +20,6 @@ import java.util.List;
 @RestController
 public class OfficeController extends BaseResponse {
 
-    @Autowired
     private final OfficeService officeService;
 
     @GetMapping
@@ -48,7 +47,23 @@ public class OfficeController extends BaseResponse {
     }
 
     @DeleteMapping("/{officeId}")
-    public ApiResponse deleteOffice(@PathVariable String officeId){
-        return officeService.deleteOffice(officeId);
+    public ResponseEntity<?> deleteOffice(@PathVariable String officeId){
+        return ResponseEntity.status(200).body(officeService.deleteOffice(officeId));
     }
+
+    @GetMapping("/cityList")
+    public ResponseEntity<?> getCityList(){
+        return ResponseEntity.ok(officeService.getCityList());
+    }
+
+    @GetMapping("/cityList/{countryName}")
+    public ResponseEntity<?> getCityListByCountry(@PathVariable String countryName){
+        return ResponseEntity.ok(officeService.getCityListByCountryName(countryName));
+    }
+
+    @GetMapping("/countryList")
+    public ResponseEntity<?> getCountryList(){
+        return ResponseEntity.ok(officeService.getCountryList());
+    }
+
 }
