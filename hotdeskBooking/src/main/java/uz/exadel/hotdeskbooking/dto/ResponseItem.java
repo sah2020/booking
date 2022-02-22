@@ -1,35 +1,29 @@
 package uz.exadel.hotdeskbooking.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
+
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ResponseItem<T> implements Serializable {
-    private T data;
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class ResponseItem implements Serializable {
     private String message;
-    private String serverMessage;
-    private String status;
-    private int httpStatusCode;
+    private int statusCode;
+    private Object data;
 
-    public ResponseItem(T data) {
-        this(data, null, null, "success", 200);
+    public ResponseItem(String message, int statusCode) {
+        this.message = message;
+        this.statusCode = statusCode;
     }
 
-    public ResponseItem(T data, String message) {
-        this(data, message, null, "success", 200);
-    }
-
-    public ResponseItem(T data, String message, String status) {
-        this(data, message, null, status, 200);
-    }
-
-    public ResponseItem(T data, String message, String serverMessage, String status) {
-        this(data, message, serverMessage, status, 200);
+    public ResponseItem(Object data) {
+        this.data = data;
     }
 }

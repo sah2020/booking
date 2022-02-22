@@ -1,0 +1,137 @@
+Index: hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/model/Map.java
+===================================================================
+diff --git a/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/model/Map.java b/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/model/Map.java
+deleted file mode 100644
+--- a/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/model/Map.java	
++++ /dev/null	
+@@ -1,39 +0,0 @@
+-package uz.exadel.hotdeskbooking.model;
+-
+-import lombok.*;
+-import org.hibernate.annotations.Cascade;
+-import org.hibernate.annotations.Fetch;
+-import org.hibernate.annotations.GenericGenerator;
+-
+-import javax.persistence.*;
+-import static org.hibernate.annotations.CascadeType.ALL;
+-
+-@Entity
+-@AllArgsConstructor
+-@NoArgsConstructor
+-@Getter
+-@Setter
+-public class Map {
+-    @GeneratedValue(generator = "uuid")
+-    @GenericGenerator(name = "uuid", strategy = "uuid")
+-    @Column(columnDefinition = "CHAR(32)")
+-    @Id
+-    private String id;
+-
+-    private boolean kitchen;
+-
+-    private int floor;
+-
+-    private boolean confRooms;
+-
+-    @ManyToOne(optional = false)
+-    @Cascade(ALL)
+-    private Office office;
+-
+-    public Map(boolean isKitchenPresent, int floor, boolean isMeetingRoomPresent, Office office) {
+-        this.kitchen = isKitchenPresent;
+-        this.floor = floor;
+-        this.confRooms= isMeetingRoomPresent;
+-        this.office = office;
+-    }
+-}
+Index: hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/model/Office.java
+===================================================================
+diff --git a/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/model/Office.java b/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/model/Office.java
+deleted file mode 100644
+--- a/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/model/Office.java	
++++ /dev/null	
+@@ -1,41 +0,0 @@
+-package uz.exadel.hotdeskbooking.model;
+-
+-import lombok.*;
+-import org.hibernate.Hibernate;
+-import org.hibernate.annotations.Cascade;
+-import org.hibernate.annotations.GenericGenerator;
+-
+-import javax.persistence.*;
+-import java.util.Objects;
+-import static org.hibernate.annotations.CascadeType.ALL;
+-
+-@AllArgsConstructor
+-@NoArgsConstructor
+-@Getter
+-@Setter
+-@Entity
+-@Table(uniqueConstraints = {@UniqueConstraint(columnNames = "name", name = "u_key_office_name")})
+-public class Office {
+-    @GeneratedValue(generator = "uuid")
+-    @GenericGenerator(name = "uuid", strategy = "uuid")
+-    @Column(columnDefinition = "CHAR(32)")
+-    @Id
+-    private String id;
+-
+-    @Column(nullable = false, unique = true)
+-    private String name;
+-
+-    @Column(nullable = false)
+-    private boolean isParkingAvailable;
+-
+-    @OneToOne
+-    @JoinColumn(name = "address_id")
+-    @Cascade(ALL)
+-    private Address address;
+-
+-    public Office(String name, boolean isParkingAvailable, Address address) {
+-        this.name = name;
+-        this.isParkingAvailable = isParkingAvailable;
+-        this.address = address;
+-    }
+-}
+Index: hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/model/Address.java
+===================================================================
+diff --git a/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/model/Address.java b/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/model/Address.java
+deleted file mode 100644
+--- a/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/model/Address.java	
++++ /dev/null	
+@@ -1,36 +0,0 @@
+-package uz.exadel.hotdeskbooking.model;
+-
+-import com.fasterxml.jackson.annotation.JsonInclude;
+-import lombok.AllArgsConstructor;
+-import lombok.Data;
+-import lombok.NoArgsConstructor;
+-import org.hibernate.annotations.GenericGenerator;
+-
+-import javax.persistence.*;
+-
+-@Data
+-@AllArgsConstructor
+-@NoArgsConstructor
+-@Entity
+-public class Address {
+-    @GeneratedValue(generator = "uuid")
+-    @GenericGenerator(name = "uuid", strategy = "uuid")
+-    @Column(columnDefinition = "CHAR(32)")
+-    @Id
+-    private String id;
+-
+-    @Column(nullable = false)
+-    private String country;
+-
+-    @Column(nullable = false)
+-    private String city;
+-
+-    @Column(nullable = false)
+-    private String address;
+-}
+-
+-
+-
+-
+-
+-
