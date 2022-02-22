@@ -1,4 +1,4 @@
-package uz.exadel.hotdeskbooking.config.security;
+package uz.exadel.hotdeskbooking.security;
 
 import io.jsonwebtoken.*;
 import org.springframework.stereotype.Component;
@@ -7,8 +7,8 @@ import java.util.Date;
 
 @Component
 public class JWTProvider {
-    private static final long expiredTime = 1000*60* 60*24;
-    private final static String secretKey = "anothersecuritykeyforbookingbot";
+    private static final long expiredTime = 1000 * 60 * 60 * 24;
+    private final static String secretKey = "anothersecuritykey";
 
 
     public String generateTokenAdmin(String username) {

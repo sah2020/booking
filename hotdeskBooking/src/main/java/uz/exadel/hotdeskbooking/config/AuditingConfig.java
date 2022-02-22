@@ -7,7 +7,7 @@ import uz.exadel.hotdeskbooking.domain.User;
 
 import java.util.Optional;
 
-public class SpringAware implements AuditorAware<String> {
+public class AuditingConfig implements AuditorAware<String> {
     @Override
     public Optional<String> getCurrentAuditor() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

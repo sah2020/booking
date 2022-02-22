@@ -1,7 +1,6 @@
 package uz.exadel.hotdeskbooking.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -14,13 +13,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import uz.exadel.hotdeskbooking.config.security.JWTProvider;
 import uz.exadel.hotdeskbooking.domain.User;
 import uz.exadel.hotdeskbooking.dto.LoginDTO;
 import uz.exadel.hotdeskbooking.dto.ResponseItem;
 import uz.exadel.hotdeskbooking.dto.UserBasicResTO;
 import uz.exadel.hotdeskbooking.exception.RestException;
 import uz.exadel.hotdeskbooking.repository.UserRepository;
+import uz.exadel.hotdeskbooking.security.JWTProvider;
 import uz.exadel.hotdeskbooking.service.AuthService;
 
 import java.util.Optional;
@@ -32,12 +31,8 @@ public class AuthServiceImpl implements AuthService, UserDetailsService {
     private JWTProvider jwtProvider;
     @Autowired
     private UserRepository userRepository;
-
+    @Autowired
     private AuthenticationManager authenticationManager;
-
-    public AuthServiceImpl(@Lazy AuthenticationManager authenticationManager) {
-        this.authenticationManager = authenticationManager;
-    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

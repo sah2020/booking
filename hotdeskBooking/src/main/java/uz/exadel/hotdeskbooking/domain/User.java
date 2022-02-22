@@ -6,7 +6,6 @@ import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import uz.exadel.hotdeskbooking.dto.UserBasicResTO;
-import uz.exadel.hotdeskbooking.enums.RoleTypeEnum;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -90,7 +89,7 @@ public class User extends BaseDomain implements UserDetails {
         this.preferredWorkplace = preferredWorkplace;
     }
 
-    public UserBasicResTO toBasic(){
+    public UserBasicResTO toBasic() {
         UserBasicResTO userBasicResTO = new UserBasicResTO();
         userBasicResTO.setId(this.getId());
         userBasicResTO.setFirstName(this.getFirstName());

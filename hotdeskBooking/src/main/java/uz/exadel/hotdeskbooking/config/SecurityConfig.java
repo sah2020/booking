@@ -1,9 +1,8 @@
 package uz.exadel.hotdeskbooking.config;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -16,17 +15,21 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import uz.exadel.hotdeskbooking.config.security.JWTFilter;
+import uz.exadel.hotdeskbooking.security.JWTFilter;
 import uz.exadel.hotdeskbooking.service.impl.AuthServiceImpl;
 
 @Configuration
 @EnableWebSecurity
-@RequiredArgsConstructor
 @EnableJpaAuditing
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true, jsr250Enabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final AuthServiceImpl authServiceImpl;
     private final JWTFilter jwtFilter;
+
+    public SecurityConfig(@Lazy AuthServiceImpl authServiceImpl, @Lazy JWTFilter jwtFilter) {
+        this.authServiceImpl = authServiceImpl;
+        this.jwtFilter = jwtFilter;
+    }
 
 
     @Bean
@@ -53,8 +56,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(
                         "/**",
-                        "/swagger-ui/",
-                        "/login")
+                        "/swagger-ui",
+                        "/api/login")
                 .permitAll()
                 .anyRequest()
                 .authenticated();
@@ -64,7 +67,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     AuditorAware<String> auditorAware() {
-        return new SpringAware();
+        return new AuditingConfig();
     }
 
 }

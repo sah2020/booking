@@ -1,4 +1,4 @@
-package uz.exadel.hotdeskbooking.config.security;
+package uz.exadel.hotdeskbooking.security;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
