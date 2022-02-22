@@ -12,4 +12,8 @@ public abstract class BaseResponse {
 
     public static final ApiResponse SUCCESS_ONLY = new ApiResponse("OK", 200); //SHOULD NOT BE SET OBJECT TO THIS ONE
 
+    public static final ApiResponse PARKING_NOT_AVAILABLE = new ApiResponse("parking not available", 200);
+
+
+
 }

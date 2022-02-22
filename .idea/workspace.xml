@@ -4,16 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="269cb7c5-e6ac-4c6d-a844-80f1dea3b2de" name="Changes" comment="Office controller recreated">
-      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/2022-02-16T113650.200.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/2022-02-16T113709.500.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/2022-02-16T114607.500.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/2022-02-16T114701.500.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/2022-02-16T114728.200.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/http-requests-log.http" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/httpRequests/http-requests-log.http" afterDir="false" />
+    <list default="true" id="269cb7c5-e6ac-4c6d-a844-80f1dea3b2de" name="Changes" comment="getCityList, getCityListByCountryName, getCountryList have been added">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/controller/OfficeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/controller/OfficeController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/repository/OfficeRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/repository/OfficeRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/repository/MapRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/repository/MapRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/response/BaseResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/response/BaseResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/service/MapService.java" beforeDir="false" afterPath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/service/MapService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/service/OfficeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/service/OfficeService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -79,16 +75,16 @@
     <configuration name="generated-requests#1" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" runType="Run single request">
       <method v="2" />
     </configuration>
+    <configuration name="generated-requests#2" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" index="2" runType="Run single request">
+      <method v="2" />
+    </configuration>
     <configuration name="generated-requests#4" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" index="4" runType="Run single request">
       <method v="2" />
     </configuration>
-    <configuration name="generated-requests#5" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" index="5" runType="Run single request">
-      <method v="2" />
-    </configuration>
-    <configuration name="generated-requests#6" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" index="6" runType="Run single request">
-      <method v="2" />
-    </configuration>
     <configuration name="generated-requests#7" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" index="7" runType="Run single request">
+      <method v="2" />
+    </configuration>
+    <configuration name="generated-requests#8" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" index="8" runType="Run single request">
       <method v="2" />
     </configuration>
     <configuration name="HotdeskBookingApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
@@ -103,18 +99,18 @@
     <list>
       <item itemvalue="Spring Boot.HotdeskBookingApplication" />
       <item itemvalue="HTTP Request.generated-requests#1" />
-      <item itemvalue="HTTP Request.generated-requests#4" />
-      <item itemvalue="HTTP Request.generated-requests#6" />
-      <item itemvalue="HTTP Request.generated-requests#5" />
       <item itemvalue="HTTP Request.generated-requests#7" />
+      <item itemvalue="HTTP Request.generated-requests#2" />
+      <item itemvalue="HTTP Request.generated-requests#8" />
+      <item itemvalue="HTTP Request.generated-requests#4" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="HTTP Request.generated-requests#8" />
+        <item itemvalue="HTTP Request.generated-requests#4" />
+        <item itemvalue="HTTP Request.generated-requests#2" />
         <item itemvalue="HTTP Request.generated-requests#7" />
         <item itemvalue="HTTP Request.generated-requests#1" />
-        <item itemvalue="HTTP Request.generated-requests#5" />
-        <item itemvalue="HTTP Request.generated-requests#6" />
-        <item itemvalue="HTTP Request.generated-requests#4" />
       </list>
     </recent_temporary>
   </component>
@@ -142,7 +138,14 @@
       <option name="project" value="LOCAL" />
       <updated>1645564914880</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="getCityList, getCityListByCountryName, getCountryList have been added">
+      <created>1645566211397</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1645566211397</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -169,6 +172,7 @@
     <MESSAGE value="nnhn" />
     <MESSAGE value="mmm" />
     <MESSAGE value="Office controller recreated" />
-    <option name="LAST_COMMIT_MESSAGE" value="Office controller recreated" />
+    <MESSAGE value="getCityList, getCityListByCountryName, getCountryList have been added" />
+    <option name="LAST_COMMIT_MESSAGE" value="getCityList, getCityListByCountryName, getCountryList have been added" />
   </component>
 </project>

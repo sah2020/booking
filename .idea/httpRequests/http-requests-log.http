@@ -1,3 +1,48 @@
+GET http://localhost:8080/office/parking/4028818a7f234d3c017f234d6fc90000
+
+<> 2022-02-23T032806.200.json
+
+###
+
+GET http://localhost:8080/office/parking/4028818a7f23604a017f23626bd10001
+
+<> 2022-02-23T032747.200.json
+
+###
+
+PUT http://localhost:8080/office/4028818a7f234d3c017f234d6fc90000
+Content-Type: application/json
+
+{
+  "name": "Makro",
+  "country" : "Uzb",
+  "city" : "Tashkent",
+  "address": "Chilonzor 9",
+  "is_parking_available" : false
+}
+
+<> 2022-02-23T032743.201.json
+
+###
+
+GET http://localhost:8080/office/parking/4028818a7f23604a017f23626bd10001
+
+<> 2022-02-23T032732.200.json
+
+###
+
+GET http://localhost:8080/office
+
+<> 2022-02-23T032722.200.json
+
+###
+
+GET http://localhost:8080/office
+
+<> 2022-02-23T032707.200.json
+
+###
+
 GET http://localhost:8080/office/cityList/Uzbek
 
 <> 2022-02-23T024232.200.json
@@ -419,40 +464,6 @@ GET http://localhost:8080/address
 DELETE http://localhost:8080/address/4028818a7eff51c8017eff5327e90000
 
 <> 2022-02-16T205500.500.json
-
-###
-
-GET http://localhost:8080/office
-
-<> 2022-02-16T205142.200.json
-
-###
-
-DELETE http://localhost:8080/office/4028818a7eff8cfa017eff9037d10000
-
-<> 2022-02-16T205136.500.json
-
-###
-
-DELETE http://localhost:8080/office/4028818a7eff8cfa017eff9037d10000
-
-<> 2022-02-16T205040.500.json
-
-###
-
-DELETE http://localhost:8080/office/4028818a7eff8cfa017eff9037d10000
-
-<> 2022-02-16T184140.500.json
-
-###
-
-GET http://localhost:8080/office
-
-<> 2022-02-16T184133.200.json
-
-###
-
-DELETE http://localhost:8080/office/4028818a7eff8cfa017eff9037d10000
 
 ###
 

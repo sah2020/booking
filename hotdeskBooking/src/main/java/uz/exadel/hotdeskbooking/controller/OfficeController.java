@@ -13,6 +13,7 @@ import uz.exadel.hotdeskbooking.response.BaseResponse;
 import uz.exadel.hotdeskbooking.service.OfficeService;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -66,4 +67,13 @@ public class OfficeController extends BaseResponse {
         return ResponseEntity.ok(officeService.getCountryList());
     }
 
+    @GetMapping("/mapList") //getting mapList by officeId "request param"
+    public ResponseEntity<?> getMapListByOfficeId(@RequestParam @NotNull String officeId){
+        return ResponseEntity.ok(officeService.getMapListByOfficeId(officeId));
+    }
+
+    @GetMapping("/parking/{officeId}")
+    public ResponseEntity<?> checkParkingSlot(@PathVariable String officeId){
+        return ResponseEntity.ok(officeService.checkForParking(officeId));
+    }
 }
