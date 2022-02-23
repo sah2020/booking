@@ -70,15 +70,15 @@ public class WorkplaceFilter implements Specification<Workplace> {
         }
 
         if (floor != null) {
-            predicates.add(cb.equal(root.get("floor"), floor));
+            predicates.add(cb.equal(mapRoot.get("floor"), floor));
         }
 
         if (kitchen != null) {
-            predicates.add(cb.equal(root.get("kitchen"), kitchen));
+            predicates.add(cb.equal(mapRoot.get("kitchen"), kitchen));
         }
 
         if (confRoom != null) {
-            predicates.add(cb.equal(root.get("confRoom"), confRoom));
+            predicates.add(cb.equal(mapRoot.get("confRoom"), confRoom));
         }
 
         return predicates.size() <= 0 ? null : cb.and(predicates.toArray(new Predicate[0]));

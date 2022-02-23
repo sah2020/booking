@@ -19,7 +19,7 @@ public class WorkplaceResponseDto {
     private boolean hasKeyboard;
     private boolean hasMouse;
     private boolean hasHeadset;
-    private boolean floor;
+    private int floor;
     private boolean kitchen;
     private boolean confRoom;
 }

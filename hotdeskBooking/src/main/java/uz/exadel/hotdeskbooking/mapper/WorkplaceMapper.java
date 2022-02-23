@@ -16,7 +16,11 @@ public class WorkplaceMapper {
     }
 
     public WorkplaceResponseDto entityToResponseDTO(Workplace workplace) {
-        return mapper.map(workplace, WorkplaceResponseDto.class);
+        WorkplaceResponseDto workplaceResponseDto = mapper.map(workplace, WorkplaceResponseDto.class);
+        workplaceResponseDto.setConfRoom(workplace.getMap().getConfRooms());
+        workplaceResponseDto.setFloor(workplace.getMap().getFloor());
+        workplaceResponseDto.setKitchen(workplace.getMap().getKitchen());
+        return workplaceResponseDto;
     }
 
     public Workplace createDtoToEntity(WorkplaceCreateDto workplaceCreateDto){

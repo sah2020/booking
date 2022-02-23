@@ -15,6 +15,8 @@ import uz.exadel.hotdeskbooking.domain.Map;
 import uz.exadel.hotdeskbooking.domain.Workplace;
 import uz.exadel.hotdeskbooking.dto.*;
 import uz.exadel.hotdeskbooking.enums.WorkplaceTypeEnum;
+import uz.exadel.hotdeskbooking.exception.RestException;
+import uz.exadel.hotdeskbooking.exception.WorkplaceCustomException;
 import uz.exadel.hotdeskbooking.mapper.WorkplaceMapper;
 import uz.exadel.hotdeskbooking.repository.MapRepository;
 import uz.exadel.hotdeskbooking.repository.WorkplaceRepository;
@@ -48,23 +50,27 @@ public class WorkplaceServiceImpl {
         final Optional<Workplace> optionalWorkplace = workplaceRepository.findById(workplaceId);
 
         if (optionalWorkplace.isEmpty())
-            return new ResponseItem("Not found", false, HttpStatus.NOT_FOUND);
+            throw new RestException("The workplace with this id is not found",HttpStatus.NOT_FOUND);
         return new ResponseItem("Successfully", true, optionalWorkplace.get(), HttpStatus.OK);
     }
 
     public ResponseItem createByJson(String mapId, WorkplaceCreateDto workplaceCreateDto) {
         Optional<Map> mapOptional = mapRepository.findById(mapId);
         if (mapOptional.isEmpty())
-            return new ResponseItem("map not found", false, HttpStatus.NOT_FOUND);
+            throw new RestException("Map not found", HttpStatus.NOT_FOUND);
 
         Workplace workplace = workplaceMapper.createDtoToEntity(workplaceCreateDto);
         workplace.setMap(mapOptional.get());
 
-        workplaceRepository.save(workplace);
-        return new ResponseItem("Successfully added", true, HttpStatus.OK);
+        final Workplace saved = workplaceRepository.save(workplace);
+        return new ResponseItem("Workplace successfully added", true, saved, HttpStatus.OK);
     }
 
     public ResponseItem delete(String workplaceId) {
+        final boolean isExist = workplaceRepository.existsById(workplaceId);
+        if (!isExist)
+            throw  new RestException("This id is not exist", HttpStatus.BAD_REQUEST);
+
         workplaceRepository.deleteById(workplaceId);
         return new ResponseItem("Successfully deleted", true, HttpStatus.OK);
     }
@@ -73,12 +79,13 @@ public class WorkplaceServiceImpl {
         final Optional<Workplace> workplaceOptional = workplaceRepository.findById(workplaceId);
 
         if (workplaceOptional.isEmpty())
-            return new ResponseItem("Not found workplace", false, HttpStatus.NOT_FOUND);
+            throw new RestException("Workplace with this id is not found", HttpStatus.NOT_FOUND);
+
         Workplace workplace = workplaceOptional.get();
         workplaceMapper.updateDtoToEntity(workplaceUpdateDto, workplace);
+        final Workplace edited = workplaceRepository.save(workplace);
 
-        workplaceRepository.save(workplace);
-        return new ResponseItem("Successfully", true, HttpStatus.OK);
+        return new ResponseItem("Successfully", true, edited, HttpStatus.OK);
     }
 
     public ResponseItem createByFile(String mapId, MultipartHttpServletRequest request) {
@@ -87,23 +94,27 @@ public class WorkplaceServiceImpl {
         assert file != null;
         String contentType = file.getContentType();
         assert contentType != null;
+
         if (!checkContentType(contentType)) {
-            return new ResponseItem("This file type is not supported", false, HttpStatus.BAD_REQUEST);
+            throw  new RestException("This file type is not supported, wrong format", HttpStatus.CONFLICT);
         }
+
         if (contentType.equals("text/csv")) {
             try {
                 final List<Workplace> workplaceList = readFromCsv(file.getInputStream(), mapId);
-                workplaceRepository.saveAll(workplaceList);
-                return new ResponseItem("Successfully added", true, HttpStatus.CREATED);
+                final List<Workplace> saveAll = workplaceRepository.saveAll(workplaceList);
+                List<WorkplaceResponseDto> workplaceResponseDtoList = convertWorkplaceToDto(saveAll);
+                return new ResponseItem("Workplaces added successfully!", true, workplaceResponseDtoList,HttpStatus.CREATED);
             } catch (IOException e) {
                 e.printStackTrace();
-                return new ResponseItem("File not found", false, HttpStatus.BAD_REQUEST);
+                throw  new RestException("File not found", HttpStatus.BAD_REQUEST);
             }
         } else {
             try {
                 final List<Workplace> workplaceList = readFromXls(file.getInputStream(), mapId);
-                workplaceRepository.saveAll(workplaceList);
-                return new ResponseItem("Successfully added", true, HttpStatus.CREATED);
+                final List<Workplace> saveAll = workplaceRepository.saveAll(workplaceList);
+                List<WorkplaceResponseDto> workplaceResponseDtoList = convertWorkplaceToDto(saveAll);
+                return new ResponseItem("Workplaces added successfully!", true, workplaceResponseDtoList,HttpStatus.CREATED);
             } catch (IOException e) {
                 e.printStackTrace();
                 return new ResponseItem("File not found", false, HttpStatus.BAD_REQUEST);
@@ -119,18 +130,21 @@ public class WorkplaceServiceImpl {
         List<Workplace> workplaces = new ArrayList<>();
         try (XSSFWorkbook workbook = new XSSFWorkbook(inputStream)) {
             Sheet sheet = workbook.getSheetAt(0);
+            int lineNumber = 0;
             for (Row row : sheet) {
+                lineNumber++;
                 Workplace workplace = new Workplace();
                 final Optional<Map> optionalMap = mapRepository.findById(mapId);
 
                 if (optionalMap.isEmpty())
-                    continue;
+                    throw new RestException("Map id is not found!", HttpStatus.NOT_FOUND);
+
                 workplace.setMap(optionalMap.get());
-                workplace.setWorkplaceNumber(String.valueOf(row.getCell(0).getNumericCellValue()));
+                workplace.setWorkplaceNumber(String.valueOf((int) row.getCell(0).getNumericCellValue()));
 
                 boolean existWorkplaceNumber = workplaceRepository.existsByMap_IdAndWorkplaceNumber(mapId, workplace.getWorkplaceNumber());
                 if (existWorkplaceNumber)
-                    continue;
+                    throw new WorkplaceCustomException("The number of the workplace is not unique",lineNumber,"workplaceNumber", HttpStatus.BAD_REQUEST);
 
                 workplace.setType(WorkplaceTypeEnum.valueOf(row.getCell(1).getStringCellValue()));
                 workplace.setNextToWindow(Boolean.valueOf(row.getCell(2).getStringCellValue()));
@@ -155,7 +169,12 @@ public class WorkplaceServiceImpl {
                      CSVFormat.DEFAULT.withFirstRecordAsHeader().withIgnoreHeaderCase().withTrim())) {
             List<Workplace> workplaceList = new ArrayList<>();
             Iterable<CSVRecord> csvRecords = csvParser.getRecords();
+            int lineNumber = 0;
             for (CSVRecord csvRecord : csvRecords) {
+                if (csvRecord.size()<8)
+                    throw new RestException("Column is missing", HttpStatus.BAD_REQUEST);
+
+                lineNumber++;
                 Workplace workplace = new Workplace();
                 final Optional<Map> optionalMap = mapRepository.findById(mapId);
 
@@ -166,7 +185,8 @@ public class WorkplaceServiceImpl {
 
                 boolean existWorkplaceNumber = workplaceRepository.existsByMap_IdAndWorkplaceNumber(mapId, workplace.getWorkplaceNumber());
                 if (existWorkplaceNumber)
-                    continue;
+                    throw new WorkplaceCustomException("The number of the workplace is not unique",lineNumber,"workplaceNumber", HttpStatus.BAD_REQUEST);
+
 
                 workplace.setType(WorkplaceTypeEnum.valueOf(csvRecord.get(1)));
                 workplace.setNextToWindow(Boolean.valueOf(csvRecord.get(2)));
@@ -182,5 +202,14 @@ public class WorkplaceServiceImpl {
         } catch (IOException e) {
             throw new RuntimeException("Fail to parse CSV file: " + e.getMessage());
         }
+    }
+
+    public List<WorkplaceResponseDto> convertWorkplaceToDto(List<Workplace> workplaces){
+        List<WorkplaceResponseDto> workplaceResponseDtoList = new ArrayList<>();
+        for (Workplace workplace : workplaces) {
+            WorkplaceResponseDto workplaceResponseDto = workplaceMapper.entityToResponseDTO(workplace);
+            workplaceResponseDtoList.add(workplaceResponseDto);
+        }
+        return workplaceResponseDtoList;
     }
 }
