@@ -1,5 +1,6 @@
 package uz.exadel.hotdeskbooking.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,9 +15,10 @@ public class Map extends BaseDomain {
     @JoinColumn(name = "officeId", updatable = false, insertable = false)
     private Office office;
 
-    private Integer floor;
+    private int floor;
 
-    private Boolean kitchen;
+    private boolean kitchen;
 
-    private Boolean confRooms;
+    @JsonProperty("conf_rooms")
+    private boolean confRooms;
 }

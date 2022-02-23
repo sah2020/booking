@@ -1,15 +1,14 @@
-package uz.exadel.hotdeskbooking.domain;
+package uz.exadel.hotdeskbooking.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.*;
+import java.io.Serializable;
+import java.util.List;
 
 @Getter
 @Setter
-@Entity
-public class Office extends BaseDomain {
+public class OfficeResponseTO implements Serializable {
     private String name;
 
     private String country;
@@ -18,7 +17,7 @@ public class Office extends BaseDomain {
 
     private String address;
 
-    @JsonProperty("is_parking_available")
     private boolean isParkingAvailable;
 
+    private List<String> mapIds;
 }
