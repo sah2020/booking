@@ -44,6 +44,14 @@ public class RestExceptionHandler {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(apiExceptionResponse);
     }
 
+//    @ExceptionHandler(MapCustomException.class)
+//    public ResponseEntity<ResponseItem> handleMapException(MapCustomException exception){
+//        ResponseItem apiExceptionResponse = new ResponseItem(exception.getMessage(), 409);
+//        return ResponseEntity.status(HttpStatus.CONFLICT).body(apiExceptionResponse);
+//    }
+
+
+
 
 
 
