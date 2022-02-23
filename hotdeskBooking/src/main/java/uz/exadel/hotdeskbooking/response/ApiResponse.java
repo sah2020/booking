@@ -25,4 +25,9 @@ public class ApiResponse {
         this.message = message;
         this.statusCode = statusCode;
     }
+
+    public ApiResponse setData(Object data) {
+        this.data = data;
+        return this;
+    }
 }
