@@ -1,0 +1,15 @@
+{
+  "message": "OK",
+  "status_code": 200,
+  "data": [
+    {
+      "id": "4028818a7f23c445017f23c562b90001",
+      "office": {
+        "id": "4028818a7f23c445017f23c4e70f0000"
+      }
+    }
+  ]
+}{
+  "message": "Server error",
+  "statusCode": 500
+}

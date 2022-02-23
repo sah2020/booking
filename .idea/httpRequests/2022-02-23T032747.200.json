@@ -1,0 +1,12 @@
+{
+  "message": "OK",
+  "status_code": 200,
+  "data": {
+    "id": "4028818a7f23604a017f23626bd10001",
+    "name": "Makro8",
+    "country": "Uzbek",
+    "city": "3 chi tashkent",
+    "address": "Chilonzor2",
+    "is_parking_available": true
+  }
+}

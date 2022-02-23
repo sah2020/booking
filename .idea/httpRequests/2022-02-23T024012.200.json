@@ -1,0 +1,14 @@
+{
+  "message": "OK",
+  "status_code": 200,
+  "data": [
+    {
+      "id": "4028818a7f234d3c017f234d6fc90000",
+      "name": "ozgardi",
+      "country": "ozgardi",
+      "city": "ozgardi",
+      "address": "ozgardi",
+      "is_parking_available": false
+    }
+  ]
+}
