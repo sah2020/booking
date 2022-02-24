@@ -95,9 +95,6 @@ public class WorkplaceServiceImpl {
     }
 
     public ResponseItem createByFile(String mapId, MultipartFile file) {
-//        final Iterator<String> fileNames = request.getFileNames();
-//        MultipartFile file = request.getFile(fileNames.next());
-//        assert file != null;
         String contentType = file.getContentType();
         assert contentType != null;
 
