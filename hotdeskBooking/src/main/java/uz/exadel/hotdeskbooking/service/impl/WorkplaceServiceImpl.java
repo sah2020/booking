@@ -94,10 +94,10 @@ public class WorkplaceServiceImpl {
         return new ResponseItem("Successfully", true, edited, HttpStatus.OK.value());
     }
 
-    public ResponseItem createByFile(String mapId, MultipartHttpServletRequest request) {
-        final Iterator<String> fileNames = request.getFileNames();
-        MultipartFile file = request.getFile(fileNames.next());
-        assert file != null;
+    public ResponseItem createByFile(String mapId, MultipartFile file) {
+//        final Iterator<String> fileNames = request.getFileNames();
+//        MultipartFile file = request.getFile(fileNames.next());
+//        assert file != null;
         String contentType = file.getContentType();
         assert contentType != null;
 

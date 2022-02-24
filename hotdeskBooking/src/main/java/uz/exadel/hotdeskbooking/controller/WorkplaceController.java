@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import uz.exadel.hotdeskbooking.dto.ResponseItem;
 import uz.exadel.hotdeskbooking.dto.WorkplaceCreateDto;
@@ -52,8 +53,8 @@ public class WorkplaceController {
     }
 
     @PostMapping("/map/{map_id}/workplace/bulk")
-    public ResponseEntity<ResponseItem> addWorkplaceByFile(@PathVariable String map_id, MultipartHttpServletRequest request){
-        ResponseItem responseItem = workplaceService.createByFile(map_id,request);
+    public ResponseEntity<ResponseItem> addWorkplaceByFile(@PathVariable String map_id, @RequestParam MultipartFile file){
+        ResponseItem responseItem = workplaceService.createByFile(map_id,file);
         return new ResponseEntity<>(responseItem,HttpStatus.valueOf(responseItem.getStatusCode()));
     }
 
