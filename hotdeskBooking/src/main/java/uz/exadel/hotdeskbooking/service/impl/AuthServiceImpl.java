@@ -14,8 +14,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import uz.exadel.hotdeskbooking.domain.User;
-import uz.exadel.hotdeskbooking.dto.request.LoginDTO;
 import uz.exadel.hotdeskbooking.dto.ResponseItem;
+import uz.exadel.hotdeskbooking.dto.request.LoginDTO;
 import uz.exadel.hotdeskbooking.dto.response.UserBasicResTO;
 import uz.exadel.hotdeskbooking.exception.RestException;
 import uz.exadel.hotdeskbooking.repository.UserRepository;
@@ -54,7 +54,7 @@ public class AuthServiceImpl implements AuthService, UserDetailsService {
             String token = jwtProvider.generateTokenAdmin(user.getUsername());
             UserBasicResTO userBasicResTO = user.toBasic();
             userBasicResTO.setToken(token);
-            return new ResponseItem(userBasicResTO);
+            return new ResponseItem("Success", 200, userBasicResTO);
         } catch (BadCredentialsException badCredentialsException) {
             return unauthorizedResponse;
         }

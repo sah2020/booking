@@ -13,12 +13,12 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ResponseItem implements Serializable {
+public class ResponseItemLogin implements Serializable {
     private String message;
     private int statusCode = 200;
-    private Object data;
+    private UserBasicResTO data;
 
-    public ResponseItem(String message, int statusCode) {
+    public ResponseItemLogin(String message, int statusCode) {
         this.message = message;
         this.statusCode = statusCode;
     }

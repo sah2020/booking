@@ -1,7 +1,7 @@
 package com.exadel.telegrambot;
 
 import com.exadel.telegrambot.dto.LoginDTO;
-import com.exadel.telegrambot.dto.ResponseItem;
+import com.exadel.telegrambot.dto.ResponseItemLogin;
 import com.exadel.telegrambot.dto.UserBasicResTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.kshashov.telegram.api.MessageType;
@@ -39,7 +39,7 @@ public class TelegramBotApplication implements TelegramMvcController {
         loginDTO.setUsername(chat.id().toString());
         loginDTO.setPassword("password");
 
-        final String apiUrl = "http://localhost:8080/api/login";
+        final String apiUrl = "http://localhost:8123/api/login";
         final RestTemplate restTemplate = new RestTemplate();
         final HttpHeaders headers = new HttpHeaders();
         headers.set("Content-Type", "application/json");
@@ -49,10 +49,12 @@ public class TelegramBotApplication implements TelegramMvcController {
         final String response = restTemplate.postForObject(apiUrl, request, String.class);
         Gson gson = new Gson();
         System.out.println(response);
-        ResponseItem responseItem = new ResponseItem();
+        ResponseItemLogin responseItem = new ResponseItemLogin();
         responseItem.setData(new UserBasicResTO());
-        responseItem = gson.fromJson(response, ResponseItem.class);
-        return new SendMessage(chat.id(), "Response Received Successfully\n" + responseItem.getData().toString());
+        responseItem = gson.fromJson(response, ResponseItemLogin.class);
+        return new SendMessage(String.valueOf(chat.id()), "Hello, " + responseItem.getData().getFirstName()
+                + "\n" + "Welcome to Office Booking Bot"
+                + "\nYour role is " + responseItem.getData().getRole());
     }
 
     public static void main(String[] args) {
