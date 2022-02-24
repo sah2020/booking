@@ -1,0 +1,1369 @@
+Index: hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/domain/BaseDomain.java
+===================================================================
+diff --git a/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/domain/BaseDomain.java b/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/domain/BaseDomain.java
+deleted file mode 100644
+--- a/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/domain/BaseDomain.java	
++++ /dev/null	
+@@ -1,46 +0,0 @@
+-package uz.exadel.hotdeskbooking.domain;
+-
+-
+-import com.fasterxml.jackson.annotation.JsonIgnore;
+-import lombok.Getter;
+-import lombok.Setter;
+-import org.hibernate.annotations.CreationTimestamp;
+-import org.hibernate.annotations.GenericGenerator;
+-import org.hibernate.annotations.UpdateTimestamp;
+-import org.springframework.data.annotation.CreatedBy;
+-import org.springframework.data.annotation.LastModifiedBy;
+-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+-
+-import javax.persistence.*;
+-import java.io.Serializable;
+-import java.sql.Timestamp;
+-
+-@Getter
+-@Setter
+-@MappedSuperclass
+-@EntityListeners(value = AuditingEntityListener.class)
+-public abstract class BaseDomain implements Serializable {
+-    @Id
+-    @GeneratedValue(generator = "uuid")
+-    @GenericGenerator(name = "uuid", strategy = "uuid")
+-    @Column(columnDefinition = "CHAR(32)")
+-    private String id;
+-
+-    @JsonIgnore
+-    @Column(updatable = false)
+-    @CreationTimestamp
+-    private Timestamp createdAt;
+-
+-    @JsonIgnore
+-    @UpdateTimestamp
+-    private Timestamp updatedAt;
+-
+-    @JsonIgnore
+-    @CreatedBy
+-    @Column(updatable = false)
+-    private String createdById;
+-
+-    @JsonIgnore
+-    @LastModifiedBy
+-    private String updateById;
+-}
+\ No newline at end of file
+Index: telegram-bot/.gitignore
+===================================================================
+diff --git a/telegram-bot/.gitignore b/telegram-bot/.gitignore
+deleted file mode 100644
+--- a/telegram-bot/.gitignore	
++++ /dev/null	
+@@ -1,33 +0,0 @@
+-HELP.md
+-target/
+-!.mvn/wrapper/maven-wrapper.jar
+-!**/src/main/**/target/
+-!**/src/test/**/target/
+-
+-### STS ###
+-.apt_generated
+-.classpath
+-.factorypath
+-.project
+-.settings
+-.springBeans
+-.sts4-cache
+-
+-### IntelliJ IDEA ###
+-.idea
+-*.iws
+-*.iml
+-*.ipr
+-
+-### NetBeans ###
+-/nbproject/private/
+-/nbbuild/
+-/dist/
+-/nbdist/
+-/.nb-gradle/
+-build/
+-!**/src/main/**/build/
+-!**/src/test/**/build/
+-
+-### VS Code ###
+-.vscode/
+Index: hotdeskBooking/pom.xml
+===================================================================
+diff --git a/hotdeskBooking/pom.xml b/hotdeskBooking/pom.xml
+deleted file mode 100644
+--- a/hotdeskBooking/pom.xml	
++++ /dev/null	
+@@ -1,68 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+-    <modelVersion>4.0.0</modelVersion>
+-    <parent>
+-        <groupId>org.springframework.boot</groupId>
+-        <artifactId>spring-boot-starter-parent</artifactId>
+-        <version>2.6.3</version>
+-        <relativePath/> <!-- lookup parent from repository -->
+-    </parent>
+-    <groupId>uz.exadel</groupId>
+-    <artifactId>hotdeskBooking</artifactId>
+-    <version>0.0.1-SNAPSHOT</version>
+-    <name>hotdeskBooking</name>
+-    <description>hotdeskBooking</description>
+-    <properties>
+-        <java.version>17</java.version>
+-    </properties>
+-    <dependencies>
+-        <dependency>
+-            <groupId>org.springframework.boot</groupId>
+-            <artifactId>spring-boot-starter-data-jpa</artifactId>
+-        </dependency>
+-        <dependency>
+-            <groupId>org.springframework.boot</groupId>
+-            <artifactId>spring-boot-starter-web</artifactId>
+-        </dependency>
+-
+-        <dependency>
+-            <groupId>org.postgresql</groupId>
+-            <artifactId>postgresql</artifactId>
+-            <scope>runtime</scope>
+-        </dependency>
+-        <dependency>
+-            <groupId>org.projectlombok</groupId>
+-            <artifactId>lombok</artifactId>
+-            <optional>true</optional>
+-        </dependency>
+-        <dependency>
+-            <groupId>org.springframework.boot</groupId>
+-            <artifactId>spring-boot-starter-test</artifactId>
+-            <scope>test</scope>
+-        </dependency>
+-        <dependency>
+-            <groupId>org.springframework.security</groupId>
+-            <artifactId>spring-security-core</artifactId>
+-            <version>5.5.2</version>
+-        </dependency>
+-    </dependencies>
+-
+-    <build>
+-        <plugins>
+-            <plugin>
+-                <groupId>org.springframework.boot</groupId>
+-                <artifactId>spring-boot-maven-plugin</artifactId>
+-                <configuration>
+-                    <excludes>
+-                        <exclude>
+-                            <groupId>org.projectlombok</groupId>
+-                            <artifactId>lombok</artifactId>
+-                        </exclude>
+-                    </excludes>
+-                </configuration>
+-            </plugin>
+-        </plugins>
+-    </build>
+-
+-</project>
+Index: hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/config/AuditingConfig.java
+===================================================================
+diff --git a/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/config/AuditingConfig.java b/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/config/AuditingConfig.java
+deleted file mode 100644
+--- a/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/config/AuditingConfig.java	
++++ /dev/null	
+@@ -1,15 +0,0 @@
+-package uz.exadel.hotdeskbooking.config;
+-
+-import org.springframework.context.annotation.Bean;
+-import org.springframework.context.annotation.Configuration;
+-import org.springframework.data.domain.AuditorAware;
+-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+-
+-@Configuration
+-@EnableJpaAuditing
+-public class AuditingConfig {
+-    @Bean
+-    AuditorAware<String> auditorAware() {
+-        return new SpringAware();
+-    }
+-}
+Index: hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/service/BookingService.java
+===================================================================
+diff --git a/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/service/BookingService.java b/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/service/BookingService.java
+deleted file mode 100644
+--- a/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/service/BookingService.java	
++++ /dev/null	
+@@ -1,23 +0,0 @@
+-package uz.exadel.hotdeskbooking.service;
+-
+-import uz.exadel.hotdeskbooking.dto.ResponseItem;
+-import uz.exadel.hotdeskbooking.dto.request.BookingAnyTO;
+-import uz.exadel.hotdeskbooking.dto.request.BookingCreateTO;
+-
+-public interface BookingService {
+-    ResponseItem create(BookingCreateTO bookingCreateTO);
+-
+-    ResponseItem createAny(BookingAnyTO bookingAnyTO);
+-
+-    ResponseItem getOne(String id);
+-
+-    ResponseItem save();
+-
+-    ResponseItem cancel(String id, String userId);
+-
+-    ResponseItem getCurrent();
+-
+-    ResponseItem edit(String id, BookingCreateTO bookingCreateTO);
+-
+-    ResponseItem delete(String id);
+-}
+Index: hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/enums/WorkplaceTypeEnum.java
+===================================================================
+diff --git a/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/enums/WorkplaceTypeEnum.java b/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/enums/WorkplaceTypeEnum.java
+deleted file mode 100644
+--- a/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/enums/WorkplaceTypeEnum.java	
++++ /dev/null	
+@@ -1,27 +0,0 @@
+-package uz.exadel.hotdeskbooking.enums;
+-
+-import lombok.AllArgsConstructor;
+-import lombok.Getter;
+-
+-@Getter
+-@AllArgsConstructor
+-public enum WorkplaceTypeEnum {
+-    REGULAR("Regular"),
+-    ADMINISTRATIVE("Administrative"),
+-    NON_BOOKABLE("Non_bookable");
+-
+-    private final String name;
+-
+-    public static WorkplaceTypeEnum get(String type) {
+-        if (type == null || type.isEmpty()) {
+-            return null;
+-        }
+-
+-        for (WorkplaceTypeEnum workplaceTypeEnum : WorkplaceTypeEnum.values()) {
+-            if (workplaceTypeEnum.getName().equalsIgnoreCase(type)) {
+-                return workplaceTypeEnum;
+-            }
+-        }
+-        return null;
+-    }
+-}
+Index: telegram-bot/src/main/java/com/exadel/telegrambot/TelegramBotApplication.java
+===================================================================
+diff --git a/telegram-bot/src/main/java/com/exadel/telegrambot/TelegramBotApplication.java b/telegram-bot/src/main/java/com/exadel/telegrambot/TelegramBotApplication.java
+deleted file mode 100644
+--- a/telegram-bot/src/main/java/com/exadel/telegrambot/TelegramBotApplication.java	
++++ /dev/null	
+@@ -1,42 +0,0 @@
+-package com.exadel.telegrambot;
+-
+-import com.github.kshashov.telegram.api.MessageType;
+-import com.github.kshashov.telegram.api.TelegramMvcController;
+-import com.github.kshashov.telegram.api.TelegramRequest;
+-import com.github.kshashov.telegram.api.bind.annotation.BotController;
+-import com.github.kshashov.telegram.api.bind.annotation.BotPathVariable;
+-import com.github.kshashov.telegram.api.bind.annotation.BotRequest;
+-import com.github.kshashov.telegram.api.bind.annotation.request.MessageRequest;
+-import com.pengrad.telegrambot.Callback;
+-import com.pengrad.telegrambot.model.Chat;
+-import com.pengrad.telegrambot.model.User;
+-import com.pengrad.telegrambot.request.BaseRequest;
+-import com.pengrad.telegrambot.request.SendMessage;
+-import com.pengrad.telegrambot.response.BaseResponse;
+-import org.springframework.boot.SpringApplication;
+-import org.springframework.boot.autoconfigure.SpringBootApplication;
+-
+-import java.io.IOException;
+-
+-@BotController
+-@SpringBootApplication
+-public class TelegramBotApplication implements TelegramMvcController {
+-
+-    //TODO paste tg bot token here
+-    private final String TOKEN = "";
+-
+-    @Override
+-    public String getToken() {
+-        return TOKEN;
+-    }
+-
+-    @BotRequest(value = "/start", type = {MessageType.CALLBACK_QUERY, MessageType.MESSAGE})
+-    public BaseRequest start(User user, Chat chat) {
+-        return new SendMessage(chat.id(), "Hello, " + user.firstName() + "!\n" +"Your telegram chat ID: "+ chat.id());
+-    }
+-
+-    public static void main(String[] args) {
+-        SpringApplication.run(TelegramBotApplication.class);
+-    }
+-}
+-
+Index: hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/domain/Map.java
+===================================================================
+diff --git a/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/domain/Map.java b/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/domain/Map.java
+deleted file mode 100644
+--- a/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/domain/Map.java	
++++ /dev/null	
+@@ -1,22 +0,0 @@
+-package uz.exadel.hotdeskbooking.domain;
+-
+-import lombok.Getter;
+-import lombok.Setter;
+-
+-import javax.persistence.*;
+-
+-@Getter
+-@Setter
+-@Entity
+-public class Map extends BaseDomain {
+-    private String officeId;
+-    @ManyToOne(cascade = {CascadeType.PERSIST}, fetch = FetchType.LAZY)
+-    @JoinColumn(name = "officeId", updatable = false, insertable = false)
+-    private Office office;
+-
+-    private Integer floor;
+-
+-    private Boolean kitchen;
+-
+-    private Boolean confRooms;
+-}
+Index: hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/controller/OfficeController.java
+===================================================================
+diff --git a/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/controller/OfficeController.java b/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/controller/OfficeController.java
+deleted file mode 100644
+--- a/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/controller/OfficeController.java	
++++ /dev/null	
+@@ -1,10 +0,0 @@
+-package uz.exadel.hotdeskbooking.controller;
+-
+-import org.springframework.web.bind.annotation.RequestMapping;
+-import org.springframework.web.bind.annotation.RestController;
+-
+-@RestController
+-@RequestMapping("/office")
+-public class OfficeController {
+-
+-}
+Index: hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/dto/ResponseItem.java
+===================================================================
+diff --git a/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/dto/ResponseItem.java b/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/dto/ResponseItem.java
+deleted file mode 100644
+--- a/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/dto/ResponseItem.java	
++++ /dev/null	
+@@ -1,29 +0,0 @@
+-package uz.exadel.hotdeskbooking.dto;
+-
+-import com.fasterxml.jackson.annotation.JsonInclude;
+-import lombok.AllArgsConstructor;
+-import lombok.Getter;
+-import lombok.NoArgsConstructor;
+-import lombok.Setter;
+-
+-import java.io.Serializable;
+-
+-@Getter
+-@Setter
+-@NoArgsConstructor
+-@AllArgsConstructor
+-@JsonInclude(JsonInclude.Include.NON_NULL)
+-public class ResponseItem implements Serializable {
+-    private String message;
+-    private int statusCode;
+-    private Object data;
+-
+-    public ResponseItem(String message, int statusCode) {
+-        this.message = message;
+-        this.statusCode = statusCode;
+-    }
+-
+-    public ResponseItem(Object data) {
+-        this.data = data;
+-    }
+-}
+Index: hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/dto/request/BookingAnyTO.java
+===================================================================
+diff --git a/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/dto/request/BookingAnyTO.java b/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/dto/request/BookingAnyTO.java
+deleted file mode 100644
+--- a/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/dto/request/BookingAnyTO.java	
++++ /dev/null	
+@@ -1,18 +0,0 @@
+-package uz.exadel.hotdeskbooking.dto.request;
+-
+-import lombok.AllArgsConstructor;
+-import lombok.Data;
+-import lombok.NoArgsConstructor;
+-
+-import java.io.Serializable;
+-import java.util.Date;
+-
+-@Data
+-@AllArgsConstructor
+-@NoArgsConstructor
+-public class BookingAnyTO implements Serializable {
+-    private Date startDate;
+-    private Date endDate;
+-    private String officeId;
+-    private String userId;
+-}
+Index: hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/enums/RoleTypeEnum.java
+===================================================================
+diff --git a/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/enums/RoleTypeEnum.java b/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/enums/RoleTypeEnum.java
+deleted file mode 100644
+--- a/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/enums/RoleTypeEnum.java	
++++ /dev/null	
+@@ -1,28 +0,0 @@
+-package uz.exadel.hotdeskbooking.enums;
+-
+-import lombok.AllArgsConstructor;
+-import lombok.Getter;
+-
+-@Getter
+-@AllArgsConstructor
+-public enum RoleTypeEnum {
+-    COMMON_USER("COMMON_USER"),
+-    MAP_EDITOR("MAP_EDITOR"),
+-    ADMIN("ADMIN"),
+-    MANAGER("MANAGER");
+-
+-    private final String name;
+-
+-    public static RoleTypeEnum get(String type) {
+-        if (type == null || type.isEmpty()) {
+-            return null;
+-        }
+-
+-        for (RoleTypeEnum roleTypeEnum : RoleTypeEnum.values()) {
+-            if (roleTypeEnum.getName().equalsIgnoreCase(type)) {
+-                return roleTypeEnum;
+-            }
+-        }
+-        return null;
+-    }
+-}
+Index: hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/service/impl/BookingServiceImpl.java
+===================================================================
+diff --git a/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/service/impl/BookingServiceImpl.java b/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/service/impl/BookingServiceImpl.java
+deleted file mode 100644
+--- a/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/service/impl/BookingServiceImpl.java	
++++ /dev/null	
+@@ -1,64 +0,0 @@
+-package uz.exadel.hotdeskbooking.service.impl;
+-
+-import org.springframework.http.HttpStatus;
+-import org.springframework.stereotype.Service;
+-import uz.exadel.hotdeskbooking.domain.Booking;
+-import uz.exadel.hotdeskbooking.dto.ResponseItem;
+-import uz.exadel.hotdeskbooking.dto.request.BookingAnyTO;
+-import uz.exadel.hotdeskbooking.dto.request.BookingCreateTO;
+-import uz.exadel.hotdeskbooking.service.BookingService;
+-
+-@Service
+-public class BookingServiceImpl implements BookingService {
+-    @Override
+-    public ResponseItem create(BookingCreateTO bookingCreateTO) {
+-        return new ResponseItem("Booking created successfully", HttpStatus.CREATED.value());
+-    }
+-
+-    @Override
+-    public ResponseItem createAny(BookingAnyTO bookingAnyTO) {
+-        return new ResponseItem("Booking created successfully", HttpStatus.CREATED.value());
+-    }
+-
+-    @Override
+-    public ResponseItem save() {
+-        return new ResponseItem("Booking saved successfully", HttpStatus.OK.value());
+-    }
+-
+-    @Override
+-    public ResponseItem cancel(String id, String userId) {
+-        /*
+-        there should be logic for canceling one booking and all bookings
+-        check role of the current user
+-        admin:
+-            if id and userId are given, cancel one booking
+-            if only userId is given, cancel all bookings of this user
+-            if nothing is given, cancel all bookings
+-        user:
+-            if id is given, cancel one booking
+-            if nothing is given, cancel last booking
+-        * */
+-        return new ResponseItem("Booking canceled successfully", HttpStatus.OK.value());
+-    }
+-
+-    @Override
+-    public ResponseItem getOne(String id) {
+-        return new ResponseItem(new Booking());
+-    }
+-
+-    @Override
+-    public ResponseItem getCurrent() {
+-        return new ResponseItem(new Booking());
+-    }
+-
+-    @Override
+-    public ResponseItem edit(String id, BookingCreateTO bookingCreateTO) {
+-        //user can only edit his own booking
+-        return new ResponseItem("Booking edited successfully", HttpStatus.OK.value());
+-    }
+-
+-    @Override
+-    public ResponseItem delete(String id) {
+-        return new ResponseItem("Booking deleted successfully", HttpStatus.OK.value());
+-    }
+-}
+Index: hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/domain/User.java
+===================================================================
+diff --git a/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/domain/User.java b/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/domain/User.java
+deleted file mode 100644
+--- a/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/domain/User.java	
++++ /dev/null	
+@@ -1,92 +0,0 @@
+-package uz.exadel.hotdeskbooking.domain;
+-
+-import lombok.Getter;
+-import lombok.NoArgsConstructor;
+-import lombok.Setter;
+-import org.springframework.security.core.GrantedAuthority;
+-import org.springframework.security.core.userdetails.UserDetails;
+-import uz.exadel.hotdeskbooking.enums.RoleTypeEnum;
+-
+-import javax.persistence.*;
+-import java.util.Collection;
+-import java.util.Date;
+-import java.util.Set;
+-
+-@Getter
+-@Setter
+-@Entity
+-@Table(name = "users")
+-@NoArgsConstructor
+-public class User extends BaseDomain implements UserDetails {
+-
+-    private String telegramId;
+-
+-    private String firstName;
+-
+-    private String lastName;
+-
+-    private String email;
+-
+-    @ManyToMany(fetch = FetchType.EAGER)
+-    private Set<Role> roles;
+-
+-    private Date employmentStart;
+-
+-    private Date employmentEnd;
+-
+-    private String preferredWorkplaceId;
+-    @ManyToOne(cascade = {CascadeType.PERSIST}, fetch = FetchType.LAZY)
+-    @JoinColumn(name = "preferredWorkplaceId", updatable = false, insertable = false)
+-    private Workplace preferredWorkplace;
+-
+-    private boolean accountNonExpired = true;
+-    private boolean accountNonLocked = true;
+-    private boolean credentialsNonExpired = true;
+-    private boolean enabled;
+-
+-    @Override
+-    public Collection<? extends GrantedAuthority> getAuthorities() {
+-        return roles;
+-    }
+-
+-    @Override
+-    public String getPassword() {
+-        return "password";
+-    }
+-
+-    @Override
+-    public String getUsername() {
+-        return this.email;
+-    }
+-
+-    @Override
+-    public boolean isAccountNonExpired() {
+-        return this.accountNonExpired;
+-    }
+-
+-    @Override
+-    public boolean isAccountNonLocked() {
+-        return this.accountNonLocked;
+-    }
+-
+-    @Override
+-    public boolean isCredentialsNonExpired() {
+-        return this.credentialsNonExpired;
+-    }
+-
+-    @Override
+-    public boolean isEnabled() {
+-        return this.enabled;
+-    }
+-
+-    public User(String telegramId, String firstName, String lastName, String email, Date employmentStart, Date employmentEnd, String preferredWorkplaceId, Workplace preferredWorkplace) {
+-        this.telegramId = telegramId;
+-        this.firstName = firstName;
+-        this.lastName = lastName;
+-        this.email = email;
+-        this.employmentStart = employmentStart;
+-        this.employmentEnd = employmentEnd;
+-        this.preferredWorkplaceId = preferredWorkplaceId;
+-        this.preferredWorkplace = preferredWorkplace;
+-    }
+-}
+Index: hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/dto/request/BookingRecurringTO.java
+===================================================================
+diff --git a/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/dto/request/BookingRecurringTO.java b/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/dto/request/BookingRecurringTO.java
+deleted file mode 100644
+--- a/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/dto/request/BookingRecurringTO.java	
++++ /dev/null	
+@@ -1,22 +0,0 @@
+-package uz.exadel.hotdeskbooking.dto.request;
+-
+-
+-import lombok.AllArgsConstructor;
+-import lombok.Data;
+-import lombok.NoArgsConstructor;
+-
+-import java.io.Serializable;
+-import java.util.Date;
+-import java.util.List;
+-
+-@Data
+-@AllArgsConstructor
+-@NoArgsConstructor
+-public class BookingRecurringTO implements Serializable {
+-    private String workplaceId;
+-    private String userId;
+-    private Date startDate;
+-    private Date endDate;
+-    private int frequency;
+-    private List<String> daysOfWeek;
+-}
+\ No newline at end of file
+Index: hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/HotdeskBookingApplication.java
+===================================================================
+diff --git a/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/HotdeskBookingApplication.java b/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/HotdeskBookingApplication.java
+deleted file mode 100644
+--- a/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/HotdeskBookingApplication.java	
++++ /dev/null	
+@@ -1,13 +0,0 @@
+-package uz.exadel.hotdeskbooking;
+-
+-import org.springframework.boot.SpringApplication;
+-import org.springframework.boot.autoconfigure.SpringBootApplication;
+-
+-@SpringBootApplication
+-public class HotdeskBookingApplication {
+-
+-    public static void main(String[] args) {
+-        SpringApplication.run(HotdeskBookingApplication.class, args);
+-    }
+-
+-}
+Index: hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/controller/BookingController.java
+===================================================================
+diff --git a/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/controller/BookingController.java b/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/controller/BookingController.java
+deleted file mode 100644
+--- a/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/controller/BookingController.java	
++++ /dev/null	
+@@ -1,68 +0,0 @@
+-package uz.exadel.hotdeskbooking.controller;
+-
+-import org.springframework.http.HttpStatus;
+-import org.springframework.http.ResponseEntity;
+-import org.springframework.web.bind.annotation.*;
+-import uz.exadel.hotdeskbooking.dto.ResponseItem;
+-import uz.exadel.hotdeskbooking.dto.request.BookingAnyTO;
+-import uz.exadel.hotdeskbooking.dto.request.BookingCreateTO;
+-import uz.exadel.hotdeskbooking.service.BookingService;
+-
+-@RestController
+-@RequestMapping("/booking")
+-public class BookingController {
+-    private final BookingService bookingService;
+-
+-    public BookingController(BookingService bookingService) {
+-        this.bookingService = bookingService;
+-    }
+-
+-    @PostMapping
+-    public ResponseEntity<ResponseItem> add(@RequestBody BookingCreateTO bookingCreateTO) {
+-        ResponseItem responseItem = bookingService.create(bookingCreateTO);
+-        return new ResponseEntity<>(responseItem, HttpStatus.valueOf(responseItem.getStatusCode()));
+-    }
+-
+-    @PostMapping("/any")
+-    public ResponseEntity<ResponseItem> add(@RequestBody BookingAnyTO bookingAnyTO) {
+-        ResponseItem responseItem = bookingService.createAny(bookingAnyTO);
+-        return new ResponseEntity<>(responseItem, HttpStatus.valueOf(responseItem.getStatusCode()));
+-    }
+-
+-    @PostMapping("/save")
+-    public ResponseEntity<ResponseItem> save() {
+-        ResponseItem responseItem = bookingService.save();
+-        return new ResponseEntity<>(responseItem, HttpStatus.valueOf(responseItem.getStatusCode()));
+-    }
+-
+-    @PostMapping("/cancel")
+-    public ResponseEntity<ResponseItem> cancel(@RequestParam(value = "id", required = false) String id, @RequestParam(value = "userId", required = false) String userId) {
+-        ResponseItem responseItem = bookingService.cancel(id, userId);
+-        return new ResponseEntity<>(responseItem, HttpStatus.valueOf(responseItem.getStatusCode()));
+-    }
+-
+-    @GetMapping("/{id}")
+-    public ResponseEntity<ResponseItem> get(@PathVariable("id") String id) {
+-        ResponseItem responseItem = bookingService.getOne(id);
+-        return new ResponseEntity<>(responseItem, HttpStatus.valueOf(responseItem.getStatusCode()));
+-    }
+-
+-    @GetMapping("/current")
+-    public ResponseEntity<ResponseItem> get() {
+-        ResponseItem responseItem = bookingService.getCurrent();
+-        return new ResponseEntity<>(responseItem, HttpStatus.valueOf(responseItem.getStatusCode()));
+-    }
+-
+-    @PutMapping("/{id}")
+-    public ResponseEntity<ResponseItem> edit(@PathVariable("id") String id, @RequestBody BookingCreateTO bookingCreateTO) {
+-        ResponseItem responseItem = bookingService.edit(id, bookingCreateTO);
+-        return new ResponseEntity<>(responseItem, HttpStatus.valueOf(responseItem.getStatusCode()));
+-    }
+-
+-    @DeleteMapping("/{id}")
+-    public ResponseEntity<ResponseItem> delete(@PathVariable("id") String id) {
+-        ResponseItem responseItem = bookingService.delete(id);
+-        return new ResponseEntity<>(responseItem, HttpStatus.valueOf(responseItem.getStatusCode()));
+-    }
+-
+-}
+Index: hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/repository/UserRepository.java
+===================================================================
+diff --git a/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/repository/UserRepository.java b/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/repository/UserRepository.java
+deleted file mode 100644
+--- a/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/repository/UserRepository.java	
++++ /dev/null	
+@@ -1,8 +0,0 @@
+-package uz.exadel.hotdeskbooking.repository;
+-
+-import org.springframework.data.jpa.repository.JpaRepository;
+-import uz.exadel.hotdeskbooking.domain.User;
+-
+-public interface UserRepository extends JpaRepository<User, String> {
+-
+-}
+Index: hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/component/DataLoader.java
+===================================================================
+diff --git a/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/component/DataLoader.java b/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/component/DataLoader.java
+deleted file mode 100644
+--- a/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/component/DataLoader.java	
++++ /dev/null	
+@@ -1,36 +0,0 @@
+-package uz.exadel.hotdeskbooking.component;
+-
+-import lombok.RequiredArgsConstructor;
+-import org.springframework.beans.factory.annotation.Value;
+-import org.springframework.boot.CommandLineRunner;
+-import org.springframework.stereotype.Component;
+-import uz.exadel.hotdeskbooking.domain.Role;
+-import uz.exadel.hotdeskbooking.enums.RoleTypeEnum;
+-import uz.exadel.hotdeskbooking.repository.RoleRepository;
+-
+-import java.util.ArrayList;
+-import java.util.List;
+-
+-@Component
+-@RequiredArgsConstructor
+-public class DataLoader implements CommandLineRunner {
+-
+-    @Value("${spring.sql.init.mode}")
+-    private String mode;
+-
+-    private final RoleRepository roleRepository;
+-
+-    @Override
+-    public void run(String... args) throws Exception {
+-        if (mode.equals("always")) {
+-
+-            List<Role> roleList = new ArrayList<>();
+-            roleList.add(new Role(RoleTypeEnum.ADMIN));
+-            roleList.add(new Role(RoleTypeEnum.COMMON_USER));
+-            roleList.add(new Role(RoleTypeEnum.MANAGER));
+-            roleList.add(new Role(RoleTypeEnum.MAP_EDITOR));
+-            roleRepository.saveAll(roleList);
+-
+-        }
+-    }
+-}
+Index: telegram-bot/pom.xml
+===================================================================
+diff --git a/telegram-bot/pom.xml b/telegram-bot/pom.xml
+deleted file mode 100644
+--- a/telegram-bot/pom.xml	
++++ /dev/null	
+@@ -1,69 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+-    <modelVersion>4.0.0</modelVersion>
+-    <parent>
+-        <groupId>org.springframework.boot</groupId>
+-        <artifactId>spring-boot-starter-parent</artifactId>
+-        <version>2.6.3</version>
+-        <relativePath/> <!-- lookup parent from repository -->
+-    </parent>
+-    <groupId>com.exadel</groupId>
+-    <artifactId>telegram-bot</artifactId>
+-    <version>0.0.1-SNAPSHOT</version>
+-    <name>telegram-bot</name>
+-    <description>telegram-bot</description>
+-    <properties>
+-        <java.version>17</java.version>
+-    </properties>
+-    <dependencies>
+-        <dependency>
+-            <groupId>org.springframework.boot</groupId>
+-            <artifactId>spring-boot-starter-web</artifactId>
+-        </dependency>
+-
+-        <dependency>
+-            <groupId>org.projectlombok</groupId>
+-            <artifactId>lombok</artifactId>
+-            <optional>true</optional>
+-        </dependency>
+-        <dependency>
+-            <groupId>org.springframework.boot</groupId>
+-            <artifactId>spring-boot-starter-test</artifactId>
+-            <scope>test</scope>
+-        </dependency>
+-        <dependency>
+-            <groupId>org.telegram</groupId>
+-            <artifactId>telegrambots</artifactId>
+-            <version>5.7.1</version>
+-        </dependency>
+-        <dependency>
+-            <groupId>com.google.code.gson</groupId>
+-            <artifactId>gson</artifactId>
+-            <version>2.8.8</version>
+-        </dependency>
+-        <dependency>
+-            <groupId>com.github.kshashov</groupId>
+-            <artifactId>spring-boot-starter-telegram</artifactId>
+-            <version>0.23</version>
+-        </dependency>
+-    </dependencies>
+-
+-    <build>
+-        <plugins>
+-            <plugin>
+-                <groupId>org.springframework.boot</groupId>
+-                <artifactId>spring-boot-maven-plugin</artifactId>
+-                <configuration>
+-                    <excludes>
+-                        <exclude>
+-                            <groupId>org.projectlombok</groupId>
+-                            <artifactId>lombok</artifactId>
+-                        </exclude>
+-                    </excludes>
+-                </configuration>
+-            </plugin>
+-        </plugins>
+-    </build>
+-
+-</project>
+Index: hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/dto/request/BookingCreateTO.java
+===================================================================
+diff --git a/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/dto/request/BookingCreateTO.java b/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/dto/request/BookingCreateTO.java
+deleted file mode 100644
+--- a/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/dto/request/BookingCreateTO.java	
++++ /dev/null	
+@@ -1,20 +0,0 @@
+-package uz.exadel.hotdeskbooking.dto.request;
+-
+-import lombok.AllArgsConstructor;
+-import lombok.Data;
+-import lombok.NoArgsConstructor;
+-
+-import java.io.Serializable;
+-import java.util.Date;
+-
+-@Data
+-@AllArgsConstructor
+-@NoArgsConstructor
+-public class BookingCreateTO implements Serializable {
+-    private String workplaceId;
+-    private String userId;
+-    private Date startDate;
+-    private Date endDate;
+-    private boolean isRecurring;
+-    private int frequency;
+-}
+Index: hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/dto/response/BookingResTO.java
+===================================================================
+diff --git a/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/dto/response/BookingResTO.java b/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/dto/response/BookingResTO.java
+deleted file mode 100644
+--- a/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/dto/response/BookingResTO.java	
++++ /dev/null	
+@@ -1,23 +0,0 @@
+-package uz.exadel.hotdeskbooking.dto.response;
+-
+-import lombok.AllArgsConstructor;
+-import lombok.Data;
+-import lombok.NoArgsConstructor;
+-
+-import java.io.Serializable;
+-import java.util.Date;
+-
+-@Data
+-@AllArgsConstructor
+-@NoArgsConstructor
+-public class BookingResTO implements Serializable {
+-    private String id;
+-    //TODO private MapTO mapTO;
+-    //TODO private OfficeTO officeTO;
+-    private Date startDate;
+-    private Date endDate;
+-    private boolean isRecurring;
+-    private Integer frequency;
+-    //TODO private UserTO userTO;
+-    //TODO private WorkplaceTO workplaceTO;
+-}
+Index: hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/domain/Workplace.java
+===================================================================
+diff --git a/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/domain/Workplace.java b/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/domain/Workplace.java
+deleted file mode 100644
+--- a/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/domain/Workplace.java	
++++ /dev/null	
+@@ -1,42 +0,0 @@
+-package uz.exadel.hotdeskbooking.domain;
+-
+-import lombok.Getter;
+-import lombok.Setter;
+-import org.hibernate.annotations.ColumnDefault;
+-import uz.exadel.hotdeskbooking.enums.WorkplaceTypeEnum;
+-
+-import javax.persistence.*;
+-
+-@Getter
+-@Setter
+-@Entity
+-public class Workplace extends BaseDomain {
+-
+-    private String mapId;
+-    @ManyToOne(cascade = {CascadeType.PERSIST}, fetch = FetchType.LAZY)
+-    @JoinColumn(name = "mapId", updatable = false, insertable = false)
+-    private Map map;
+-
+-    private String workplaceNumber;
+-
+-    @Enumerated(EnumType.STRING)
+-    private WorkplaceTypeEnum type;
+-
+-    @ColumnDefault(value = "false")
+-    private Boolean nextToWindow;
+-
+-    @ColumnDefault(value = "false")
+-    private Boolean hasPC;
+-
+-    @ColumnDefault(value = "false")
+-    private Boolean hasMonitor;
+-
+-    @ColumnDefault(value = "false")
+-    private Boolean hasKeyboard;
+-
+-    @ColumnDefault(value = "false")
+-    private Boolean hasMouse;
+-
+-    @ColumnDefault(value = "false")
+-    private Boolean hasHeadset;
+-}
+Index: telegram-bot/src/main/resources/application.properties
+===================================================================
+diff --git a/telegram-bot/src/main/resources/application.properties b/telegram-bot/src/main/resources/application.properties
+deleted file mode 100644
+--- a/telegram-bot/src/main/resources/application.properties	
++++ /dev/null	
+@@ -1,1 +0,0 @@
+-server.port=8081
+Index: hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/domain/Booking.java
+===================================================================
+diff --git a/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/domain/Booking.java b/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/domain/Booking.java
+deleted file mode 100644
+--- a/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/domain/Booking.java	
++++ /dev/null	
+@@ -1,48 +0,0 @@
+-package uz.exadel.hotdeskbooking.domain;
+-
+-import lombok.Getter;
+-import lombok.NoArgsConstructor;
+-import lombok.Setter;
+-import org.hibernate.annotations.ColumnDefault;
+-
+-import javax.persistence.*;
+-import java.util.Date;
+-
+-@Getter
+-@Setter
+-@Entity
+-@NoArgsConstructor
+-public class Booking extends BaseDomain {
+-
+-    private String workplaceId;
+-    @ManyToOne(cascade = {CascadeType.PERSIST}, fetch = FetchType.LAZY)
+-    @JoinColumn(name = "workplaceId", updatable = false, insertable = false)
+-    private Workplace workplace;
+-
+-    private String userId;
+-    @ManyToOne(cascade = {CascadeType.PERSIST}, fetch = FetchType.LAZY)
+-    @JoinColumn(name = "userId", updatable = false, insertable = false)
+-    private User user;
+-
+-    private Date startDate;
+-
+-    private Date endDate;
+-
+-    @ColumnDefault(value = "false")
+-    private Boolean isRecurring;
+-
+-    private Integer frequency;
+-
+-    private Boolean active = true;
+-
+-    public Booking(String workplaceId, Workplace workplace, String userId, User user, Date startDate, Date endDate, Boolean isRecurring, Integer frequency) {
+-        this.workplaceId = workplaceId;
+-        this.workplace = workplace;
+-        this.userId = userId;
+-        this.user = user;
+-        this.startDate = startDate;
+-        this.endDate = endDate;
+-        this.isRecurring = isRecurring;
+-        this.frequency = frequency;
+-    }
+-}
+Index: telegram-bot/.mvn/wrapper/maven-wrapper.properties
+===================================================================
+diff --git a/telegram-bot/.mvn/wrapper/maven-wrapper.properties b/telegram-bot/.mvn/wrapper/maven-wrapper.properties
+deleted file mode 100644
+--- a/telegram-bot/.mvn/wrapper/maven-wrapper.properties	
++++ /dev/null	
+@@ -1,2 +0,0 @@
+-distributionUrl=https://repo.maven.apache.org/maven2/org/apache/maven/apache-maven/3.8.4/apache-maven-3.8.4-bin.zip
+-wrapperUrl=https://repo.maven.apache.org/maven2/org/apache/maven/wrapper/maven-wrapper/3.1.0/maven-wrapper-3.1.0.jar
+Index: hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/domain/Office.java
+===================================================================
+diff --git a/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/domain/Office.java b/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/domain/Office.java
+deleted file mode 100644
+--- a/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/domain/Office.java	
++++ /dev/null	
+@@ -1,21 +0,0 @@
+-package uz.exadel.hotdeskbooking.domain;
+-
+-import lombok.Getter;
+-import lombok.Setter;
+-
+-import javax.persistence.*;
+-
+-@Getter
+-@Setter
+-@Entity
+-public class Office extends BaseDomain {
+-    private String name;
+-
+-    private String country;
+-
+-    private String city;
+-
+-    private String address;
+-
+-    private Boolean isFreeParkingAvailable;
+-}
+Index: hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/config/SpringAware.java
+===================================================================
+diff --git a/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/config/SpringAware.java b/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/config/SpringAware.java
+deleted file mode 100644
+--- a/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/config/SpringAware.java	
++++ /dev/null	
+@@ -1,22 +0,0 @@
+-package uz.exadel.hotdeskbooking.config;
+-
+-import org.springframework.data.domain.AuditorAware;
+-import org.springframework.security.core.Authentication;
+-import org.springframework.security.core.context.SecurityContextHolder;
+-import uz.exadel.hotdeskbooking.domain.User;
+-
+-import java.util.Optional;
+-
+-public class SpringAware implements AuditorAware<String> {
+-    @Override
+-    public Optional<String> getCurrentAuditor() {
+-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+-        if (authentication!=null
+-                && authentication.isAuthenticated()
+-                && !"anonymousUser".equals(authentication.getPrincipal())){
+-            User user = (User) authentication.getPrincipal();
+-            return Optional.of(user.getId());
+-        }
+-        return Optional.empty();
+-    }
+-}
+Index: hotdeskBooking/src/main/resources/application.properties
+===================================================================
+diff --git a/hotdeskBooking/src/main/resources/application.properties b/hotdeskBooking/src/main/resources/application.properties
+deleted file mode 100644
+--- a/hotdeskBooking/src/main/resources/application.properties	
++++ /dev/null	
+@@ -1,12 +0,0 @@
+-server.port=8000
+-spring.datasource.url= jdbc:postgresql://localhost:5432/booking_db
+-spring.datasource.driver-class-name=org.postgresql.Driver
+-spring.datasource.username=
+-spring.datasource.password=
+-spring.jpa.generate-ddl=true
+-spring.jpa.hibernate.ddl-auto=update
+-spring.jpa.show-sql=true
+-spring.jpa.properties.hibernate.format_sql = true
+-spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.PostgreSQLDialect
+-spring.data.rest.base-path=/api/v1
+-spring.sql.init.mode=never
+\ No newline at end of file
+Index: hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/domain/Vacation.java
+===================================================================
+diff --git a/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/domain/Vacation.java b/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/domain/Vacation.java
+deleted file mode 100644
+--- a/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/domain/Vacation.java	
++++ /dev/null	
+@@ -1,22 +0,0 @@
+-package uz.exadel.hotdeskbooking.domain;
+-
+-import lombok.Getter;
+-import lombok.Setter;
+-
+-import javax.persistence.*;
+-import java.util.Date;
+-
+-@Getter
+-@Setter
+-@Entity
+-public class Vacation extends BaseDomain{
+-
+-    private String userId;
+-    @ManyToOne(cascade = {CascadeType.PERSIST}, fetch = FetchType.LAZY)
+-    @JoinColumn(name = "userId", updatable = false, insertable = false)
+-    private User user;
+-
+-    private Date vacationStart;
+-
+-    private Date vacationEnd;
+-}
+Index: telegram-bot/src/test/java/com/exadel/telegrambot/TelegramBotApplicationTests.java
+===================================================================
+diff --git a/telegram-bot/src/test/java/com/exadel/telegrambot/TelegramBotApplicationTests.java b/telegram-bot/src/test/java/com/exadel/telegrambot/TelegramBotApplicationTests.java
+deleted file mode 100644
+--- a/telegram-bot/src/test/java/com/exadel/telegrambot/TelegramBotApplicationTests.java	
++++ /dev/null	
+@@ -1,13 +0,0 @@
+-package com.exadel.telegrambot;
+-
+-import org.junit.jupiter.api.Test;
+-import org.springframework.boot.test.context.SpringBootTest;
+-
+-@SpringBootTest
+-class TelegramBotApplicationTests {
+-
+-    @Test
+-    void contextLoads() {
+-    }
+-
+-}
+Index: hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/domain/Role.java
+===================================================================
+diff --git a/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/domain/Role.java b/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/domain/Role.java
+deleted file mode 100644
+--- a/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/domain/Role.java	
++++ /dev/null	
+@@ -1,30 +0,0 @@
+-package uz.exadel.hotdeskbooking.domain;
+-
+-import lombok.AllArgsConstructor;
+-import lombok.Data;
+-import lombok.NoArgsConstructor;
+-import org.springframework.security.core.GrantedAuthority;
+-import uz.exadel.hotdeskbooking.enums.RoleTypeEnum;
+-
+-import javax.persistence.*;
+-
+-@Data
+-@Entity
+-@NoArgsConstructor
+-public class Role implements GrantedAuthority {
+-    @Id
+-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+-    private Integer id;
+-
+-    @Enumerated(EnumType.STRING)
+-    private RoleTypeEnum roleType;
+-
+-    public Role(RoleTypeEnum roleType) {
+-        this.roleType = roleType;
+-    }
+-
+-    @Override
+-    public String getAuthority() {
+-        return roleType.name();
+-    }
+-}
+Index: hotdeskBooking/src/test/java/uz/exadel/hotdeskbooking/HotdeskBookingApplicationTests.java
+===================================================================
+diff --git a/hotdeskBooking/src/test/java/uz/exadel/hotdeskbooking/HotdeskBookingApplicationTests.java b/hotdeskBooking/src/test/java/uz/exadel/hotdeskbooking/HotdeskBookingApplicationTests.java
+deleted file mode 100644
+--- a/hotdeskBooking/src/test/java/uz/exadel/hotdeskbooking/HotdeskBookingApplicationTests.java	
++++ /dev/null	
+@@ -1,13 +0,0 @@
+-package uz.exadel.hotdeskbooking;
+-
+-import org.junit.jupiter.api.Test;
+-import org.springframework.boot.test.context.SpringBootTest;
+-
+-@SpringBootTest
+-class HotdeskBookingApplicationTests {
+-
+-    @Test
+-    void contextLoads() {
+-    }
+-
+-}
+Index: hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/exception/RestException.java
+===================================================================
+diff --git a/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/exception/RestException.java b/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/exception/RestException.java
+deleted file mode 100644
+--- a/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/exception/RestException.java	
++++ /dev/null	
+@@ -1,22 +0,0 @@
+-package uz.exadel.hotdeskbooking.exception;
+-
+-import org.springframework.http.HttpStatus;
+-
+-public class RestException extends RuntimeException{
+-    private String message;
+-    private HttpStatus status;
+-
+-    public RestException(String message, HttpStatus status) {
+-        this.message = message;
+-        this.status = status;
+-    }
+-
+-    @Override
+-    public String getMessage() {
+-        return message;
+-    }
+-
+-    public HttpStatus getStatus() {
+-        return status;
+-    }
+-}
+Index: hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/exception/RestExceptionHandler.java
+===================================================================
+diff --git a/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/exception/RestExceptionHandler.java b/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/exception/RestExceptionHandler.java
+deleted file mode 100644
+--- a/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/exception/RestExceptionHandler.java	
++++ /dev/null	
+@@ -1,32 +0,0 @@
+-package uz.exadel.hotdeskbooking.exception;
+-
+-import org.springframework.http.HttpEntity;
+-import org.springframework.http.HttpStatus;
+-import org.springframework.http.ResponseEntity;
+-import org.springframework.web.bind.annotation.ExceptionHandler;
+-import org.springframework.web.bind.annotation.RestControllerAdvice;
+-import uz.exadel.hotdeskbooking.dto.ResponseItem;
+-
+-@RestControllerAdvice
+-public class RestExceptionHandler {
+-    @ExceptionHandler(value = {RestException.class})
+-    public HttpEntity<ResponseItem> handleException(RestException ex) {
+-        return ResponseEntity.status(ex.getStatus()).body(
+-                new ResponseItem(
+-                        ex.getMessage(),
+-                        500
+-                )
+-        );
+-    }
+-
+-    @ExceptionHandler(value = {Exception.class})
+-    public HttpEntity<ResponseItem> handleException(Exception ex) {
+-        ex.printStackTrace();
+-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
+-                new ResponseItem(
+-                        "Server error",
+-                        500
+-                )
+-        );
+-    }
+-}
+Index: hotdeskBooking/.gitignore
+===================================================================
+diff --git a/hotdeskBooking/.gitignore b/hotdeskBooking/.gitignore
+deleted file mode 100644
+--- a/hotdeskBooking/.gitignore	
++++ /dev/null	
+@@ -1,33 +0,0 @@
+-HELP.md
+-target/
+-!.mvn/wrapper/maven-wrapper.jar
+-!**/src/main/**/target/
+-!**/src/test/**/target/
+-
+-### STS ###
+-.apt_generated
+-.classpath
+-.factorypath
+-.project
+-.settings
+-.springBeans
+-.sts4-cache
+-
+-### IntelliJ IDEA ###
+-.idea
+-*.iws
+-*.iml
+-*.ipr
+-
+-### NetBeans ###
+-/nbproject/private/
+-/nbbuild/
+-/dist/
+-/nbdist/
+-/.nb-gradle/
+-build/
+-!**/src/main/**/build/
+-!**/src/test/**/build/
+-
+-### VS Code ###
+-.vscode/
+Index: hotdeskBooking/.mvn/wrapper/maven-wrapper.properties
+===================================================================
+diff --git a/hotdeskBooking/.mvn/wrapper/maven-wrapper.properties b/hotdeskBooking/.mvn/wrapper/maven-wrapper.properties
+deleted file mode 100644
+--- a/hotdeskBooking/.mvn/wrapper/maven-wrapper.properties	
++++ /dev/null	
+@@ -1,2 +0,0 @@
+-distributionUrl=https://repo.maven.apache.org/maven2/org/apache/maven/apache-maven/3.8.4/apache-maven-3.8.4-bin.zip
+-wrapperUrl=https://repo.maven.apache.org/maven2/org/apache/maven/wrapper/maven-wrapper/3.1.0/maven-wrapper-3.1.0.jar
+Index: hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/repository/RoleRepository.java
+===================================================================
+diff --git a/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/repository/RoleRepository.java b/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/repository/RoleRepository.java
+deleted file mode 100644
+--- a/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/repository/RoleRepository.java	
++++ /dev/null	
+@@ -1,9 +0,0 @@
+-package uz.exadel.hotdeskbooking.repository;
+-
+-import org.springframework.data.jpa.repository.JpaRepository;
+-import uz.exadel.hotdeskbooking.domain.Role;
+-import uz.exadel.hotdeskbooking.enums.RoleTypeEnum;
+-
+-public interface RoleRepository extends JpaRepository<Role, Integer> {
+-    Role findByRoleType(RoleTypeEnum roleType);
+-}
