@@ -1,12 +1,10 @@
 package uz.exadel.hotdeskbooking.exception;
 
-import org.springframework.http.HttpStatus;
-
 public class RestException extends RuntimeException{
     private String message;
-    private HttpStatus status;
+    private int status;
 
-    public RestException(String message, HttpStatus status) {
+    public RestException(String message, int status) {
         this.message = message;
         this.status = status;
     }
@@ -16,7 +14,7 @@ public class RestException extends RuntimeException{
         return message;
     }
 
-    public HttpStatus getStatus() {
+    public int getStatus() {
         return status;
     }
 }

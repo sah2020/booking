@@ -13,13 +13,13 @@ public class WorkplaceResponseDto {
     private String mapId;
     private String number;
     private WorkplaceTypeEnum type;
-    private boolean nextToWindow;
-    private boolean hasPC;
-    private boolean hasMonitor;
-    private boolean hasKeyboard;
-    private boolean hasMouse;
-    private boolean hasHeadset;
+    private Boolean nextToWindow;
+    private Boolean hasPC;
+    private Boolean hasMonitor;
+    private Boolean hasKeyboard;
+    private Boolean hasMouse;
+    private Boolean hasHeadset;
     private int floor;
-    private boolean kitchen;
-    private boolean confRoom;
+    private Boolean kitchen;
+    private Boolean confRoom;
 }

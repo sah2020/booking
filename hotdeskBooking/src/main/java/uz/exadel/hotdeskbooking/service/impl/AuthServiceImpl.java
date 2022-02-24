@@ -38,7 +38,7 @@ public class AuthServiceImpl implements AuthService, UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<User> user = userRepository.findFirstByTelegramIdAndEnabledTrue(username);
         if (user.isEmpty()) {
-            throw new RestException("User not found. Please contact the administration.", HttpStatus.UNAUTHORIZED);
+            throw new RestException("User not found. Please contact the administration.", HttpStatus.UNAUTHORIZED.value());
         }
         return user.get();
     }
