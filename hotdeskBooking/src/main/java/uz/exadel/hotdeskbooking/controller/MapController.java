@@ -17,22 +17,22 @@ public class MapController {
 
 
     @PostMapping
-    public ResponseEntity<?> addMap(@RequestBody MapDto mapDto){
+    public ResponseEntity<?> addMap(@RequestBody MapDto mapDto) {
         return ResponseEntity.ok(mapService.addMap(mapDto));
     }
 
     @GetMapping
-    public ResponseEntity<?> getMapList(){
+    public ResponseEntity<?> getMapList() {
         return ResponseEntity.ok(mapService.getMapList());
     }
 
     @DeleteMapping("/{mapId}")
-    public ResponseEntity<?> deleteMap(@PathVariable String mapId){
+    public ResponseEntity<?> deleteMap(@PathVariable String mapId) {
         return ResponseEntity.ok(mapService.deleteMap(mapId));
     }
 
     @PutMapping("/{mapId}")
-    public ResponseEntity<?> updateMap(@RequestBody MapDto mapDto,@NotNull @PathVariable String mapId){
+    public ResponseEntity<?> updateMap(@RequestBody MapDto mapDto, @NotNull @PathVariable String mapId) {
         return ResponseEntity.ok(mapService.updateMap(mapDto, mapId));
     }
 }

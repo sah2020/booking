@@ -3,18 +3,15 @@ package uz.exadel.hotdeskbooking.service;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-import uz.exadel.hotdeskbooking.domain.MapDomain;
-import uz.exadel.hotdeskbooking.domain.OfficeDomain;
-import uz.exadel.hotdeskbooking.dto.MapResponseTO;
+import uz.exadel.hotdeskbooking.domain.Map;
+import uz.exadel.hotdeskbooking.domain.Office;
 import uz.exadel.hotdeskbooking.dto.OfficeDto;
 import uz.exadel.hotdeskbooking.dto.OfficeResponseTO;
 import uz.exadel.hotdeskbooking.exception.OfficeCustomException;
 import uz.exadel.hotdeskbooking.repository.MapRepository;
 import uz.exadel.hotdeskbooking.repository.OfficeRepository;
 import uz.exadel.hotdeskbooking.response.ApiResponse;
-import uz.exadel.hotdeskbooking.response.BaseResponse;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,24 +24,26 @@ public class OfficeService {
     private final MapRepository mapRepository;
 
 
-    public ApiResponse getOfficeList(){
-        BaseResponse.SUCCESS.setData(officeRepository.findAll());
-        return BaseResponse.SUCCESS;
+    public ApiResponse getOfficeList() {
+        ApiResponse apiResponse = new ApiResponse();
+        apiResponse.setData(officeRepository.findAll());
+        return apiResponse;
     }
 
-    public ApiResponse addOffice(OfficeDto officeDto){
+    public ApiResponse addOffice(OfficeDto officeDto) {
         checkOfficeByName(officeDto.getName()); //this checks the validity of the req name
 
-        OfficeDomain officeDomain = modelMapper.map(officeDto, OfficeDomain.class);
-        officeRepository.save(officeDomain);
+        Office Office = modelMapper.map(officeDto, Office.class);
+        officeRepository.save(Office);
 
-        return BaseResponse.SUCCESS_ONLY;
+        ApiResponse apiResponse = new ApiResponse("Success", 200);
+        return apiResponse;
     }
 
-    public ApiResponse getOfficeAndMapList(String officeId){
+    public ApiResponse getOfficeAndMapList(String officeId) {
 
-        Optional<OfficeDomain> byId = officeRepository.findById(officeId);
-        if(byId.isEmpty()){
+        Optional<Office> byId = officeRepository.findById(officeId);
+        if (byId.isEmpty()) {
             throw new OfficeCustomException("office not found");
         }
 
@@ -53,73 +52,87 @@ public class OfficeService {
         OfficeResponseTO response = modelMapper.map(byId.get(), OfficeResponseTO.class);
         response.setMapIds(idsByOfficeId);
 
-        BaseResponse.SUCCESS.setData(response);
-
-        return BaseResponse.SUCCESS;
+        ApiResponse apiResponse = new ApiResponse();
+        apiResponse.setData(response);
+        return apiResponse;
     }
 
-    public ApiResponse updateOffice(OfficeDto officeDto, String officeId){
-        Optional<OfficeDomain> byId = officeRepository.findById(officeId);
+    public ApiResponse updateOffice(OfficeDto officeDto, String officeId) {
+        Optional<Office> byId = officeRepository.findById(officeId);
         if (byId.isEmpty()) throw new OfficeCustomException("office not found");
 
-        OfficeDomain officeDomain = byId.get();
-        officeDomain.setAddress(officeDto.getAddress());
-        officeDomain.setCity(officeDto.getCity());
-        officeDomain.setCountry(officeDto.getCountry());
-        officeDomain.setName(officeDto.getName());
-        officeDomain.setParkingAvailable(officeDto.isParkingAvailable());
+        Office Office = byId.get();
+        Office.setAddress(officeDto.getAddress());
+        Office.setCity(officeDto.getCity());
+        Office.setCountry(officeDto.getCountry());
+        Office.setName(officeDto.getName());
+        Office.setParkingAvailable(officeDto.isParkingAvailable());
 
-        officeRepository.save(officeDomain);
-        return BaseResponse.SUCCESS_ONLY;
+        officeRepository.save(Office);
+
+        ApiResponse apiResponse = new ApiResponse("Success", 200);
+        return apiResponse;
     }
 
-    public ApiResponse deleteOffice(String officeId){
-        return BaseResponse.SUCCESS_ONLY;
+    public ApiResponse deleteOffice(String officeId) {
+
+        ApiResponse apiResponse = new ApiResponse("Success", 200);
+        return apiResponse;
     }
 
     //get all the city list (without country name)
-    public ApiResponse getCityList(){
+    public ApiResponse getCityList() {
         List<String> cityNames = officeRepository.getCityNames();
-        BaseResponse.SUCCESS.setData(cityNames);
-        return BaseResponse.SUCCESS;
+
+        ApiResponse apiResponse = new ApiResponse();
+        apiResponse.setData(cityNames);
+        return apiResponse;
     }
 
-    public ApiResponse getCityListByCountryName(String countryName){
+    public ApiResponse getCityListByCountryName(String countryName) {
         List<String> cityNamesByCountryName = officeRepository.getCityNamesByCountryName(countryName);
-        BaseResponse.SUCCESS.setData(cityNamesByCountryName);
-        return BaseResponse.SUCCESS;
+
+        ApiResponse apiResponse = new ApiResponse();
+        apiResponse.setData(cityNamesByCountryName);
+        return apiResponse;
     }
 
-    public ApiResponse getCountryList(){
+    public ApiResponse getCountryList() {
         List<String> countryNames = officeRepository.getCountryNames();
-        BaseResponse.SUCCESS.setData(countryNames);
-        return BaseResponse.SUCCESS;
+
+        ApiResponse apiResponse = new ApiResponse();
+        apiResponse.setData(countryNames);
+        return apiResponse;
     }
 
-    public ApiResponse getMapListByOfficeId(String officeId){
-        Optional<OfficeDomain> byId = officeRepository.findById(officeId);
+    public ApiResponse getMapListByOfficeId(String officeId) {
+        Optional<Office> byId = officeRepository.findById(officeId);
         if (byId.isEmpty()) throw new OfficeCustomException("office not found!");
 
-        List<MapDomain> allByOfficeId = mapRepository.findAllByOfficeId(officeId);
-        BaseResponse.SUCCESS.setData(allByOfficeId);
-        return BaseResponse.SUCCESS;
+        List<Map> allByOfficeId = mapRepository.findAllByOfficeId(officeId);
+
+        ApiResponse apiResponse = new ApiResponse();
+        apiResponse.setData(allByOfficeId);
+        return apiResponse;
     }
 
     //checking if the office has parking slot available
-    public ApiResponse checkForParking(String officeId){
-        Optional<OfficeDomain> byId = officeRepository.findById(officeId);
+    public ApiResponse checkForParking(String officeId) {
+        Optional<Office> byId = officeRepository.findById(officeId);
         if (byId.isEmpty()) throw new OfficeCustomException("office not found!");
 
-        OfficeDomain officeDomain = byId.get();
-        if (officeDomain.isParkingAvailable()){
-            BaseResponse.SUCCESS.setData(officeDomain);
-            return BaseResponse.SUCCESS;
-        };
+        Office Office = byId.get();
+        if (Office.isParkingAvailable()) {
 
-        return BaseResponse.PARKING_NOT_AVAILABLE;
+            ApiResponse apiResponse = new ApiResponse();
+            apiResponse.setData(Office);
+            return apiResponse;
+        }
+
+        return new ApiResponse("Parking not available", 403);
     }
 
-    public void checkOfficeByName(String officeName){
+    public void checkOfficeByName(String officeName) {
         boolean exists = officeRepository.existsByName(officeName);
         if (exists) throw new OfficeCustomException("Office with this name already exists!");
     }

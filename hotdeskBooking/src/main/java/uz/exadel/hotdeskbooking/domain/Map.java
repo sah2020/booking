@@ -9,13 +9,11 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-@Table(name = "map")
-public class MapDomain extends BaseDomain {
-    @JsonProperty("office_id")
+public class Map extends BaseDomain {
     private String officeId;
     @ManyToOne(cascade = {CascadeType.PERSIST}, fetch = FetchType.LAZY)
     @JoinColumn(name = "officeId", updatable = false, insertable = false)
-    private OfficeDomain office;
+    private Office office;
 
     private int floor;
 

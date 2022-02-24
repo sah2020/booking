@@ -2,14 +2,14 @@ package uz.exadel.hotdeskbooking.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import uz.exadel.hotdeskbooking.domain.MapDomain;
+import uz.exadel.hotdeskbooking.domain.Map;
 
 import java.util.List;
 
 
-public interface MapRepository extends JpaRepository<MapDomain, String> {
+public interface MapRepository extends JpaRepository<Map, String> {
 
-    List<MapDomain> findAllByOfficeId(String officeId);
+    List<Map> findAllByOfficeId(String officeId);
 
     boolean existsByFloorAndOfficeId(int floor, String officeId);
 
