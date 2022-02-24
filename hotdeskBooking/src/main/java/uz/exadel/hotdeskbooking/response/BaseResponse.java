@@ -14,6 +14,4 @@ public abstract class BaseResponse {
 
     public static final ApiResponse PARKING_NOT_AVAILABLE = new ApiResponse("parking not available", 200);
 
-
-
 }

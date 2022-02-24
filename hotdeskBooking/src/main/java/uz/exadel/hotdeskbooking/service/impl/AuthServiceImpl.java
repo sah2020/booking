@@ -13,10 +13,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import uz.exadel.hotdeskbooking.domain.User;
-import uz.exadel.hotdeskbooking.dto.request.LoginDTO;
+import uz.exadel.hotdeskbooking.domain.UserDomain;
 import uz.exadel.hotdeskbooking.dto.ResponseItem;
-import uz.exadel.hotdeskbooking.dto.response.UserBasicResTO;
+import uz.exadel.hotdeskbooking.dto.request.LoginDTO;
 import uz.exadel.hotdeskbooking.exception.RestException;
 import uz.exadel.hotdeskbooking.repository.UserRepository;
 import uz.exadel.hotdeskbooking.security.JWTProvider;
@@ -26,7 +25,7 @@ import java.util.Optional;
 
 @Service
 public class AuthServiceImpl implements AuthService, UserDetailsService {
-    private final ResponseItem unauthorizedResponse = new ResponseItem("User not found. Please contact the administration.", HttpStatus.UNAUTHORIZED.value());
+    private final ResponseItem unauthorizedResponse = new ResponseItem("UserDomain not found. Please contact the administration.", HttpStatus.UNAUTHORIZED.value());
     @Autowired
     private JWTProvider jwtProvider;
     @Autowired
@@ -36,11 +35,12 @@ public class AuthServiceImpl implements AuthService, UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<User> user = userRepository.findFirstByTelegramIdAndEnabledTrue(username);
-        if (user.isEmpty()) {
-            throw new RestException("User not found. Please contact the administration.", HttpStatus.UNAUTHORIZED);
-        }
-        return user.get();
+//        Optional<User> user = userRepository.findFirstByTelegramIdAndEnabledTrue(username);
+//        if (user.isEmpty()) {
+//            throw new RestException("UserDomain not found. Please contact the administration.", HttpStatus.UNAUTHORIZED);
+//        }
+        return null;
+//        return user.get();
     }
 
     @Override
@@ -50,14 +50,15 @@ public class AuthServiceImpl implements AuthService, UserDetailsService {
                     loginDTO.getUsername(),
                     loginDTO.getPassword()
             ));
-            User user = (User) authenticate.getPrincipal();
-            String token = jwtProvider.generateTokenAdmin(user.getUsername());
-            UserBasicResTO userBasicResTO = user.toBasic();
-            userBasicResTO.setToken(token);
-            return new ResponseItem(userBasicResTO);
+            UserDomain user = (UserDomain) authenticate.getPrincipal();
+//            String token = jwtProvider.generateTokenAdmin(user.getUsername());
+//            UserBasicResTO userBasicResTO = user.toBasic();
+//            userBasicResTO.setToken(token);
+//            return new ResponseItem(userBasicResTO);
         } catch (BadCredentialsException badCredentialsException) {
             return unauthorizedResponse;
         }
+        return null;
     }
 
     @Override
@@ -72,9 +73,11 @@ public class AuthServiceImpl implements AuthService, UserDetailsService {
             return unauthorizedResponse;
         }
         authentication.getDetails();
-        if (authentication.getDetails() instanceof User) {
-            return new ResponseItem(((User) authentication.getDetails()).toBasic());
+        if (authentication.getDetails() instanceof UserDomain) {
+//            return new ResponseItem(((UserDomain) authentication.getDetails()).toBasic());
+        return null;
         }
+
         return unauthorizedResponse;
 
     }

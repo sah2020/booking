@@ -3,8 +3,8 @@ package uz.exadel.hotdeskbooking.config;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import uz.exadel.hotdeskbooking.domain.User;
 
+import javax.xml.registry.infomodel.User;
 import java.util.Optional;
 
 public class AuditingConfig implements AuditorAware<String> {
@@ -15,7 +15,7 @@ public class AuditingConfig implements AuditorAware<String> {
                 && authentication.isAuthenticated()
                 && !"anonymousUser".equals(authentication.getPrincipal())){
             User user = (User) authentication.getPrincipal();
-            return Optional.of(user.getId());
+            return Optional.of("field");
         }
         return Optional.empty();
     }
