@@ -2,16 +2,13 @@ package uz.exadel.hotdeskbooking.controller;
 
 
 import com.sun.istack.NotNull;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import uz.exadel.hotdeskbooking.domain.OfficeDomain;
-import uz.exadel.hotdeskbooking.dto.OfficeDto;
-import uz.exadel.hotdeskbooking.response.ApiResponse;
+import uz.exadel.hotdeskbooking.dto.request.OfficeDto;
+import uz.exadel.hotdeskbooking.dto.ResponseItem;
 import uz.exadel.hotdeskbooking.response.BaseResponse;
-import uz.exadel.hotdeskbooking.service.OfficeService;
+import uz.exadel.hotdeskbooking.service.impl.OfficeServiceImpl;
 
 
 @RequiredArgsConstructor
@@ -19,7 +16,7 @@ import uz.exadel.hotdeskbooking.service.OfficeService;
 @RestController
 public class OfficeController extends BaseResponse {
 
-    private final OfficeService officeService;
+    private final OfficeServiceImpl officeService;
 
     @GetMapping
     public ResponseEntity<?> getOfficeList(){
@@ -28,21 +25,21 @@ public class OfficeController extends BaseResponse {
 
     @PostMapping
     public ResponseEntity<?> addOffice(@RequestBody OfficeDto officeDto){
-        ApiResponse apiResponse = officeService.addOffice(officeDto);
-        return ResponseEntity.status(201).body(apiResponse);
+        ResponseItem responseItem = officeService.addOffice(officeDto);
+        return ResponseEntity.status(201).body(responseItem);
     }
 
     @GetMapping("/{officeId}")
     public ResponseEntity<?> getOfficeAndMapsByOfficeId(@PathVariable String officeId){
-        ApiResponse apiResponse = officeService.getOfficeAndMapList(officeId);
-        return ResponseEntity.status(201).body(apiResponse);
+        ResponseItem responseItem = officeService.getOfficeAndMapList(officeId);
+        return ResponseEntity.status(201).body(responseItem);
 
     }
 
     @PutMapping("/{officeId}")
     public ResponseEntity<?> updateOffice(@RequestBody OfficeDto officeDto, @PathVariable String officeId){
-        ApiResponse apiResponse = officeService.updateOffice(officeDto, officeId);
-        return ResponseEntity.status(201).body(apiResponse);
+        ResponseItem responseItem = officeService.updateOffice(officeDto, officeId);
+        return ResponseEntity.status(201).body(responseItem);
     }
 
     @DeleteMapping("/{officeId}")
