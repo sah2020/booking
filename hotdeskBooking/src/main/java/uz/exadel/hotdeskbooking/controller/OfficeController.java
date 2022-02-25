@@ -4,11 +4,10 @@ package uz.exadel.hotdeskbooking.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import uz.exadel.hotdeskbooking.dto.OfficeDto;
-import uz.exadel.hotdeskbooking.response.ApiResponse;
+import uz.exadel.hotdeskbooking.dto.ResponseItem;
+import uz.exadel.hotdeskbooking.dto.request.OfficeDto;
 import uz.exadel.hotdeskbooking.service.OfficeService;
 
-import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 @RequiredArgsConstructor
@@ -24,22 +23,22 @@ public class OfficeController {
     }
 
     @PostMapping
-    public ResponseEntity<?> addOffice(@RequestBody @Valid OfficeDto officeDto) {
-        ApiResponse apiResponse = officeService.addOffice(officeDto);
-        return ResponseEntity.status(201).body(apiResponse);
+    public ResponseEntity<?> addOffice(@RequestBody OfficeDto officeDto) {
+        ResponseItem responseItem = officeService.addOffice(officeDto);
+        return ResponseEntity.status(201).body(responseItem);
     }
 
     @GetMapping("/{officeId}")
     public ResponseEntity<?> getOfficeAndMapsByOfficeId(@PathVariable String officeId) {
-        ApiResponse apiResponse = officeService.getOfficeAndMapList(officeId);
-        return ResponseEntity.status(201).body(apiResponse);
+        ResponseItem responseItem = officeService.getOfficeAndMapList(officeId);
+        return ResponseEntity.status(201).body(responseItem);
 
     }
 
     @PutMapping("/{officeId}")
     public ResponseEntity<?> updateOffice(@RequestBody OfficeDto officeDto, @PathVariable String officeId) {
-        ApiResponse apiResponse = officeService.updateOffice(officeDto, officeId);
-        return ResponseEntity.status(201).body(apiResponse);
+        ResponseItem responseItem = officeService.updateOffice(officeDto, officeId);
+        return ResponseEntity.status(201).body(responseItem);
     }
 
     @DeleteMapping("/{officeId}")

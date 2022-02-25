@@ -3,8 +3,8 @@ package uz.exadel.hotdeskbooking.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import uz.exadel.hotdeskbooking.dto.MapDto;
 import uz.exadel.hotdeskbooking.service.MapService;
+import uz.exadel.hotdeskbooking.dto.request.MapDto;
 
 import javax.validation.constraints.NotNull;
 
