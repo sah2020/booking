@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.http.HttpStatus;
 
 import java.io.Serializable;
 
@@ -19,7 +18,6 @@ public class ResponseItem implements Serializable {
     private int statusCode = 200;
     private Object data;
     private boolean success;
-    private HttpStatus httpStatusCode = HttpStatus.OK;
     private Object error;
 
     public ResponseItem(String message, int statusCode) {
@@ -31,17 +29,17 @@ public class ResponseItem implements Serializable {
         this.data = data;
     }
 
-    public ResponseItem(String message, boolean success, Object data, HttpStatus httpStatusCode) {
+    public ResponseItem(String message, boolean success, Object data, int statusCode) {
         this.message = message;
         this.success = success;
         this.data = data;
-        this.httpStatusCode = httpStatusCode;
+        this.statusCode = statusCode;
     }
 
-    public ResponseItem(String message, boolean success, HttpStatus httpStatusCode) {
+    public ResponseItem(String message, boolean success, int statusCode) {
         this.message = message;
         this.success = success;
-        this.httpStatusCode = httpStatusCode;
+        this.statusCode = statusCode;
     }
 
     public ResponseItem(String message, boolean success) {
@@ -49,9 +47,9 @@ public class ResponseItem implements Serializable {
         this.success = success;
     }
 
-    public ResponseItem(boolean success, HttpStatus httpStatusCode, Object error) {
+    public ResponseItem(boolean success, int statusCode, Object error) {
         this.success = success;
         this.error = error;
-        this.httpStatusCode = httpStatusCode;
+        this.statusCode = statusCode;
     }
 }

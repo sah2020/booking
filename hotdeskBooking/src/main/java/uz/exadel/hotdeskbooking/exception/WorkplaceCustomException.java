@@ -16,9 +16,9 @@ public class WorkplaceCustomException extends RuntimeException {
     private int lineNumber;
     private String field;
     private String message;
-    private HttpStatus status;
+    private int status;
 
-    public WorkplaceCustomException(String message, int lineNumber, String field, HttpStatus status) {
+    public WorkplaceCustomException(String message, int lineNumber, String field, int status) {
         super(message);
         this.message = message;
         this.lineNumber = lineNumber;
