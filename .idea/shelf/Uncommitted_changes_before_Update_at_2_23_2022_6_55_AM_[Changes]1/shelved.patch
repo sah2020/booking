@@ -1,0 +1,58 @@
+Index: .idea/shelf/Uncommitted_changes_before_Checkout_at_2_22_2022_1_03_PM__Changes_.xml
+===================================================================
+diff --git a/.idea/shelf/Uncommitted_changes_before_Checkout_at_2_22_2022_1_03_PM__Changes_.xml b/.idea/shelf/Uncommitted_changes_before_Checkout_at_2_22_2022_1_03_PM__Changes_.xml
+deleted file mode 100644
+--- a/.idea/shelf/Uncommitted_changes_before_Checkout_at_2_22_2022_1_03_PM__Changes_.xml	
++++ /dev/null	
+@@ -1,4 +0,0 @@
+-<changelist name="Uncommitted_changes_before_Checkout_at_2_22_2022_1_03_PM_[Changes]" date="1645517034281" recycled="true" deleted="true">
+-  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2_22_2022_1_03_PM_[Changes]/shelved.patch" />
+-  <option name="DESCRIPTION" value="Uncommitted changes before Checkout at 2/22/2022 1:03 PM [Changes]" />
+-</changelist>
+\ No newline at end of file
+Index: hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/controller/vacation/VacationController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/controller/vacation/VacationController.java b/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/controller/vacation/VacationController.java
+new file mode 100644
+--- /dev/null	
++++ b/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/controller/vacation/VacationController.java	
+@@ -0,0 +1,5 @@
++package uz.exadel.hotdeskbooking.controller.vacation;
++
++public class VacationController {
++
++}
+Index: hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/repository/vacation/VacationRepository.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/repository/vacation/VacationRepository.java b/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/repository/vacation/VacationRepository.java
+new file mode 100644
+--- /dev/null	
++++ b/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/repository/vacation/VacationRepository.java	
+@@ -0,0 +1,7 @@
++package uz.exadel.hotdeskbooking.repository.vacation;
++
++import org.springframework.data.jpa.repository.JpaRepository;
++import uz.exadel.hotdeskbooking.domain.Vacation;
++
++public interface VacationRepository extends JpaRepository<Vacation, String> {
++}
+Index: hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/service/base/BaseService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/service/base/BaseService.java b/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/service/base/BaseService.java
+new file mode 100644
+--- /dev/null	
++++ b/hotdeskBooking/src/main/java/uz/exadel/hotdeskbooking/service/base/BaseService.java	
+@@ -0,0 +1,4 @@
++package uz.exadel.hotdeskbooking.service.base;
++
++public interface BaseService<T> {
++}

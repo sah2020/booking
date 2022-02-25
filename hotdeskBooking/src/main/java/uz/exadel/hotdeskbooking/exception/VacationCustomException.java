@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class VacationCustomException {
     @ExceptionHandler(value = ChangeSetPersister.NotFoundException.class)
-    public HttpEntity<?> handleVacationException(ChangeSetPersister.NotFoundException exception){
+    public HttpEntity<?> handleNotFoundException(ChangeSetPersister.NotFoundException exception){
         return null;
     }
 }

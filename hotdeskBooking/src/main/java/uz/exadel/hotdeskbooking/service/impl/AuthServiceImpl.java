@@ -13,15 +13,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import uz.exadel.hotdeskbooking.domain.UserDomain;
 import uz.exadel.hotdeskbooking.dto.ResponseItem;
 import uz.exadel.hotdeskbooking.dto.request.LoginDTO;
-import uz.exadel.hotdeskbooking.exception.RestException;
 import uz.exadel.hotdeskbooking.repository.UserRepository;
 import uz.exadel.hotdeskbooking.security.JWTProvider;
 import uz.exadel.hotdeskbooking.service.AuthService;
-
-import java.util.Optional;
 
 @Service
 public class AuthServiceImpl implements AuthService, UserDetailsService {
@@ -50,7 +46,7 @@ public class AuthServiceImpl implements AuthService, UserDetailsService {
                     loginDTO.getUsername(),
                     loginDTO.getPassword()
             ));
-            UserDomain user = (UserDomain) authenticate.getPrincipal();
+//            UserDomain user = (UserDomain) authenticate.getPrincipal();
 //            String token = jwtProvider.generateTokenAdmin(user.getUsername());
 //            UserBasicResTO userBasicResTO = user.toBasic();
 //            userBasicResTO.setToken(token);
