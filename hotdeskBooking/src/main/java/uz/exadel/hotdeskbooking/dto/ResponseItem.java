@@ -52,4 +52,9 @@ public class ResponseItem implements Serializable {
         this.error = error;
         this.statusCode = statusCode;
     }
+
+    public ResponseItem(String message, Object data) {
+        this.message = message;
+        this.data = data;
+    }
 }
