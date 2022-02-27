@@ -24,6 +24,8 @@ import org.springframework.web.client.RestTemplate;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 
+import java.util.Objects;
+
 @Component
 @Slf4j
 public class UserStartHandler implements InputMessageHandler {
@@ -51,7 +53,10 @@ public class UserStartHandler implements InputMessageHandler {
 
     @Override
     public SendMessage handle(Message message) {
-        return processUsersInput(message);
+        if (Objects.equals(userDataCache.getUsersCurrentBotState(message.getChatId()), BotState.START)) {
+            return processUsersInput(message);
+        }
+        return messagesService.getReplyMessage(message.getChatId(), "reply.message.error");
     }
 
     @Override
@@ -92,17 +97,17 @@ public class UserStartHandler implements InputMessageHandler {
         SendMessage replyToUser;
         String role = responseItem.getData().getRole();
         replyToUser = switch (role) {
-            case "ROLE_COMMON_USER" -> clientMenuService.getMainMenuMessage(chatId, "reply.user.start");
-            case "ROLE_MANAGER" -> managerMenuService.getMainMenuMessage(chatId, "reply.user.start");
-            case "ROLE_ADMIN" -> adminMenuService.getMainMenuMessage(chatId, "reply.user.start");
-            case "ROLE_MAP_EDITOR" -> mapEditorMenuService.getMainMenuMessage(chatId, "reply.user.start");
-            default -> messagesService.getReplyMessage(chatId, "reply.start.fail");
+            case "ROLE_COMMON_USER" -> clientMenuService.getMainMenuMessage(chatId, messagesService.getReplyText("reply.user.start"));
+            case "ROLE_MANAGER" -> managerMenuService.getMainMenuMessage(chatId, messagesService.getReplyText("reply.user.start"));
+            case "ROLE_ADMIN" -> adminMenuService.getMainMenuMessage(chatId, messagesService.getReplyText("reply.user.start"));
+            case "ROLE_MAP_EDITOR" -> mapEditorMenuService.getMainMenuMessage(chatId, messagesService.getReplyText("reply.user.start"));
+            default -> messagesService.getReplyMessage(chatId, messagesService.getReplyText("reply.start.fail"));
         };
         userDataCache.saveUserBasicResTO(chatId, responseItem.getData());
         return replyToUser;
     }
 
-    public static String toJSON(Object object) {
+    private String toJSON(Object object) {
         if (object == null) {
             return null;
         }

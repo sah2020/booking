@@ -2,12 +2,12 @@ package com.exadel.telegrambot.botapi;
 
 import com.exadel.telegrambot.cache.UserDataCache;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
-@Component
+@Service
 @Slf4j
 public class TelegramFacade {
     private UserDataCache userDataCache;
@@ -37,17 +37,12 @@ public class TelegramFacade {
         BotState botState;
         SendMessage replyMessage;
 
-        switch (inputMsg) {
-            case "Start Booking":
-                botState = BotState.CLIENT_BOOKING;
-                break;
-            case "My Bookings":
-                botState = BotState.CLIENT_SHOW_BOOKINGS;
-                break;
-            default:
-                botState = userDataCache.getUsersCurrentBotState(userId);
-                break;
-        }
+        botState = switch (inputMsg) {
+            case "/start" -> BotState.START;
+            case "Start Booking" -> BotState.CLIENT_BOOKING;
+            case "My Bookings" -> BotState.CLIENT_SHOW_BOOKINGS;
+            default -> userDataCache.getUsersCurrentBotState(userId);
+        };
 
         userDataCache.setUsersCurrentBotState(userId, botState);
 

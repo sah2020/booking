@@ -2,12 +2,12 @@ package com.exadel.telegrambot.cache;
 
 import com.exadel.telegrambot.botapi.BotState;
 import com.exadel.telegrambot.dto.UserBasicResTO;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
 
-@Component
+@Service
 public class UserDataCache implements DataCache {
     private Map<Long, BotState> usersBotStates = new HashMap<>();
     private Map<Long, UserBasicResTO> usersProfileData = new HashMap<>();
