@@ -17,7 +17,6 @@ public class WorkplaceMapper {
 
     public WorkplaceResponseDto entityToResponseDTO(Workplace workplace) {
         WorkplaceResponseDto workplaceResponseDto = mapper.map(workplace, WorkplaceResponseDto.class);
-        System.out.println(workplace.getMap().getFloor());
         workplaceResponseDto.setConfRoom(workplace.getMap().isConfRooms());
         workplaceResponseDto.setFloor(workplace.getMap().getFloor());
         workplaceResponseDto.setKitchen(workplace.getMap().isKitchen());
