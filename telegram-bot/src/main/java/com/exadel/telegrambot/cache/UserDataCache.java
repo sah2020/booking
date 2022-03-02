@@ -41,4 +41,13 @@ public class UserDataCache implements DataCache {
         usersProfileData.put(userId, UserBasicResTO);
     }
 
+    @Override
+    public String getCurrentUserToken(long userChatId) {
+        UserBasicResTO userBasicResTO = getUserBasicResTO(userChatId);
+        if (userBasicResTO != null) {
+            return userBasicResTO.getToken();
+        }
+        return null;
+    }
+
 }

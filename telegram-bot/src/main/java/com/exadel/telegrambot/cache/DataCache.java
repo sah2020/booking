@@ -11,4 +11,6 @@ public interface DataCache {
     UserBasicResTO getUserBasicResTO(long userChatId);
 
     void saveUserBasicResTO(long userChatId, UserBasicResTO UserBasicResTO);
+
+    String getCurrentUserToken(long userChatId);
 }
