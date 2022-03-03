@@ -37,7 +37,6 @@ public class MapServiceImpl implements MapService {
         boolean exists = mapRepository.existsByFloorAndOfficeId(mapDto.getFloor(), mapDto.getOfficeId());
         if (exists) throw new MapCustomException("Map with floor "+mapDto.getFloor() +" already exists in "+byId.get().getName()+" office");
 
-        //else
         mapRepository.save(Map);
         return new ResponseItem("map successfully added!", HttpStatus.CREATED.value());
     }
