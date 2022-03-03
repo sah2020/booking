@@ -7,8 +7,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import uz.exadel.hotdeskbooking.dto.ResponseItem;
 import uz.exadel.hotdeskbooking.exception.*;
+import uz.exadel.hotdeskbooking.response.error.ErrorResponse;
 
 import java.util.Locale;
 
@@ -17,6 +19,42 @@ import java.util.Locale;
 public class GlobalExceptionHandler{
 
     private final MessageSource messageSource;
+
+    @ExceptionHandler(HotdeskBookingGlobalException.class)
+    public ResponseEntity<Object> handleHotdeskBookingGlobalException(HotdeskBookingGlobalException ex){
+        return ResponseEntity
+                .status(ex.getCode())
+                .body(new ErrorResponse(
+                        ex.getCode(),
+                        ex.getStatus(),
+                        messageSource.getMessage(ex.getMessage(),null,Locale.ENGLISH)
+                      )
+                );
+    }
+
+    @ExceptionHandler(MaxUploadSizeExceededException.class)
+    public ResponseEntity<Object> handleMaxUploadSizeExceededException(){
+        return ResponseEntity
+                .badRequest()
+                .body(new ErrorResponse(
+                                HttpStatus.BAD_REQUEST.value(),
+                                HttpStatus.BAD_REQUEST.getReasonPhrase(),
+                                messageSource.getMessage("api.error.workplace.fileSizeExceed",null,Locale.ENGLISH)
+                        )
+                );
+    }
+
+    @ExceptionHandler(IllegalStateException.class)
+    public ResponseEntity<Object> handleIllegalStateException(){
+        return ResponseEntity
+                .badRequest()
+                .body(new ErrorResponse(
+                                HttpStatus.BAD_REQUEST.value(),
+                                HttpStatus.BAD_REQUEST.getReasonPhrase(),
+                                messageSource.getMessage("api.error.workplace.notMatchedDataTypeInColumn",null,Locale.ENGLISH)
+                        )
+                );
+    }
 
     @ExceptionHandler(value = {RestException.class})
     public ResponseEntity<ResponseItem> handleException(RestException ex) {
@@ -54,47 +92,25 @@ public class GlobalExceptionHandler{
         return ResponseEntity.status(HttpStatus.CONFLICT).body(apiExceptionResponse);
     }
 
-    @ExceptionHandler(BadRequestException.class)
-    public ResponseEntity<Object> handleBadRequestException(BadRequestException ex, Locale locale){
-        return ResponseEntity
-                .badRequest()
-                .body(new ErrorResponse(
-                        ex.getCode(),
-                        messageSource.getMessage(ex.getMessage(), null, locale)));
-    }
-
-    @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<Object> handleEntityNotFoundException(EntityNotFoundException ex, Locale locale){
-        return ResponseEntity
-                .status(HttpStatus.NOT_FOUND)
-                .body(new ErrorResponse(
-                        GlobalErrorCode.ERROR_ENTITY_NOT_FOUND,
-                        messageSource.getMessage(ex.getMessage(), null, locale)));
-    }
-
     @ExceptionHandler(ExcelCsvFileReadException.class)
-    public ResponseEntity<Object> handleExcelCsvFileReadException(ExcelCsvFileReadException ex, Locale locale){
+    public ResponseEntity<Object> handleExcelCsvFileReadException(ExcelCsvFileReadException ex){
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
                 .body(new ErrorResponse(
-                        GlobalErrorCode.BAD_REQUEST,
-                        messageSource.getMessage(ex.getMessage(), null, locale),
-                        ex.getError()
-                        )
+                        ex.getCode(),
+                        ex.getStatus(),
+                        ex.getError())
                 );
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<Object> handleIllegalArgumentException(ExcelCsvFileReadException ex, Locale locale){
+    public ResponseEntity<Object> handleIllegalArgumentException(ExcelCsvFileReadException ex){
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
                 .body(new ErrorResponse(
-                                GlobalErrorCode.BAD_REQUEST,
-                                messageSource.getMessage(ex.getMessage(), null, locale),
-                                ex.getError()
-                        )
+                        ex.getCode(),
+                        ex.getStatus(),
+                        ex.getError())
                 );
     }
-
-
 }

@@ -15,8 +15,8 @@ import java.io.IOException;
 
 @Component
 public class JWTFilter extends OncePerRequestFilter {
-    private JWTProvider jwtProvider;
-    private AuthServiceImpl authServiceImpl;
+    private final JWTProvider jwtProvider;
+    private final AuthServiceImpl authServiceImpl;
 
     public JWTFilter(JWTProvider jwtProvider, AuthServiceImpl authServiceImpl) {
         this.jwtProvider = jwtProvider;

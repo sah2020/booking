@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.Serializable;
 
@@ -19,7 +20,6 @@ public class ResponseItem implements Serializable {
     private int statusCode = HttpStatus.OK.value();
     private Object data;
     private boolean success = true;
-
     public ResponseItem(String message, int statusCode) {
         this.message = message;
         this.statusCode = statusCode;
