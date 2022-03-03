@@ -22,9 +22,11 @@ import uz.exadel.hotdeskbooking.repository.UserRepository;
 import uz.exadel.hotdeskbooking.security.JWTProvider;
 import uz.exadel.hotdeskbooking.service.AuthService;
 
+import javax.transaction.Transactional;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class AuthServiceImpl implements AuthService, UserDetailsService {
     private final ResponseItem unauthorizedResponse = new ResponseItem("User not found. Please contact the administration.", HttpStatus.UNAUTHORIZED.value());
     @Autowired

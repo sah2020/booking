@@ -20,6 +20,7 @@ import uz.exadel.hotdeskbooking.mapper.WorkplaceMapper;
 import uz.exadel.hotdeskbooking.repository.MapRepository;
 import uz.exadel.hotdeskbooking.repository.WorkplaceRepository;
 
+import javax.transaction.Transactional;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -31,6 +32,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class WorkplaceServiceImpl {
     private final WorkplaceRepository workplaceRepository;
     private final MapRepository mapRepository;

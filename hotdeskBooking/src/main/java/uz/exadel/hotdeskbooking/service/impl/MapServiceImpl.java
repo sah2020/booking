@@ -15,10 +15,12 @@ import uz.exadel.hotdeskbooking.repository.MapRepository;
 import uz.exadel.hotdeskbooking.repository.OfficeRepository;
 import uz.exadel.hotdeskbooking.service.MapService;
 
+import javax.transaction.Transactional;
 import java.util.Optional;
 
 @AllArgsConstructor
 @Service
+@Transactional
 public class MapServiceImpl implements MapService {
 
     private final MapRepository mapRepository;

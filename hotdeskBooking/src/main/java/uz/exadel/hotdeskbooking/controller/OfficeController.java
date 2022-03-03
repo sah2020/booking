@@ -2,6 +2,7 @@ package uz.exadel.hotdeskbooking.controller;
 
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import uz.exadel.hotdeskbooking.dto.ResponseItem;
@@ -13,12 +14,14 @@ import javax.validation.constraints.NotNull;
 @RequiredArgsConstructor
 @RequestMapping("/office")
 @RestController
+@Log4j2
 public class OfficeController {
 
     private final OfficeService officeService;
 
     @GetMapping
     public ResponseEntity<?> getOfficeList() {
+        log.info("working properly");
         return ResponseEntity.ok(officeService.getOfficeList());
     }
 
