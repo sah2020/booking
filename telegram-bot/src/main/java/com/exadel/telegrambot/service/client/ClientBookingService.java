@@ -6,11 +6,15 @@ import com.exadel.telegrambot.service.ReplyMessagesService;
 import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.RequestEntity;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,22 +35,30 @@ public class ClientBookingService {
 
     public List<String> getCityListFromBackend(long userChatId) {
         String apiUrl = baseUrl + "/api/office/cityList";
-        final HttpHeaders headers = new HttpHeaders();
-        headers.set("Content-Type", "application/json");
         String token = userDataCache.getCurrentUserToken(userChatId);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
         if (token != null && !token.isEmpty()) {
-            headers.setBearerAuth(token);
+            headers.add("Authorization", "Bearer " + token);
         } else {
             return null;
         }
-        final HttpEntity<String> request = new HttpEntity<>(headers);
-        final String response = restTemplate.getForObject(apiUrl, String.class, request);
+
+        ResponseEntity<String> responseEntity;
+        try {
+            responseEntity = restTemplate.exchange(RequestEntity.get(new URI(apiUrl)).headers(headers).build(), String.class);
+        } catch (URISyntaxException e) {
+            log.info(e.getMessage());
+            return null;
+        }
+
         Gson gson = new Gson();
-        log.info("Response from server: {}", response);
+        log.info("Response from server: {}", responseEntity.getBody());
         ResponseItemCityList responseItem = new ResponseItemCityList();
         responseItem.setData(new ArrayList<>());
         try {
-            responseItem = gson.fromJson(response, ResponseItemCityList.class);
+            responseItem = gson.fromJson(responseEntity.getBody(), ResponseItemCityList.class);
         } catch (Exception e) {
             log.info(e.getMessage());
             return null;

@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import uz.exadel.hotdeskbooking.domain.User;
 import uz.exadel.hotdeskbooking.dto.ResponseItem;
 import uz.exadel.hotdeskbooking.dto.request.LoginDTO;
@@ -44,6 +45,7 @@ public class AuthServiceImpl implements AuthService, UserDetailsService {
     }
 
     @Override
+    @Transactional
     public ResponseItem login(LoginDTO loginDTO) {
         try {
             Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
@@ -60,6 +62,7 @@ public class AuthServiceImpl implements AuthService, UserDetailsService {
         }
     }
 
+    @Transactional
     @Override
     public ResponseItem getCurrentUser() {
         SecurityContext context = SecurityContextHolder.getContext();

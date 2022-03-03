@@ -4,6 +4,7 @@ package uz.exadel.hotdeskbooking.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import uz.exadel.hotdeskbooking.domain.Map;
 import uz.exadel.hotdeskbooking.domain.Office;
 import uz.exadel.hotdeskbooking.dto.OfficeResponseTO;
@@ -78,6 +79,7 @@ public class OfficeServiceImpl implements OfficeService {
 
     //get all the city list (without country name)
     @Override
+    @Transactional
     public ResponseItem getCityList() {
         List<String> cityNames = officeRepository.getCityNames();
         return new ResponseItem(cityNames);
