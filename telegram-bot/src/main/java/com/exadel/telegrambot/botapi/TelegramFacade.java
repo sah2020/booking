@@ -45,7 +45,7 @@ public class TelegramFacade {
         };
 
         userDataCache.setUsersCurrentBotState(userId, botState);
-
+        log.info("User:{} changed state to {}", userId, botState);
         replyMessage = botStateContext.processInputMessage(botState, message);
 
         return replyMessage;

@@ -23,6 +23,12 @@ public class OfficeController {
         return ResponseEntity.ok(officeService.getOfficeList());
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_COMMON_USER','ROLE_MANAGER','ROLE_MAP_EDITOR')")
+    @GetMapping("/{city}")
+    public ResponseEntity<?> getOfficeListByCity(@PathVariable String city) {
+        return ResponseEntity.ok(officeService.getOfficeListByCity(city));
+    }
+
     @PostMapping
     public ResponseEntity<?> addOffice(@RequestBody OfficeDto officeDto) {
         ResponseItem responseItem = officeService.addOffice(officeDto);

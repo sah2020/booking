@@ -125,4 +125,10 @@ public class OfficeServiceImpl implements OfficeService {
         boolean exists = officeRepository.existsByName(officeName);
         if (exists) throw new OfficeCustomException("Office with this name already exists!");
     }
+
+    @Override
+    public ResponseItem getOfficeListByCity(String city) {
+        List<Office> allByCity = officeRepository.findAllByCity(city);
+        return new ResponseItem(allByCity);
+    }
 }
