@@ -8,7 +8,10 @@ import uz.exadel.hotdeskbooking.dto.request.BookingAnyTO;
 import uz.exadel.hotdeskbooking.dto.request.BookingCreateTO;
 import uz.exadel.hotdeskbooking.service.BookingService;
 
+import javax.transaction.Transactional;
+
 @Service
+@Transactional
 public class BookingServiceImpl implements BookingService {
     @Override
     public ResponseItem create(BookingCreateTO bookingCreateTO) {

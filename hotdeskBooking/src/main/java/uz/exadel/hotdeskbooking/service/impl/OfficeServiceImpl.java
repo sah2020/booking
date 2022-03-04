@@ -14,11 +14,13 @@ import uz.exadel.hotdeskbooking.repository.MapRepository;
 import uz.exadel.hotdeskbooking.repository.OfficeRepository;
 import uz.exadel.hotdeskbooking.service.OfficeService;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class OfficeServiceImpl implements OfficeService {
     private final OfficeRepository officeRepository;
     private final ModelMapper modelMapper;

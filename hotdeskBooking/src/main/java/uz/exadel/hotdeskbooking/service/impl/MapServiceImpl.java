@@ -7,18 +7,20 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import uz.exadel.hotdeskbooking.domain.Map;
 import uz.exadel.hotdeskbooking.domain.Office;
-import uz.exadel.hotdeskbooking.dto.request.MapDto;
 import uz.exadel.hotdeskbooking.dto.ResponseItem;
+import uz.exadel.hotdeskbooking.dto.request.MapDto;
 import uz.exadel.hotdeskbooking.exception.MapCustomException;
 import uz.exadel.hotdeskbooking.exception.OfficeCustomException;
 import uz.exadel.hotdeskbooking.repository.MapRepository;
 import uz.exadel.hotdeskbooking.repository.OfficeRepository;
 import uz.exadel.hotdeskbooking.service.MapService;
 
+import javax.transaction.Transactional;
 import java.util.Optional;
 
 @AllArgsConstructor
 @Service
+@Transactional
 public class MapServiceImpl implements MapService {
 
     private final MapRepository mapRepository;
@@ -35,7 +37,6 @@ public class MapServiceImpl implements MapService {
         boolean exists = mapRepository.existsByFloorAndOfficeId(mapDto.getFloor(), mapDto.getOfficeId());
         if (exists) throw new MapCustomException("Map with floor "+mapDto.getFloor() +" already exists in "+byId.get().getName()+" office");
 
-        //else
         mapRepository.save(Map);
         return new ResponseItem("map successfully added!", HttpStatus.CREATED.value());
     }

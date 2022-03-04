@@ -21,6 +21,7 @@ import uz.exadel.hotdeskbooking.response.success.OkResponse;
 import uz.exadel.hotdeskbooking.service.ExcelCsvFileReadService;
 import uz.exadel.hotdeskbooking.service.WorkplaceService;
 
+import javax.transaction.Transactional;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
@@ -28,6 +29,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class WorkplaceServiceImpl implements WorkplaceService {
     private final WorkplaceRepository workplaceRepository;
     private final MapRepository mapRepository;
