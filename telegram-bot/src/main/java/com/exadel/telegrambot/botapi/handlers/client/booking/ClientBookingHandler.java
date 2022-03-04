@@ -52,10 +52,12 @@ public class ClientBookingHandler implements InputMessageHandler {
         if (currentBotState.equals(BotState.CLIENT_ASK_CITY)) {
             List<String> cityListFromBackend = clientBookingService.getCityListFromBackend(userChatId);
             if (cityListFromBackend==null || cityListFromBackend.isEmpty()) {
-                return messagesService.getReplyMessage(userChatId, "reply.booking.tryAgain");
+                return replyToUser;
             }
-            telegramBotApp.sendInlineKeyBoardMessageList(userChatId, messagesService.getReplyText("reply.booking.city.choose"), cityListFromBackend, "");
-            userDataCache.setUsersCurrentBotState(userChatId, BotState.CLIENT_ASK_BOOKING_TYPE);
+            replyToUser = clientBookingService.getCityListMessage(userChatId, cityListFromBackend);
+            userDataCache.setUsersCurrentBotState(userChatId, BotState.CLIENT_ASK_OFFICE);
+        }  else if (currentBotState.equals(BotState.CLIENT_ASK_OFFICE)) {
+
         }
 
         bookingDataCache.saveClientBookingData(userChatId, bookingRequestData);

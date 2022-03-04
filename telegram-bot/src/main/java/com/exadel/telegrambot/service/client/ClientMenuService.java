@@ -1,5 +1,7 @@
 package com.exadel.telegrambot.service.client;
 
+import com.exadel.telegrambot.botapi.TelegramBotApp;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
@@ -11,12 +13,17 @@ import java.util.List;
 
 @Service
 public class ClientMenuService {
+    private final TelegramBotApp telegramBotApp;
+
+    public ClientMenuService(@Lazy TelegramBotApp telegramBotApp) {
+        this.telegramBotApp = telegramBotApp;
+    }
+
+
     public SendMessage getMainMenuMessage(final long chatId, final String textMessage) {
         final ReplyKeyboardMarkup replyKeyboardMarkup = getMainMenuKeyboard();
-        final SendMessage mainMenuMessage =
-                createMessageWithKeyboard(chatId, textMessage, replyKeyboardMarkup);
 
-        return mainMenuMessage;
+        return telegramBotApp.createMessageWithKeyboard(chatId, textMessage, replyKeyboardMarkup);
     }
 
     private ReplyKeyboardMarkup getMainMenuKeyboard() {
@@ -36,18 +43,5 @@ public class ClientMenuService {
         keyboard.add(row2);
         replyKeyboardMarkup.setKeyboard(keyboard);
         return replyKeyboardMarkup;
-    }
-
-    private SendMessage createMessageWithKeyboard(final long chatId,
-                                                  String textMessage,
-                                                  final ReplyKeyboardMarkup replyKeyboardMarkup) {
-        final SendMessage sendMessage = new SendMessage();
-        sendMessage.enableMarkdown(true);
-        sendMessage.setChatId(chatId);
-        sendMessage.setText(textMessage);
-        if (replyKeyboardMarkup != null) {
-            sendMessage.setReplyMarkup(replyKeyboardMarkup);
-        }
-        return sendMessage;
     }
 }

@@ -12,6 +12,7 @@ import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageTe
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
@@ -80,30 +81,6 @@ public class TelegramBotApp extends TelegramWebhookBot {
         }
     }
 
-  public void sendInlineKeyBoardMessageList(long chatId, String messageText, List<String> buttonTexts, String callbackData) {
-        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
-      List<List<InlineKeyboardButton>> rowList = new ArrayList<>();
-
-      for (String buttonText : buttonTexts) {
-          InlineKeyboardButton keyboardButton = new InlineKeyboardButton().setText(buttonText);
-          List<InlineKeyboardButton> keyboardButtonsRow1 = new ArrayList<>();
-          keyboardButtonsRow1.add(keyboardButton);
-          rowList.add(keyboardButtonsRow1);
-      }
-//        if (callbackData != null) {
-//            keyboardButton.setCallbackData(callbackData);
-//        }
-
-        inlineKeyboardMarkup.setKeyboard(rowList);
-
-        try {
-            execute(new SendMessage().setChatId(chatId).setText(messageText).setReplyMarkup(inlineKeyboardMarkup));
-        } catch (TelegramApiException e) {
-            e.printStackTrace();
-        }
-    }
-
-
     public void sendAnswerCallbackQuery(String callbackId, String message) {
         AnswerCallbackQuery answer = new AnswerCallbackQuery();
         answer.setCallbackQueryId(callbackId);
@@ -137,6 +114,20 @@ public class TelegramBotApp extends TelegramWebhookBot {
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
+    }
+
+
+    public SendMessage createMessageWithKeyboard(final long chatId,
+                                                  String textMessage,
+                                                  final ReplyKeyboardMarkup replyKeyboardMarkup) {
+        final SendMessage sendMessage = new SendMessage();
+        sendMessage.enableMarkdown(true);
+        sendMessage.setChatId(chatId);
+        sendMessage.setText(textMessage);
+        if (replyKeyboardMarkup != null) {
+            sendMessage.setReplyMarkup(replyKeyboardMarkup);
+        }
+        return sendMessage;
     }
 
 }
