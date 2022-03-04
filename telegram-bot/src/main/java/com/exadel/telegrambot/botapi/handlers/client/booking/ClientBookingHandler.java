@@ -5,6 +5,7 @@ import com.exadel.telegrambot.botapi.TelegramBotApp;
 import com.exadel.telegrambot.botapi.handlers.InputMessageHandler;
 import com.exadel.telegrambot.cache.UserDataCache;
 import com.exadel.telegrambot.cache.client.BookingDataCache;
+import com.exadel.telegrambot.dto.OfficeResTO;
 import com.exadel.telegrambot.service.ReplyMessagesService;
 import com.exadel.telegrambot.service.client.ClientBookingService;
 import lombok.extern.slf4j.Slf4j;
@@ -57,7 +58,16 @@ public class ClientBookingHandler implements InputMessageHandler {
             replyToUser = clientBookingService.getCityListMessage(userChatId, cityListFromBackend);
             userDataCache.setUsersCurrentBotState(userChatId, BotState.CLIENT_ASK_OFFICE);
         }  else if (currentBotState.equals(BotState.CLIENT_ASK_OFFICE)) {
-
+            if (usersAnswer != null && !usersAnswer.isEmpty()) {
+                bookingDataCache.saveCity(userChatId, usersAnswer);
+            }
+            String cityForBooking = bookingDataCache.getCityForBooking(userChatId);
+            List<OfficeResTO> officeListFromBackend = clientBookingService.getOfficeListFromBackend(userChatId, cityForBooking);
+            if (officeListFromBackend == null || officeListFromBackend.isEmpty()) {
+                return replyToUser;
+            }
+            replyToUser = clientBookingService.getOfficeListMessage(userChatId, officeListFromBackend);
+            userDataCache.setUsersCurrentBotState(userChatId, BotState.CLIENT_ASK_BOOKING_TYPE);
         }
 
         bookingDataCache.saveClientBookingData(userChatId, bookingRequestData);

@@ -2,7 +2,9 @@ package com.exadel.telegrambot.service.client;
 
 import com.exadel.telegrambot.botapi.TelegramBotApp;
 import com.exadel.telegrambot.cache.UserDataCache;
+import com.exadel.telegrambot.dto.OfficeResTO;
 import com.exadel.telegrambot.dto.ResponseItemCityList;
+import com.exadel.telegrambot.dto.ResponseItemOfficeList;
 import com.exadel.telegrambot.service.ReplyMessagesService;
 import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
@@ -96,5 +98,60 @@ public class ClientBookingService {
         return replyKeyboardMarkup;
     }
 
+    public List<OfficeResTO> getOfficeListFromBackend(long userChatId, String cityForBooking) {
+        String apiUrl = baseUrl + "/api/office/list/" + cityForBooking;
+        String token = userDataCache.getCurrentUserToken(userChatId);
 
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        if (token != null && !token.isEmpty()) {
+            headers.add("Authorization", "Bearer " + token);
+        } else {
+            return null;
+        }
+
+        ResponseEntity<String> responseEntity;
+        try {
+            responseEntity = restTemplate.exchange(RequestEntity.get(new URI(apiUrl)).headers(headers).build(), String.class);
+        } catch (URISyntaxException e) {
+            log.info(e.getMessage());
+            return null;
+        }
+
+        Gson gson = new Gson();
+        log.info("Response from server: {}", responseEntity.getBody());
+        ResponseItemOfficeList responseItem = new ResponseItemOfficeList();
+        responseItem.setData(new ArrayList<>());
+        try {
+            responseItem = gson.fromJson(responseEntity.getBody(), ResponseItemOfficeList.class);
+        } catch (Exception e) {
+            log.info(e.getMessage());
+            return null;
+        }
+        return responseItem.getData();
+
+    }
+
+
+    public SendMessage getOfficeListMessage(long userChatId, List<OfficeResTO> officeListFromBackend) {
+        final ReplyKeyboardMarkup replyKeyboardMarkup = getOfficeListKeyboard(officeListFromBackend);
+        String replyText = messagesService.getReplyText("reply.booking.office.choose");
+        SendMessage reply = telegramBotApp.createMessageWithKeyboard(userChatId, replyText, replyKeyboardMarkup);
+        return reply;
+    }
+
+    private ReplyKeyboardMarkup getOfficeListKeyboard(List<OfficeResTO> officeListFromBackend) {
+        ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
+        replyKeyboardMarkup.setSelective(true);
+        replyKeyboardMarkup.setResizeKeyboard(true);
+        replyKeyboardMarkup.setOneTimeKeyboard(false);
+        List<KeyboardRow> keyboard = new ArrayList<>();
+        for (OfficeResTO office : officeListFromBackend) {
+            KeyboardRow row = new KeyboardRow();
+            row.add(new KeyboardButton(office.getName()));
+            keyboard.add(row);
+        }
+        replyKeyboardMarkup.setKeyboard(keyboard);
+        return replyKeyboardMarkup;
+    }
 }

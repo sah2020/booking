@@ -127,6 +127,7 @@ public class OfficeServiceImpl implements OfficeService {
     }
 
     @Override
+    @Transactional
     public ResponseItem getOfficeListByCity(String city) {
         List<Office> allByCity = officeRepository.findAllByCity(city);
         return new ResponseItem(allByCity);

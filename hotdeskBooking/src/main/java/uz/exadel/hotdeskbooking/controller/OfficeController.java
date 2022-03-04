@@ -24,7 +24,7 @@ public class OfficeController {
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_COMMON_USER','ROLE_MANAGER','ROLE_MAP_EDITOR')")
-    @GetMapping("/{city}")
+    @GetMapping("/list/{city}")
     public ResponseEntity<?> getOfficeListByCity(@PathVariable String city) {
         return ResponseEntity.ok(officeService.getOfficeListByCity(city));
     }
