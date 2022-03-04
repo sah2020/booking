@@ -1,4 +1,4 @@
-package uz.exadel.hotdeskbooking.response;
+package uz.exadel.hotdeskbooking.response.error;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;

@@ -5,17 +5,16 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.context.MessageSource;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import uz.exadel.hotdeskbooking.domain.Map;
 import uz.exadel.hotdeskbooking.domain.Workplace;
 import uz.exadel.hotdeskbooking.enums.WorkplaceTypeEnum;
 import uz.exadel.hotdeskbooking.exception.BadRequestException;
-import uz.exadel.hotdeskbooking.exception.EntityNotFoundException;
 import uz.exadel.hotdeskbooking.exception.ExcelCsvFileReadException;
+import uz.exadel.hotdeskbooking.exception.NotFoundException;
 import uz.exadel.hotdeskbooking.repository.MapRepository;
 import uz.exadel.hotdeskbooking.repository.WorkplaceRepository;
-import uz.exadel.hotdeskbooking.response.WorkplaceError;
+import uz.exadel.hotdeskbooking.response.error.WorkplaceError;
 import uz.exadel.hotdeskbooking.service.ExcelCsvFileReadService;
 
 import java.io.BufferedReader;
@@ -36,46 +35,46 @@ public class ExcelCsvFileReadServiceImpl implements ExcelCsvFileReadService {
     private final MessageSource messageSource;
 
     @Override
-    public List<Workplace> readFromXlsx(InputStream inputStream, String mapId, Locale locale){
+    public List<Workplace> readFromXlsx(InputStream inputStream, String mapId) {
         List<Workplace> workplaceList = new ArrayList<>();
-        List<WorkplaceError> workplaceErrorList = checkErrorsInExcelFile(inputStream,mapId,workplaceList,locale);
+        List<WorkplaceError> workplaceErrorList = checkErrorsInExcelFile(inputStream, mapId, workplaceList);
 
-        if (workplaceErrorList.size()>0){
-            throw new ExcelCsvFileReadException(
-                    messageSource.getMessage("api.error.file.exception",null,locale),
-                    workplaceErrorList);
+        if (workplaceErrorList.size() > 0) {
+            throw new ExcelCsvFileReadException(workplaceErrorList);
         }
         return workplaceList;
     }
 
     @Override
-    public List<Workplace> readFromCsv(InputStream inputStream, String mapId, Locale locale){
+    public List<Workplace> readFromCsv(InputStream inputStream, String mapId) {
         List<Workplace> workplaceList = new ArrayList<>();
-        List<WorkplaceError> workplaceErrorList = checkErrorsInCsvFile(inputStream,mapId,workplaceList,locale);
+        List<WorkplaceError> workplaceErrorList = checkErrorsInCsvFile(inputStream, mapId, workplaceList);
 
-        if (workplaceErrorList.size()>0){
-            throw new ExcelCsvFileReadException(
-                    messageSource.getMessage("api.error.file.exception",null,locale),
-                    workplaceErrorList);
+        if (workplaceErrorList.size() > 0) {
+            throw new ExcelCsvFileReadException(workplaceErrorList);
         }
         return workplaceList;
     }
 
-    private List<WorkplaceError> checkErrorsInExcelFile(InputStream inputStream, String mapId, List<Workplace> workplaceList, Locale locale){
+    private List<WorkplaceError> checkErrorsInExcelFile(InputStream inputStream, String mapId, List<Workplace> workplaceList) {
         List<WorkplaceError> workplaceErrorList = new ArrayList<>();
         try (XSSFWorkbook workbook = new XSSFWorkbook(inputStream)) {
             Sheet sheet = workbook.getSheetAt(0);
-            Map map = mapRepository.findById(mapId).orElseThrow(() -> new EntityNotFoundException(messageSource.getMessage("api.error.map.not.found",null, locale)));
+            Map map = mapRepository.findById(mapId).orElseThrow(() -> new NotFoundException("api.error.map.notFound"));
 
             int lineNumber = 0;
             for (Row row : sheet) {
                 lineNumber++;
 
-                if (row.getPhysicalNumberOfCells()<8){
+                if (lineNumber == 1) {
+                    continue;
+                }
+
+                if (row.getPhysicalNumberOfCells() < 8) {
                     workplaceErrorList.add(new WorkplaceError(
                             lineNumber,
-                            "number",
-                            messageSource.getMessage("api.error.column.missing", null, locale)));
+                            "field",
+                            messageSource.getMessage("api.error.workplace.columnMissing", null, Locale.ENGLISH)));
                     continue;
                 }
 
@@ -86,7 +85,7 @@ public class ExcelCsvFileReadServiceImpl implements ExcelCsvFileReadService {
                     workplaceErrorList.add(new WorkplaceError(
                             lineNumber,
                             "number",
-                            messageSource.getMessage("api.error.workplace.number.not.unique",null, locale)));
+                            messageSource.getMessage("api.error.workplace.numberNotUnique", null, Locale.ENGLISH)));
                 }
 
                 long duplicateCount = workplaceList.stream().filter(item -> item.getWorkplaceNumber().equals(workplace.getWorkplaceNumber())).count();
@@ -94,7 +93,7 @@ public class ExcelCsvFileReadServiceImpl implements ExcelCsvFileReadService {
                     workplaceErrorList.add(new WorkplaceError(
                             lineNumber,
                             "number",
-                            messageSource.getMessage("api.error.workplace.number.duplicated",null, locale)));
+                            messageSource.getMessage("api.error.workplace.numberDuplicated", null, Locale.ENGLISH)));
                 }
 
                 try {
@@ -103,7 +102,7 @@ public class ExcelCsvFileReadServiceImpl implements ExcelCsvFileReadService {
                     workplaceErrorList.add(new WorkplaceError(
                             lineNumber,
                             "type",
-                            messageSource.getMessage("api.error.excel.wrong.enum.type",null, locale)));
+                            messageSource.getMessage("api.error.workplace.wrongEnumValue", null, Locale.ENGLISH)));
                 }
 
                 workplace.setNextToWindow(Boolean.valueOf(row.getCell(2).getStringCellValue()));
@@ -117,12 +116,12 @@ public class ExcelCsvFileReadServiceImpl implements ExcelCsvFileReadService {
             }
             return workplaceErrorList;
         } catch (IOException e) {
-            throw new BadRequestException(messageSource.getMessage("api.error.read.excel",null,locale), HttpStatus.BAD_REQUEST.value());
+            throw new BadRequestException("api.error.workplace.fileException");
         }
     }
 
 
-    private List<WorkplaceError> checkErrorsInCsvFile(InputStream inputStream, String mapId, List<Workplace> workplaceList, Locale locale){
+    private List<WorkplaceError> checkErrorsInCsvFile(InputStream inputStream, String mapId, List<Workplace> workplaceList) {
         List<WorkplaceError> workplaceErrorList = new ArrayList<>();
         String line;
         String splitBy = ",";
@@ -130,18 +129,23 @@ public class ExcelCsvFileReadServiceImpl implements ExcelCsvFileReadService {
         try {
             BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
             Map map = mapRepository.findById(mapId)
-                    .orElseThrow(() -> new EntityNotFoundException(messageSource.getMessage("api.error.map.not.found",null, locale)));
+                    .orElseThrow(() -> new NotFoundException("api.error.map.notFound"));
 
             while ((line = br.readLine()) != null) {
                 lineNumber++;
+
+                if (lineNumber == 1) {
+                    continue;
+                }
+
                 String[] workplaceCsv = line.split(splitBy);
 
                 final List<String> emptyFields = Arrays.stream(workplaceCsv).filter(s -> s.equals("")).collect(Collectors.toList());
-                if (emptyFields.size()>0){
+                if (emptyFields.size() > 0) {
                     workplaceErrorList.add(new WorkplaceError(
                             lineNumber,
                             "missing",
-                            messageSource.getMessage("api.error.column.missing", null, locale)));
+                            messageSource.getMessage("api.error.workplace.columnMissing", null, Locale.ENGLISH)));
                     continue;
                 }
 
@@ -152,7 +156,7 @@ public class ExcelCsvFileReadServiceImpl implements ExcelCsvFileReadService {
                     workplaceErrorList.add(new WorkplaceError(
                             lineNumber,
                             "number",
-                            messageSource.getMessage("api.error.workplace.number.not.unique",null, locale)));
+                            messageSource.getMessage("api.error.workplace.numberNotUnique", null, Locale.ENGLISH)));
                 }
 
                 long duplicateCount = workplaceList.stream().filter(item -> item.getWorkplaceNumber().equals(workplace.getWorkplaceNumber())).count();
@@ -160,7 +164,7 @@ public class ExcelCsvFileReadServiceImpl implements ExcelCsvFileReadService {
                     workplaceErrorList.add(new WorkplaceError(
                             lineNumber,
                             "number",
-                            messageSource.getMessage("api.error.workplace.number.duplicated",null, locale)));
+                            messageSource.getMessage("api.error.workplace.numberDuplicated", null, Locale.ENGLISH)));
                 }
 
                 try {
@@ -169,7 +173,7 @@ public class ExcelCsvFileReadServiceImpl implements ExcelCsvFileReadService {
                     workplaceErrorList.add(new WorkplaceError(
                             lineNumber,
                             "type",
-                            messageSource.getMessage("api.error.excel.wrong.enum.type",null, locale)));
+                            messageSource.getMessage("api.error.workplace.wrongEnumValue", null, Locale.ENGLISH)));
                 }
 
                 workplace.setNextToWindow(Boolean.valueOf(workplaceCsv[2]));
@@ -183,7 +187,7 @@ public class ExcelCsvFileReadServiceImpl implements ExcelCsvFileReadService {
             }
             return workplaceErrorList;
         } catch (IOException e) {
-            throw new BadRequestException(messageSource.getMessage("api.error.read.csv",null,locale), HttpStatus.BAD_REQUEST.value());
+            throw new BadRequestException("api.error.workplace.fileException");
         }
     }
 
