@@ -12,6 +12,7 @@ import com.exadel.telegrambot.service.admin.AdminMenuService;
 import com.exadel.telegrambot.service.client.ClientMenuService;
 import com.exadel.telegrambot.service.manager.ManagerMenuService;
 import com.exadel.telegrambot.service.mapEditor.MapEditorMenuService;
+import com.exadel.telegrambot.utils.BaseUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
@@ -76,7 +77,7 @@ public class UserStartHandler implements InputMessageHandler {
         final HttpHeaders headers = new HttpHeaders();
         headers.set("Content-Type", "application/json");
 
-        String requestBody = toJSON(loginDTO);
+        String requestBody = BaseUtils.toJSON(loginDTO);
         if (requestBody == null) {
             log.info("Can't convert object to JSON");
             return messagesService.getReplyMessage(chatId, "reply.start.fail");
@@ -106,16 +107,4 @@ public class UserStartHandler implements InputMessageHandler {
         userDataCache.saveUserBasicResTO(chatId, responseItem.getData());
         return replyToUser;
     }
-
-    private String toJSON(Object object) {
-        if (object == null) {
-            return null;
-        }
-        try {
-            return new ObjectMapper().writeValueAsString(object);
-        } catch (Exception ignored) {
-        }
-        return null;
-    }
-
 }

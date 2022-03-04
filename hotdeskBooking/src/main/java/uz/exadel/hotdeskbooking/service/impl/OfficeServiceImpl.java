@@ -4,6 +4,7 @@ package uz.exadel.hotdeskbooking.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import uz.exadel.hotdeskbooking.domain.Map;
 import uz.exadel.hotdeskbooking.domain.Office;
 import uz.exadel.hotdeskbooking.dto.OfficeResponseTO;
@@ -14,7 +15,6 @@ import uz.exadel.hotdeskbooking.repository.MapRepository;
 import uz.exadel.hotdeskbooking.repository.OfficeRepository;
 import uz.exadel.hotdeskbooking.service.OfficeService;
 
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -124,5 +124,11 @@ public class OfficeServiceImpl implements OfficeService {
     public void checkOfficeByName(String officeName) {
         boolean exists = officeRepository.existsByName(officeName);
         if (exists) throw new OfficeCustomException("Office with this name already exists!");
+    }
+
+    @Override
+    public ResponseItem getOfficeListByCity(String city) {
+        List<Office> allByCity = officeRepository.findAllByCity(city);
+        return new ResponseItem(allByCity);
     }
 }
