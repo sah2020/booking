@@ -15,7 +15,7 @@ import java.io.Serializable;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ResponseItemLogin implements Serializable {
     private String message;
-    private int statusCode = 200;
+    private int statusCode;
     private UserBasicResTO data;
 
     public ResponseItemLogin(String message, int statusCode) {

@@ -17,6 +17,6 @@ public class BookingRecurringTO implements Serializable {
     private String userId;
     private Date startDate;
     private Date endDate;
-    private int frequency;
+    private Integer frequency;
     private List<String> daysOfWeek;
 }

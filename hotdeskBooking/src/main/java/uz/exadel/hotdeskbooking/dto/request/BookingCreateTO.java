@@ -15,6 +15,6 @@ public class BookingCreateTO implements Serializable {
     private String userId;
     private Date startDate;
     private Date endDate;
-    private boolean isRecurring;
-    private int frequency;
+    private Boolean isRecurring;
+    private Integer frequency;
 }

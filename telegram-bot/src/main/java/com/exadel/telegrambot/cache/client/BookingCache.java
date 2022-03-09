@@ -1,11 +1,15 @@
 package com.exadel.telegrambot.cache.client;
 
-import java.util.Optional;
+import com.exadel.telegrambot.botapi.handlers.client.booking.BookingRequestData;
 
 public interface BookingCache {
-    void saveCity(String city);
+    void saveCity(long userChatId, String city);
 
-    Optional<String> getCityForBooking();
+    String getCityForBooking(long userChatId);
 
+    void saveClientBookingData(long userChatId, BookingRequestData bookingRequestData);
+
+    BookingRequestData getClientBookingData(long userChatId);
     //TODO here should be methods to save and get temporary data for booking
+
 }

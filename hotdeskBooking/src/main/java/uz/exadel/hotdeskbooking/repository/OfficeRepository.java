@@ -23,4 +23,6 @@ public interface OfficeRepository extends JpaRepository<Office, String> {
 
     boolean existsByCountry(String country);
 
+    List<Office> findAllByCity(String city);
+
 }

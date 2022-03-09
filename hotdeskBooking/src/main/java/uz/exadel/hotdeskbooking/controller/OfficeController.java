@@ -2,8 +2,9 @@ package uz.exadel.hotdeskbooking.controller;
 
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import uz.exadel.hotdeskbooking.dto.ResponseItem;
 import uz.exadel.hotdeskbooking.dto.request.OfficeDto;
@@ -12,9 +13,9 @@ import uz.exadel.hotdeskbooking.service.OfficeService;
 import javax.validation.constraints.NotNull;
 
 @RequiredArgsConstructor
-@RequestMapping("/office")
+@RequestMapping("/api/office")
 @RestController
-@Log4j2
+@Slf4j
 public class OfficeController {
 
     private final OfficeService officeService;
@@ -23,6 +24,12 @@ public class OfficeController {
     public ResponseEntity<?> getOfficeList() {
         log.info("working properly");
         return ResponseEntity.ok(officeService.getOfficeList());
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_COMMON_USER','ROLE_MANAGER','ROLE_MAP_EDITOR')")
+    @GetMapping("/list/{city}")
+    public ResponseEntity<?> getOfficeListByCity(@PathVariable String city) {
+        return ResponseEntity.ok(officeService.getOfficeListByCity(city));
     }
 
     @PostMapping
@@ -49,6 +56,7 @@ public class OfficeController {
         return ResponseEntity.status(200).body(officeService.deleteOffice(officeId));
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_COMMON_USER','ROLE_MANAGER','ROLE_MAP_EDITOR')")
     @GetMapping("/cityList")
     public ResponseEntity<?> getCityList() {
         return ResponseEntity.ok(officeService.getCityList());

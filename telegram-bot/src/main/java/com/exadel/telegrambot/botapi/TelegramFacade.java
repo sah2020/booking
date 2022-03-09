@@ -33,19 +33,19 @@ public class TelegramFacade {
 
     private SendMessage handleInputMessage(Message message) {
         String inputMsg = message.getText();
-        int userId = message.getFrom().getId();
+        long userId = message.getFrom().getId();
         BotState botState;
         SendMessage replyMessage;
 
         botState = switch (inputMsg) {
             case "/start" -> BotState.START;
-            case "Start Booking" -> BotState.CLIENT_BOOKING;
+            case "Start booking" -> BotState.CLIENT_BOOKING;
             case "My Bookings" -> BotState.CLIENT_SHOW_BOOKINGS;
             default -> userDataCache.getUsersCurrentBotState(userId);
         };
 
         userDataCache.setUsersCurrentBotState(userId, botState);
-
+        log.info("User:{} changed state to {}", userId, botState);
         replyMessage = botStateContext.processInputMessage(botState, message);
 
         return replyMessage;

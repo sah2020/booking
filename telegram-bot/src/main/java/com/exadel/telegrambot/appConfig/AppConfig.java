@@ -9,8 +9,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.web.client.RestTemplate;
-import org.telegram.telegrambots.bots.DefaultBotOptions;
-import org.telegram.telegrambots.meta.ApiContext;
 
 @Configuration
 public class AppConfig {
@@ -37,10 +35,7 @@ public class AppConfig {
 
     @Bean
     public TelegramBotApp TelegramBotApp(TelegramFacade telegramFacade) {
-        DefaultBotOptions options = ApiContext
-                .getInstance(DefaultBotOptions.class);
-
-        TelegramBotApp telegramBotApp = new TelegramBotApp(options, telegramFacade);
+        TelegramBotApp telegramBotApp = new TelegramBotApp(telegramFacade);
         telegramBotApp.setBotUsername(botConfig.getUserName());
         telegramBotApp.setBotToken(botConfig.getBotToken());
         telegramBotApp.setBotPath(botConfig.getWebHookPath());
