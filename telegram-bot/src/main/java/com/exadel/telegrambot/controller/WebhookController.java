@@ -1,6 +1,6 @@
 package com.exadel.telegrambot.controller;
 
-import com.exadel.telegrambot.botapi.TelegramBotApp;
+import com.exadel.telegrambot.botapi.TelegramFacade;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -10,14 +10,14 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 
 @RestController
 public class WebhookController {
-    private final TelegramBotApp telegramBot;
+    private final TelegramFacade telegramFacade;
 
-    public WebhookController(TelegramBotApp telegramBot) {
-        this.telegramBot = telegramBot;
+    public WebhookController(TelegramFacade telegramFacade) {
+        this.telegramFacade = telegramFacade;
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public BotApiMethod<?> onUpdateReceived(@RequestBody Update update) {
-        return telegramBot.onWebhookUpdateReceived(update);
+        return telegramFacade.handleUpdate(update);
     }
 }
