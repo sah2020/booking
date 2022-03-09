@@ -6,13 +6,16 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class BookingAnyTO implements Serializable {
+    private String userId;
     private Date startDate;
     private Date endDate;
-    private String officeId;
-    private String userId;
+    private Boolean isRecurring;
+    private Integer frequency;
+    private List<String> daysOfWeek;
 }

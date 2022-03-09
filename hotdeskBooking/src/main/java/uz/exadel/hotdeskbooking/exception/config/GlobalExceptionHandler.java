@@ -5,6 +5,8 @@ import org.springframework.context.MessageSource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
@@ -78,9 +80,32 @@ public class GlobalExceptionHandler {
         );
     }
 
+    @ExceptionHandler(value = {AuthenticationException.class})
+    public HttpEntity<ResponseItem> handleAuthenticationException(AuthenticationException ex) {
+        ex.printStackTrace();
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(
+                new ResponseItem(
+                        messageSource.getMessage("api.error.unauthorized", null, Locale.ENGLISH),
+                        401
+                )
+        );
+    }
+
+
+    @ExceptionHandler(value = {AccessDeniedException.class})
+    public HttpEntity<ResponseItem> handleAccessDeniedException(AccessDeniedException ex) {
+        ex.printStackTrace();
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(
+                new ResponseItem(
+                        messageSource.getMessage("api.error.forbidden", null, Locale.ENGLISH),
+                        403
+                )
+        );
+    }
+
 
     @ExceptionHandler(OfficeCustomException.class)
-    public ResponseEntity<ResponseItem> handleOfficeException(OfficeCustomException exception){
+    public ResponseEntity<ResponseItem> handleOfficeException(OfficeCustomException exception) {
         ResponseItem apiExceptionResponse
                 = new ResponseItem(exception.getMessage(), 409);
         return ResponseEntity.status(HttpStatus.CONFLICT).body(apiExceptionResponse);

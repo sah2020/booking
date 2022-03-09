@@ -6,6 +6,7 @@ import uz.exadel.hotdeskbooking.domain.Booking;
 import uz.exadel.hotdeskbooking.dto.ResponseItem;
 import uz.exadel.hotdeskbooking.dto.request.BookingAnyTO;
 import uz.exadel.hotdeskbooking.dto.request.BookingCreateTO;
+import uz.exadel.hotdeskbooking.exception.BadRequestException;
 import uz.exadel.hotdeskbooking.service.BookingService;
 
 import javax.transaction.Transactional;
@@ -20,6 +21,10 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public ResponseItem createAny(BookingAnyTO bookingAnyTO) {
+        if (bookingAnyTO == null) {
+            throw new BadRequestException("api.error.bad.request");
+        }
+
         return new ResponseItem("Booking created successfully", HttpStatus.CREATED.value());
     }
 
