@@ -85,4 +85,18 @@ public class AuthServiceImpl implements AuthService, UserDetailsService {
         return new ResponseItem();
     }
 
+    public String getCurrentUserId() {
+        SecurityContext context = SecurityContextHolder.getContext();
+        if (context == null) return null;
+
+        Authentication authentication = context.getAuthentication();
+        if (authentication == null || authentication.getDetails() == null || authentication instanceof AnonymousAuthenticationToken) {
+            return null;
+        }
+        authentication.getDetails();
+        if (authentication.getDetails() instanceof User) {
+            return ((User) authentication.getDetails()).getId();
+        }
+        return null;
+    }
 }
