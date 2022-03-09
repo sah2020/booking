@@ -11,7 +11,7 @@ import uz.exadel.hotdeskbooking.service.OfficeService;
 import javax.validation.constraints.NotNull;
 
 @RequiredArgsConstructor
-@RequestMapping("/office")
+@RequestMapping("api/office")
 @RestController
 public class OfficeController {
 
@@ -20,6 +20,11 @@ public class OfficeController {
     @GetMapping
     public ResponseEntity<?> getOfficeList() {
         return ResponseEntity.ok(officeService.getOfficeList());
+    }
+
+    @GetMapping("/city/{cityName}")
+    public ResponseEntity<?> getOfficeListByCity(@PathVariable String cityName) {
+        return ResponseEntity.ok(officeService.getOfficeListByCity(cityName));
     }
 
     @PostMapping

@@ -12,6 +12,7 @@ import uz.exadel.hotdeskbooking.dto.request.OfficeDto;
 import uz.exadel.hotdeskbooking.exception.OfficeCustomException;
 import uz.exadel.hotdeskbooking.repository.MapRepository;
 import uz.exadel.hotdeskbooking.repository.OfficeRepository;
+import uz.exadel.hotdeskbooking.response.success.OkResponse;
 import uz.exadel.hotdeskbooking.service.OfficeService;
 
 import java.util.List;
@@ -27,6 +28,11 @@ public class OfficeServiceImpl implements OfficeService {
     @Override
     public ResponseItem getOfficeList() {
         return new ResponseItem(officeRepository.findAll());
+    }
+
+    @Override
+    public OkResponse getOfficeListByCity(String city){
+        return new OkResponse(officeRepository.findOfficeByCity(city));
     }
 
     @Override
@@ -78,9 +84,9 @@ public class OfficeServiceImpl implements OfficeService {
 
     //get all the city list (without country name)
     @Override
-    public ResponseItem getCityList() {
+    public OkResponse getCityList() {
         List<String> cityNames = officeRepository.getCityNames();
-        return new ResponseItem(cityNames);
+        return new OkResponse(cityNames);
     }
 
     @Override

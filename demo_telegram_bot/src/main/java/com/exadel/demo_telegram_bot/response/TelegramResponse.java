@@ -1,4 +1,4 @@
-package com.exadel.demo_telegram_bot.model;
+package com.exadel.demo_telegram_bot.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

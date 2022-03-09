@@ -1,6 +1,6 @@
 package com.exadel.demo_telegram_bot.controller;
 
-import com.exadel.demo_telegram_bot.service.telegram.TgService;
+import com.exadel.demo_telegram_bot.HotdeskBookingBotHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -9,13 +9,13 @@ import org.springframework.web.bind.annotation.RestController;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/")
 @RequiredArgsConstructor
 public class WebhookController {
-    private final TgService tgService;
+    private final HotdeskBookingBotHandler hotdeskBookingBotHandler;
 
     @PostMapping
     public void getUpdates(@RequestBody Update update){
-        tgService.handleUpdate(update);
+        hotdeskBookingBotHandler.handleUpdate(update);
     }
 }
