@@ -3,31 +3,33 @@ package uz.exadel.hotdeskbooking.service;
 import uz.exadel.hotdeskbooking.dto.ResponseItem;
 import uz.exadel.hotdeskbooking.dto.request.OfficeDto;
 import uz.exadel.hotdeskbooking.response.success.OkResponse;
+import uz.exadel.hotdeskbooking.response.success.CreatedResponse;
+
 
 
 public interface OfficeService {
 
-    ResponseItem getOfficeList();
+    OkResponse getOfficeList();
 
-    ResponseItem addOffice(OfficeDto officeDto);
+    CreatedResponse addOffice(OfficeDto officeDto);
 
-    ResponseItem getOfficeAndMapList(String officeId);
+    OkResponse getOfficeAndMapList(String officeId);
 
-    ResponseItem updateOffice(OfficeDto officeDto, String officeId);
+    OkResponse updateOffice(OfficeDto officeDto, String officeId);
 
-    ResponseItem deleteOffice(String officeId);
+    OkResponse deleteOffice(String officeId);
 
     OkResponse getCityList();
 
     OkResponse getOfficeListByCity(String city);
 
-    ResponseItem getCityListByCountryName(String countryName);
+    OkResponse getCityListByCountryName(String countryName);
 
-    ResponseItem getCountryList();
+    OkResponse getCountryList();
 
-    ResponseItem getMapListByOfficeId(String officeId);
+    OkResponse getMapListByOfficeId(String officeId);
 
-    ResponseItem checkForParking(String officeId);
+    OkResponse checkForParking(String officeId);
 
     void checkOfficeByName(String officeName);
 }

@@ -25,7 +25,7 @@ public class HotdeskBookingBotHandler {
         if (update != null){
             String chatId = getChatId(update);
             log.info("Received update from chatId: {}", chatId);
-            BotUser botUser = botUserService.getBotUserByHashMap(chatId);
+            BotUser botUser = botUserService.getBotUserByHashMap(chatId); //this will get the user's current state in the bot
 
             if (botUser==null){
                 botUser = botUserService.getUserByTelegramId(chatId);
