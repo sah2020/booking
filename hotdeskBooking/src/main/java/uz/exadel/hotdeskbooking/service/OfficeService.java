@@ -2,6 +2,7 @@ package uz.exadel.hotdeskbooking.service;
 
 import uz.exadel.hotdeskbooking.dto.ResponseItem;
 import uz.exadel.hotdeskbooking.dto.request.OfficeDto;
+import uz.exadel.hotdeskbooking.response.success.OkResponse;
 
 
 public interface OfficeService {
@@ -16,7 +17,9 @@ public interface OfficeService {
 
     ResponseItem deleteOffice(String officeId);
 
-    ResponseItem getCityList();
+    OkResponse getCityList();
+
+    OkResponse getOfficeListByCity(String city);
 
     ResponseItem getCityListByCountryName(String countryName);
 
@@ -27,6 +30,4 @@ public interface OfficeService {
     ResponseItem checkForParking(String officeId);
 
     void checkOfficeByName(String officeName);
-
-    ResponseItem getOfficeListByCity(String city);
 }
