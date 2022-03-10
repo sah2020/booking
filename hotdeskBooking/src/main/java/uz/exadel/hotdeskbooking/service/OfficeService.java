@@ -30,6 +30,4 @@ public interface OfficeService {
     ResponseItem checkForParking(String officeId);
 
     void checkOfficeByName(String officeName);
-
-    ResponseItem getOfficeListByCity(String city);
 }
