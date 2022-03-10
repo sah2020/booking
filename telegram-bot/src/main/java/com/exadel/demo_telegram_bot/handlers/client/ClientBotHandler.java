@@ -11,6 +11,7 @@ import com.exadel.demo_telegram_bot.handlers.client.service.ClientBotService;
 import com.exadel.demo_telegram_bot.service.BotStateService;
 import com.exadel.demo_telegram_bot.service.MessageService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -22,6 +23,7 @@ import static com.exadel.demo_telegram_bot.enums.UserRoleEnum.ROLE_COMMON_USER;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class ClientBotHandler {
     private final StartCommand startCommand;
     private final BotStateService botStateService;
@@ -36,6 +38,7 @@ public class ClientBotHandler {
         if (update.hasMessage()){
             String chatId = update.getMessage().getChatId().toString();
             String text = update.getMessage().getText();
+            log.info("Message from chatId: {} with text: {}", chatId, text);
             if (text.equals("/start")){
                 startCommand.execute(update, ROLE_COMMON_USER);
                 clientBotService.sendMainMenu(chatId);

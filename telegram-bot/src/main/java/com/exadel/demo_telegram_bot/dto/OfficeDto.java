@@ -19,6 +19,5 @@ public class OfficeDto {
 
     private String address;
 
-    @JsonProperty("is_parking_available")
     private boolean isParkingAvailable;
 }
