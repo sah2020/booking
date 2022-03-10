@@ -9,5 +9,7 @@ import java.util.List;
 
 @Repository
 public interface BookingRepository extends JpaRepository<Booking, String> {
-    List<Booking> findAllByStartDateAndActiveTrue(Date startDate);
+    List<Booking> findAllByWorkplace_Map_OfficeIdAndStartDateAndActiveTrue(String workplace_map_officeId, Date startDate);
+
+    List<Booking> findAllByWorkplace_Map_OfficeIdAndStartDateAndEndDateAndActiveTrue(String workplace_map_officeId, Date startDate, Date endDate);
 }

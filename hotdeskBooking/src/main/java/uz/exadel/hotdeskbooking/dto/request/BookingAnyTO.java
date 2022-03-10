@@ -13,6 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 public class BookingAnyTO implements Serializable {
     private String userId;
+    private String officeId;
     private Date startDate;
     private Date endDate;
     private Boolean isRecurring;

@@ -85,7 +85,7 @@ public class AuthServiceImpl implements AuthService, UserDetailsService {
         return new ResponseItem();
     }
 
-    public String getCurrentUserId() {
+    public User getCurrentUserDetails() {
         SecurityContext context = SecurityContextHolder.getContext();
         if (context == null) return null;
 
@@ -95,7 +95,7 @@ public class AuthServiceImpl implements AuthService, UserDetailsService {
         }
         authentication.getDetails();
         if (authentication.getDetails() instanceof User) {
-            return ((User) authentication.getDetails()).getId();
+            return ((User) authentication.getDetails());
         }
         return null;
     }
