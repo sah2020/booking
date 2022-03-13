@@ -1,0 +1,62 @@
+###
+POST http://localhost:7123/api/login
+Content-type: application/json
+
+{
+  "username": "952633338",
+  "password": "password"
+}
+
+###
+POST http://localhost:7123/api/booking/any
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5NTI2MzMzMzgiLCJpYXQiOjE2NDcxNzA2NTEsImV4cCI6MTY0NzI1NzA1MX0.nQNi_d5ZtQzKMh6LM7CAtpUJTHfYPpJnMji6431jdGTzFqnu4r3L1TsxtvGUPF-a6mTL5LAkUzOKYVgxWBvFCw
+
+{
+  "userId": "17f2277680f0000                 ",
+  "officeId": "test5",
+  "startDate": null,
+  "endDate": null,
+  "isRecurring": true,
+  "frequency": 1,
+  "daysOfWeek": null,
+  "datesList": [
+    "2022-02-10",
+    "2022-02-11"
+  ]
+
+}
+
+
+###
+POST http://localhost:7123/api/booking/any
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5NTI2MzMzMzgiLCJpYXQiOjE2NDcxNzA2NTEsImV4cCI6MTY0NzI1NzA1MX0.nQNi_d5ZtQzKMh6LM7CAtpUJTHfYPpJnMji6431jdGTzFqnu4r3L1TsxtvGUPF-a6mTL5LAkUzOKYVgxWBvFCw
+
+{
+  "userId": "17f2277680f0000                 ",
+  "officeId": "test5",
+  "startDate": "2022-03-13",
+  "endDate": null,
+  "isRecurring": false,
+  "frequency": 1,
+  "daysOfWeek": null,
+  "datesList": null
+}
+
+
+###
+POST http://localhost:7123/api/booking/any
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5NTI2MzMzMzgiLCJpYXQiOjE2NDcxNzA2NTEsImV4cCI6MTY0NzI1NzA1MX0.nQNi_d5ZtQzKMh6LM7CAtpUJTHfYPpJnMji6431jdGTzFqnu4r3L1TsxtvGUPF-a6mTL5LAkUzOKYVgxWBvFCw
+
+{
+  "userId": "17f2277680f0000                 ",
+  "officeId": "test5",
+  "startDate": "2022-03-13",
+  "endDate": "2022-03-15",
+  "isRecurring": false,
+  "frequency": 1,
+  "daysOfWeek": null,
+  "datesList": null
+}

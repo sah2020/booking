@@ -3,11 +3,11 @@ package uz.exadel.hotdeskbooking.service;
 import org.junit.Test;
 
 
-public class BookingServiceTestImpl {
+public class BookingServiceImplTest {
     
     @Test
-    public void test() {
-        
+    public void checkBookingCreateAny() {
+
     }
     
 }
