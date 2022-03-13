@@ -16,7 +16,6 @@ import java.util.List;
 @NoArgsConstructor
 public class BookingResTO implements Serializable {
     private String id;
-    private MapResponseTO mapResponseTO;
     private OfficeResponseTO officeResponseTO;
     private Date startDate;
     private Date endDate;

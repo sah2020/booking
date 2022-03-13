@@ -8,11 +8,14 @@ import uz.exadel.hotdeskbooking.domain.Booking;
 import uz.exadel.hotdeskbooking.domain.User;
 import uz.exadel.hotdeskbooking.domain.Workplace;
 import uz.exadel.hotdeskbooking.dto.ResponseItem;
+import uz.exadel.hotdeskbooking.dto.WorkplaceResponseDto;
 import uz.exadel.hotdeskbooking.dto.request.BookingAnyTO;
 import uz.exadel.hotdeskbooking.dto.request.BookingCreateTO;
 import uz.exadel.hotdeskbooking.dto.response.BookingResTO;
 import uz.exadel.hotdeskbooking.exception.BadRequestException;
+import uz.exadel.hotdeskbooking.exception.ConflictException;
 import uz.exadel.hotdeskbooking.exception.ForbiddenException;
+import uz.exadel.hotdeskbooking.mapper.WorkplaceMapper;
 import uz.exadel.hotdeskbooking.repository.BookingRepository;
 import uz.exadel.hotdeskbooking.repository.UserRepository;
 import uz.exadel.hotdeskbooking.repository.WorkplaceRepository;
@@ -32,6 +35,7 @@ public class BookingServiceImpl implements BookingService {
     private UserRepository userRepository;
     private BookingRepository bookingRepository;
     private WorkplaceRepository workplaceRepository;
+    private WorkplaceMapper workplaceMapper;
 
     @Override
     public ResponseItem create(BookingCreateTO bookingCreateTO) {
@@ -96,9 +100,13 @@ public class BookingServiceImpl implements BookingService {
             throw new BadRequestException("api.error.no.workplace.available");
         }
 
+        User bookingUser = isOwnBooking ? currentUser : userRepository.findById(bookingAnyTO.getUserId()).orElse(null);
+        if (bookingUser == null) {
+            throw new ConflictException("api.error.user.not.found");
+        }
         Booking booking = new Booking();
         booking.setWorkplace(chosenWorkplace);
-        booking.setUser(isOwnBooking ? currentUser : userRepository.findById(bookingAnyTO.getUserId()).orElse(null));
+        booking.setUser(bookingUser);
         booking.setStartDate(bookingAnyTO.getStartDate());
         booking.setEndDate(bookingAnyTO.getEndDate());
         booking.setIsRecurring(bookingAnyTO.getIsRecurring());
@@ -107,6 +115,16 @@ public class BookingServiceImpl implements BookingService {
 
         bookingRepository.save(booking);
         BookingResTO response = new BookingResTO();
+        Booking newBooking = bookingRepository.findFirstByWorkplaceIdAndUserIdAndActiveFalse(chosenWorkplace.getId(), bookingUser.getId());
+        response.setId(newBooking.getId());
+        response.setFrequency(newBooking.getFrequency());
+        response.setStartDate(newBooking.getStartDate());
+        response.setEndDate(newBooking.getEndDate());
+        response.setRecurring(newBooking.getIsRecurring());
+
+        WorkplaceResponseDto workplaceResponseDto = workplaceMapper.entityToResponseDTO(chosenWorkplace);
+        response.setWorkplaceResponseDto(workplaceResponseDto);
+        chosenWorkplace.getMap();
 
         return new ResponseItem("Booking created successfully", HttpStatus.CREATED.value());
     }
