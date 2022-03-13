@@ -6,7 +6,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import uz.exadel.hotdeskbooking.dto.ResponseItem;
 import uz.exadel.hotdeskbooking.dto.request.OfficeDto;
+import uz.exadel.hotdeskbooking.response.success.OkResponse;
 import uz.exadel.hotdeskbooking.service.OfficeService;
+import uz.exadel.hotdeskbooking.response.success.CreatedResponse;
+
 
 import javax.validation.constraints.NotNull;
 
@@ -29,26 +32,26 @@ public class OfficeController {
 
     @PostMapping
     public ResponseEntity<?> addOffice(@RequestBody OfficeDto officeDto) {
-        ResponseItem responseItem = officeService.addOffice(officeDto);
+        CreatedResponse responseItem = officeService.addOffice(officeDto);
         return ResponseEntity.status(201).body(responseItem);
     }
 
     @GetMapping("/{officeId}")
     public ResponseEntity<?> getOfficeAndMapsByOfficeId(@PathVariable String officeId) {
-        ResponseItem responseItem = officeService.getOfficeAndMapList(officeId);
+        OkResponse responseItem = officeService.getOfficeAndMapList(officeId);
         return ResponseEntity.status(201).body(responseItem);
 
     }
 
     @PutMapping("/{officeId}")
     public ResponseEntity<?> updateOffice(@RequestBody OfficeDto officeDto, @PathVariable String officeId) {
-        ResponseItem responseItem = officeService.updateOffice(officeDto, officeId);
-        return ResponseEntity.status(201).body(responseItem);
+        OkResponse responseItem = officeService.updateOffice(officeDto, officeId);
+        return ResponseEntity.ok(responseItem);
     }
 
     @DeleteMapping("/{officeId}")
     public ResponseEntity<?> deleteOffice(@PathVariable String officeId) {
-        return ResponseEntity.status(200).body(officeService.deleteOffice(officeId));
+        return ResponseEntity.ok(officeService.deleteOffice(officeId));
     }
 
     @GetMapping("/cityList")

@@ -80,19 +80,6 @@ public class GlobalExceptionHandler {
     }
 
 
-    @ExceptionHandler(OfficeCustomException.class)
-    public ResponseEntity<ResponseItem> handleOfficeException(OfficeCustomException exception){
-        ResponseItem apiExceptionResponse
-                = new ResponseItem(exception.getMessage(), 409);
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(apiExceptionResponse);
-    }
-
-    @ExceptionHandler(MapCustomException.class)
-    public ResponseEntity<ResponseItem> handleMapException(MapCustomException exception) {
-        ResponseItem apiExceptionResponse = new ResponseItem(exception.getMessage(), 409);
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(apiExceptionResponse);
-    }
-
     @ExceptionHandler(ExcelCsvFileReadException.class)
     public ResponseEntity<Object> handleExcelCsvFileReadException(ExcelCsvFileReadException ex) {
         return ResponseEntity

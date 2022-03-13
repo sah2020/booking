@@ -59,7 +59,7 @@ public class DataLoader implements CommandLineRunner {
 
             User userQuvonchbek = new User(
                     "5097735057",
-                    "Quvonchbek",
+                    "Kuvonchbek",
                     "",
                     "example2@exadel.com",
                     new Date(),
