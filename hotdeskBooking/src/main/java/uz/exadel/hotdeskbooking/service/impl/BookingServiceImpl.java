@@ -24,7 +24,6 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional
@@ -92,7 +91,6 @@ public class BookingServiceImpl implements BookingService {
             Date endDate = bookingAnyTO.getEndDate();
             List<Booking> activeBookingsForDates = bookingRepository.findAllByWorkplace_Map_OfficeIdAndStartDateAndEndDateAndActiveTrue(selectedOfficeId, startDate, endDate);
             chosenWorkplace = checkWorkplacesForDates(selectedOfficeId, activeBookingsForDates);
-
         }
         else {
             /*
@@ -100,12 +98,13 @@ public class BookingServiceImpl implements BookingService {
             startDate and endDate are not given.
             datesList contains specific dates for bookings
              */
-            Integer frequency = bookingAnyTO.getFrequency();
-            List<String> daysOfWeek = bookingAnyTO.getDaysOfWeek();
-            if (frequency == null || daysOfWeek == null) {
-                throw new BadRequestException("api.error.bad.request");
-            }
-            List<Booking> activeBookingsForDate = bookingRepository.findAllByWorkplace_Map_OfficeIdAndStartDateInAndActiveTrue(selectedOfficeId, bookingAnyTO.getDatesList());
+            List<Date> datesList = bookingAnyTO.getDatesList();
+            //gets list of dates for booking
+            List<Booking> activeBookingsForDate = new ArrayList<>();
+            //checks each date for booking if it is available
+            datesList.forEach(date ->
+                    activeBookingsForDate.addAll(bookingRepository.findAllByWorkplace_Map_OfficeIdAndStartDateAndEndDateAndActiveTrue(selectedOfficeId, date, new Date(date.getTime() + 1000 * 60 * 60 * 24)))
+            );
             chosenWorkplace = checkWorkplacesForDates(selectedOfficeId, activeBookingsForDate);
         }
         if (chosenWorkplace == null) {

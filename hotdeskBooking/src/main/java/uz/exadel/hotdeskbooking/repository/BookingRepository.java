@@ -10,8 +10,6 @@ import java.util.List;
 
 
 public interface BookingRepository extends JpaRepository<Booking, String> {
-    List<Booking> findAllByWorkplace_Map_OfficeIdAndStartDateInAndActiveTrue(String workplace_map_officeId, List<Date> startDate);
-
     @Query(value = "SELECT b.* FROM booking b" +
             "    INNER JOIN workplace wrk on b.workplace_id=wrk.id" +
             "    INNER JOIN map m ON wrk.map_id=m.id" +
