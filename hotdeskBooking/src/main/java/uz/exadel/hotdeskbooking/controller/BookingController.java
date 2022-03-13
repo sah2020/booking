@@ -21,9 +21,9 @@ public class BookingController {
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_COMMON_USER','ROLE_MANAGER','ROLE_MAP_EDITOR')")
     @PostMapping
-    public ResponseEntity<ResponseItem> add(@RequestBody BookingCreateTO bookingCreateTO) {
-        ResponseItem responseItem = bookingService.create(bookingCreateTO);
-        return new ResponseEntity<>(responseItem, HttpStatus.valueOf(responseItem.getStatusCode()));
+    public ResponseEntity<?> add(@RequestBody BookingCreateTO bookingCreateTO) {
+        OkResponse responseItem = bookingService.create(bookingCreateTO);
+        return new ResponseEntity<>(responseItem, HttpStatus.OK);
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_COMMON_USER','ROLE_MANAGER','ROLE_MAP_EDITOR')")

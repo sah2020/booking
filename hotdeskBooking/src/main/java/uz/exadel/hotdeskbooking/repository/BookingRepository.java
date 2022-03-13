@@ -21,4 +21,9 @@ public interface BookingRepository extends JpaRepository<Booking, String> {
     Booking findFirstByWorkplaceIdAndStartDateAndUserIdAndActiveFalse(String workplaceId, Date startDate, String userId);
 
     List<Booking> findAllByWorkplaceIdAndStartDateInAndUserIdAndActiveFalse(String workplaceId, List<Date> startDate, String userId);
+
+    @Query(value = "SELECT * FROM booking " +
+            "WHERE workplace_id=?1 AND (start_date BETWEEN ?2 AND ?3) OR (end_date BETWEEN ?2 AND ?3) AND active=true",
+                nativeQuery = true)
+    List<Booking> findAllByWorkplaceIdAndStartDateAndEndDateAndActiveTrue(String workplaceId, Date startDate, Date endDate);
 }

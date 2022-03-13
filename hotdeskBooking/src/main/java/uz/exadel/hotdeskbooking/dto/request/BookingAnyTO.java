@@ -20,4 +20,14 @@ public class BookingAnyTO implements Serializable {
     private Integer frequency;
     private List<String> daysOfWeek;
     private List<Date> datesList;
+
+    public BookingAnyTO(String userId, Date startDate, Date endDate, Boolean isRecurring, Integer frequency, List<String> daysOfWeek, List<Date> datesList) {
+        this.userId = userId;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.isRecurring = isRecurring;
+        this.frequency = frequency;
+        this.daysOfWeek = daysOfWeek;
+        this.datesList = datesList;
+    }
 }

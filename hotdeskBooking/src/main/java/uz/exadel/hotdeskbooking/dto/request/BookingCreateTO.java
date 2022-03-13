@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -17,4 +18,6 @@ public class BookingCreateTO implements Serializable {
     private Date endDate;
     private Boolean isRecurring;
     private Integer frequency;
+    private List<String> daysOfWeek;
+    private List<Date> datesList;
 }

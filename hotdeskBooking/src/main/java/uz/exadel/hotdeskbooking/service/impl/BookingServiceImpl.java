@@ -18,6 +18,7 @@ import uz.exadel.hotdeskbooking.repository.BookingRepository;
 import uz.exadel.hotdeskbooking.repository.UserRepository;
 import uz.exadel.hotdeskbooking.repository.WorkplaceRepository;
 import uz.exadel.hotdeskbooking.response.success.CreatedResponse;
+import uz.exadel.hotdeskbooking.response.success.OkResponse;
 import uz.exadel.hotdeskbooking.service.BookingService;
 
 import javax.transaction.Transactional;
@@ -46,8 +47,57 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public ResponseItem create(BookingCreateTO bookingCreateTO) {
-        return new ResponseItem("Booking created successfully", HttpStatus.CREATED.value());
+    public OkResponse create(BookingCreateTO bookingCreateTO) {
+        if (bookingCreateTO == null) {
+            throw new BadRequestException("api.error.bad.request");
+        }
+        if (authServiceImpl.getCurrentUserDetails() == null) {
+            throw new ForbiddenException("api.error.forbidden");
+        }
+
+        String selectedWorkplaceId = bookingCreateTO.getWorkplaceId();
+        if (selectedWorkplaceId == null) {
+            throw new BadRequestException("api.error.workplace.not.found");
+        }
+
+        Workplace workplace = workplaceRepository.findById(selectedWorkplaceId).orElseThrow(() -> new BadRequestException("api.error.workplace.notFound"));
+
+        User currentUser = authServiceImpl.getCurrentUserDetails();
+
+        boolean isOwnBooking = currentUser.getId().equals(bookingCreateTO.getUserId());
+        if (!isOwnBooking && !currentUser.getRoles().contains("ROLE_ADMIN")) {
+            throw new ForbiddenException("api.error.forbidden");
+        }
+
+        User bookingUser = isOwnBooking ? currentUser : userRepository.findById(bookingCreateTO.getUserId()).orElse(null);
+        if (bookingUser == null) {
+            throw new ConflictException("api.error.user.not.found");
+        }
+
+        if (!bookingCreateTO.getIsRecurring()) {
+            Date startDate = bookingCreateTO.getStartDate();
+            if (startDate != null && bookingCreateTO.getEndDate() == null) {
+                bookingCreateTO.setEndDate(new Date(startDate.getTime() + 3600000));
+            }
+            Date endDate = bookingCreateTO.getEndDate();
+            List<Booking> activeBookings = bookingRepository.findAllByWorkplaceIdAndStartDateAndEndDateAndActiveTrue(selectedWorkplaceId, startDate, endDate);
+            if (activeBookings.size() != 0) {
+                throw new ConflictException("api.error.workplace.booked");
+            }
+        } else {
+            List<Date> datesList = bookingCreateTO.getDatesList();
+            List<Booking> activeBookings = new ArrayList<>();
+            datesList.forEach(date -> {
+                activeBookings.addAll(bookingRepository.findAllByWorkplaceIdAndStartDateAndEndDateAndActiveTrue(selectedWorkplaceId, date, new Date(date.getTime() + 3600000)));
+            });
+            if (activeBookings.size() != 0) {
+                throw new ConflictException("api.error.workplace.booked");
+            }
+        }
+        BookingAnyTO bookingAnyTO = new BookingAnyTO(bookingUser.getId(), bookingCreateTO.getStartDate(), bookingCreateTO.getEndDate(), bookingCreateTO.getIsRecurring(), bookingCreateTO.getFrequency(), bookingCreateTO.getDaysOfWeek(), bookingCreateTO.getDatesList());
+        List<BookingResTO> response = createBookingWithParams(workplace, bookingUser, bookingAnyTO);
+
+        return new OkResponse(response);
     }
 
     @Override
