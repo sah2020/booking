@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import uz.exadel.hotdeskbooking.dto.ResponseItem;
 import uz.exadel.hotdeskbooking.dto.request.BookingAnyTO;
 import uz.exadel.hotdeskbooking.dto.request.BookingCreateTO;
+import uz.exadel.hotdeskbooking.response.success.CreatedResponse;
+import uz.exadel.hotdeskbooking.response.success.OkResponse;
 import uz.exadel.hotdeskbooking.service.BookingService;
 
 @RestController
@@ -26,9 +28,9 @@ public class BookingController {
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_COMMON_USER','ROLE_MANAGER','ROLE_MAP_EDITOR')")
     @PostMapping("/any")
-    public ResponseEntity<ResponseItem> add(@RequestBody BookingAnyTO bookingAnyTO) {
-        ResponseItem responseItem = bookingService.createAny(bookingAnyTO);
-        return new ResponseEntity<>(responseItem, HttpStatus.valueOf(responseItem.getStatusCode()));
+    public ResponseEntity<?> add(@RequestBody BookingAnyTO bookingAnyTO) {
+        CreatedResponse responseItem = bookingService.createAny(bookingAnyTO);
+        return new ResponseEntity<>(responseItem, HttpStatus.CREATED);
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_COMMON_USER','ROLE_MANAGER','ROLE_MAP_EDITOR')")

@@ -19,4 +19,5 @@ public class BookingAnyTO implements Serializable {
     private Boolean isRecurring;
     private Integer frequency;
     private List<String> daysOfWeek;
+    private List<Date> datesList;
 }

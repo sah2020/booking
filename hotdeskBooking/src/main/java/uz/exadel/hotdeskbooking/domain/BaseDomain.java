@@ -20,11 +20,12 @@ import java.sql.Timestamp;
 @MappedSuperclass
 @EntityListeners(value = AuditingEntityListener.class)
 public abstract class BaseDomain implements Serializable {
+
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid")
-    @Column(columnDefinition = "CHAR(32)")
     private String id;
+//    @Column(columnDefinition = "CHAR(32)")
 
     @JsonIgnore
     @Column(updatable = false)

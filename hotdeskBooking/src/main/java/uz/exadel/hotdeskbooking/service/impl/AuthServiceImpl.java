@@ -75,12 +75,11 @@ public class AuthServiceImpl implements AuthService, UserDetailsService {
         if (context == null) throw new ForbiddenException("");
 
         Authentication authentication = context.getAuthentication();
-        if (authentication == null || authentication.getDetails() == null || authentication instanceof AnonymousAuthenticationToken) {
+        if (authentication == null || authentication instanceof AnonymousAuthenticationToken) {
             throw new ForbiddenException("");
         }
-        authentication.getDetails();
-        if (authentication.getDetails() instanceof User) {
-            return new ResponseItem(((User) authentication.getDetails()).toBasic());
+        if (authentication.getPrincipal() instanceof User) {
+            return new ResponseItem(((User) authentication.getPrincipal()).toBasic());
         }
         return new ResponseItem();
     }
@@ -90,12 +89,12 @@ public class AuthServiceImpl implements AuthService, UserDetailsService {
         if (context == null) return null;
 
         Authentication authentication = context.getAuthentication();
-        if (authentication == null || authentication.getDetails() == null || authentication instanceof AnonymousAuthenticationToken) {
+        if (authentication == null || authentication instanceof AnonymousAuthenticationToken) {
             return null;
         }
-        authentication.getDetails();
-        if (authentication.getDetails() instanceof User) {
-            return ((User) authentication.getDetails());
+
+        if (authentication.getPrincipal() instanceof User) {
+            return ((User) authentication.getPrincipal());
         }
         return null;
     }
