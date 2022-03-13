@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import uz.exadel.hotdeskbooking.domain.*;
 import uz.exadel.hotdeskbooking.dto.ResponseItem;
+import uz.exadel.hotdeskbooking.dto.StringListDTO;
 import uz.exadel.hotdeskbooking.dto.WorkplaceResponseDto;
 import uz.exadel.hotdeskbooking.dto.request.BookingAnyTO;
 import uz.exadel.hotdeskbooking.dto.request.BookingCreateTO;
@@ -87,9 +88,7 @@ public class BookingServiceImpl implements BookingService {
         } else {
             List<Date> datesList = bookingCreateTO.getDatesList();
             List<Booking> activeBookings = new ArrayList<>();
-            datesList.forEach(date -> {
-                activeBookings.addAll(bookingRepository.findAllByWorkplaceIdAndStartDateAndEndDateAndActiveTrue(selectedWorkplaceId, date, new Date(date.getTime() + 3600000)));
-            });
+            datesList.forEach(date -> activeBookings.addAll(bookingRepository.findAllByWorkplaceIdAndStartDateAndEndDateAndActiveTrue(selectedWorkplaceId, date, new Date(date.getTime() + 3600000))));
             if (activeBookings.size() != 0) {
                 throw new ConflictException("api.error.workplace.booked");
             }
@@ -238,8 +237,12 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public ResponseItem save() {
-        return new ResponseItem("Booking saved successfully", HttpStatus.OK.value());
+    public OkResponse save(StringListDTO stringListDTO) {
+        List<String> idList = stringListDTO.getList();
+        List<Booking> bookings = bookingRepository.findAllByIdIn(idList);
+        bookings.forEach(booking -> booking.setActive(true));
+        bookingRepository.saveAll(bookings);
+        return new OkResponse("Booking saved successfully");
     }
 
     @Override
@@ -260,11 +263,6 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public ResponseItem getOne(String id) {
-        return new ResponseItem(new Booking());
-    }
-
-    @Override
-    public ResponseItem getCurrent() {
         return new ResponseItem(new Booking());
     }
 

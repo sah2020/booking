@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import uz.exadel.hotdeskbooking.dto.ResponseItem;
+import uz.exadel.hotdeskbooking.dto.StringListDTO;
 import uz.exadel.hotdeskbooking.dto.request.BookingAnyTO;
 import uz.exadel.hotdeskbooking.dto.request.BookingCreateTO;
 import uz.exadel.hotdeskbooking.response.success.CreatedResponse;
@@ -35,9 +36,9 @@ public class BookingController {
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_COMMON_USER','ROLE_MANAGER','ROLE_MAP_EDITOR')")
     @PostMapping("/save")
-    public ResponseEntity<ResponseItem> save() {
-        ResponseItem responseItem = bookingService.save();
-        return new ResponseEntity<>(responseItem, HttpStatus.valueOf(responseItem.getStatusCode()));
+    public ResponseEntity<?> save(@RequestBody StringListDTO stringListDTO) {
+        OkResponse responseItem = bookingService.save(stringListDTO);
+        return new ResponseEntity<>(responseItem, HttpStatus.OK);
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_COMMON_USER','ROLE_MANAGER','ROLE_MAP_EDITOR')")
@@ -51,13 +52,6 @@ public class BookingController {
     @GetMapping("/{id}")
     public ResponseEntity<ResponseItem> get(@PathVariable("id") String id) {
         ResponseItem responseItem = bookingService.getOne(id);
-        return new ResponseEntity<>(responseItem, HttpStatus.valueOf(responseItem.getStatusCode()));
-    }
-
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_COMMON_USER','ROLE_MANAGER','ROLE_MAP_EDITOR')")
-    @GetMapping("/current")
-    public ResponseEntity<ResponseItem> get() {
-        ResponseItem responseItem = bookingService.getCurrent();
         return new ResponseEntity<>(responseItem, HttpStatus.valueOf(responseItem.getStatusCode()));
     }
 
