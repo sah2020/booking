@@ -29,4 +29,8 @@ public interface BookingRepository extends JpaRepository<Booking, String> {
     List<Booking> findAllByWorkplaceIdAndStartDateAndEndDateAndActiveTrue(String workplaceId, Date startDate, Date endDate);
 
     List<Booking> findAllByIdIn(List<String> id);
+
+    List<Booking> findAllByUserIdAndActiveTrue(String userId);
+
+    List<Booking> findAllByActiveTrue();
 }

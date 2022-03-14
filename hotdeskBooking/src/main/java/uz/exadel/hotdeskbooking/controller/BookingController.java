@@ -43,9 +43,11 @@ public class BookingController {
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_COMMON_USER','ROLE_MANAGER','ROLE_MAP_EDITOR')")
     @PostMapping("/cancel")
-    public ResponseEntity<ResponseItem> cancel(@RequestParam(value = "id", required = false) String id, @RequestParam(value = "userId", required = false) String userId) {
-        ResponseItem responseItem = bookingService.cancel(id, userId);
-        return new ResponseEntity<>(responseItem, HttpStatus.valueOf(responseItem.getStatusCode()));
+    public ResponseEntity<?> cancel(@RequestParam(value = "id", required = false) String id,
+                                    @RequestParam(value = "userId", required = false) String userId,
+                                    @RequestParam(value = "all", required = false, defaultValue = "false") Boolean all) {
+        OkResponse responseItem = bookingService.cancel(id, userId, all);
+        return new ResponseEntity<>(responseItem, HttpStatus.OK);
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_COMMON_USER','ROLE_MANAGER','ROLE_MAP_EDITOR')")

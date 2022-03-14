@@ -16,7 +16,7 @@ public interface BookingService {
 
     OkResponse save(StringListDTO stringListDTO);
 
-    ResponseItem cancel(String id, String userId);
+    OkResponse cancel(String id, String userId, Boolean all);
 
     ResponseItem edit(String id, BookingCreateTO bookingCreateTO);
 

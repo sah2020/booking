@@ -13,6 +13,7 @@ import uz.exadel.hotdeskbooking.dto.response.BookingResTO;
 import uz.exadel.hotdeskbooking.exception.BadRequestException;
 import uz.exadel.hotdeskbooking.exception.ConflictException;
 import uz.exadel.hotdeskbooking.exception.ForbiddenException;
+import uz.exadel.hotdeskbooking.exception.NotFoundException;
 import uz.exadel.hotdeskbooking.mapper.OfficeMapper;
 import uz.exadel.hotdeskbooking.mapper.WorkplaceMapper;
 import uz.exadel.hotdeskbooking.repository.BookingRepository;
@@ -26,6 +27,7 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @Transactional
@@ -246,19 +248,49 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public ResponseItem cancel(String id, String userId) {
+    public OkResponse cancel(String id, String userId, Boolean all) {
         /*
         there should be logic for canceling one booking and all bookings
         check role of the current user
         admin:
-            if id and userId are given, cancel one booking
-            if only userId is given, cancel all bookings of this user
-            if nothing is given, cancel all bookings
+            if only id is given, cancel one booking
+            if only userId is given and all is true, cancel all bookings of this user
+            if only all is true, cancel all bookings
         user:
             if id is given, cancel one booking
-            if nothing is given, cancel last booking
         * */
-        return new ResponseItem("Booking canceled successfully", HttpStatus.OK.value());
+        User currentUser = authServiceImpl.getCurrentUserDetails();
+        boolean isAdmin = currentUser.getRoles().contains("ROLE_ADMIN");
+
+        if ((userId != null || all) && !Objects.equals(currentUser.getId(), userId) && !isAdmin) {
+            throw new ForbiddenException("api.error.forbidden");
+        }
+        if (id != null) {
+            Booking booking = bookingRepository.findById(id).orElse(null);
+            if (booking == null) {
+                throw new NotFoundException("api.error.booking.notFound");
+            }
+            String bookingUserId = booking.getUserId();
+            if (!bookingUserId.equals(currentUser.getId()) && !isAdmin) {
+                throw new ForbiddenException("api.error.forbidden");
+            }
+            booking.setActive(false);
+            bookingRepository.save(booking);
+        } else if (userId != null && all) {
+            if (!isAdmin) {
+                throw new ForbiddenException("api.error.forbidden");
+            }
+            List<Booking> userBookings = bookingRepository.findAllByUserIdAndActiveTrue(userId);
+            userBookings.forEach(booking -> booking.setActive(false));
+            bookingRepository.saveAll(userBookings);
+        } else if (all && isAdmin) {
+            List<Booking> allBookings = bookingRepository.findAllByActiveTrue();
+            allBookings.forEach(booking -> booking.setActive(false));
+            bookingRepository.saveAll(allBookings);
+        } else {
+            throw new BadRequestException("api.error.bad.request");
+        }
+        return new OkResponse("api.success.cancel.booking");
     }
 
     @Override
