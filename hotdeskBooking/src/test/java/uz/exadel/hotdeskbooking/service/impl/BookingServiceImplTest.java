@@ -26,7 +26,6 @@ import uz.exadel.hotdeskbooking.domain.Map;
 import uz.exadel.hotdeskbooking.domain.Office;
 import uz.exadel.hotdeskbooking.domain.User;
 import uz.exadel.hotdeskbooking.domain.Workplace;
-import uz.exadel.hotdeskbooking.dto.request.BookingAnyTO;
 import uz.exadel.hotdeskbooking.dto.request.BookingCreateTO;
 import uz.exadel.hotdeskbooking.enums.WorkplaceTypeEnum;
 import uz.exadel.hotdeskbooking.exception.BadRequestException;
@@ -189,7 +188,7 @@ class BookingServiceImplTest {
         user.setUpdateById("2020-03-01");
         user.setUpdatedAt(mock(Timestamp.class));
         when(this.authServiceImpl.getCurrentUserDetails()).thenReturn(user);
-        assertThrows(BadRequestException.class, () -> this.bookingServiceImpl.createAny(new BookingAnyTO()));
+        assertThrows(BadRequestException.class, () -> this.bookingServiceImpl.createAny(new BookingCreateTO()));
         verify(this.authServiceImpl).getCurrentUserDetails();
     }
 
@@ -289,7 +288,6 @@ class BookingServiceImplTest {
         booking.setCreatedById("42");
         LocalDateTime atStartOfDayResult2 = LocalDate.of(1970, 1, 1).atStartOfDay();
         booking.setEndDate(Date.from(atStartOfDayResult2.atZone(ZoneId.of("UTC")).toInstant()));
-        booking.setFrequency(1);
         booking.setId("42");
         booking.setIsRecurring(true);
         LocalDateTime atStartOfDayResult3 = LocalDate.of(1970, 1, 1).atStartOfDay();
@@ -408,7 +406,6 @@ class BookingServiceImplTest {
         booking1.setCreatedById("42");
         LocalDateTime atStartOfDayResult6 = LocalDate.of(1970, 1, 1).atStartOfDay();
         booking1.setEndDate(Date.from(atStartOfDayResult6.atZone(ZoneId.of("UTC")).toInstant()));
-        booking1.setFrequency(1);
         booking1.setId("42");
         booking1.setIsRecurring(true);
         LocalDateTime atStartOfDayResult7 = LocalDate.of(1970, 1, 1).atStartOfDay();
@@ -587,7 +584,6 @@ class BookingServiceImplTest {
         booking.setCreatedById("42");
         LocalDateTime atStartOfDayResult2 = LocalDate.of(1970, 1, 1).atStartOfDay();
         booking.setEndDate(Date.from(atStartOfDayResult2.atZone(ZoneId.of("UTC")).toInstant()));
-        booking.setFrequency(1);
         booking.setId("42");
         booking.setIsRecurring(true);
         LocalDateTime atStartOfDayResult3 = LocalDate.of(1970, 1, 1).atStartOfDay();

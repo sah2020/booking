@@ -2,7 +2,6 @@ package uz.exadel.hotdeskbooking.service;
 
 import uz.exadel.hotdeskbooking.dto.ResponseItem;
 import uz.exadel.hotdeskbooking.dto.StringListDTO;
-import uz.exadel.hotdeskbooking.dto.request.BookingAnyTO;
 import uz.exadel.hotdeskbooking.dto.request.BookingCreateTO;
 import uz.exadel.hotdeskbooking.response.success.CreatedResponse;
 import uz.exadel.hotdeskbooking.response.success.OkResponse;
@@ -10,7 +9,7 @@ import uz.exadel.hotdeskbooking.response.success.OkResponse;
 public interface BookingService {
     OkResponse create(BookingCreateTO bookingCreateTO);
 
-    CreatedResponse createAny(BookingAnyTO bookingAnyTO);
+    CreatedResponse createAny(BookingCreateTO bookingCreateTO);
 
     OkResponse getOne(String id);
 
@@ -18,7 +17,7 @@ public interface BookingService {
 
     OkResponse cancel(String id, String userId, Boolean all);
 
-    ResponseItem edit(String id, BookingCreateTO bookingCreateTO);
+    OkResponse edit(String id, BookingCreateTO bookingCreateTO);
 
-    ResponseItem delete(String id);
+    OkResponse delete(String id);
 }

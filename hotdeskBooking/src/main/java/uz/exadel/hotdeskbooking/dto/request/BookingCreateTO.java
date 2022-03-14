@@ -12,12 +12,28 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class BookingCreateTO implements Serializable {
+    private String officeId;
     private String workplaceId;
     private String userId;
     private Date startDate;
     private Date endDate;
     private Boolean isRecurring;
-    private Integer frequency;
-    private List<String> daysOfWeek;
     private List<Date> datesList;
+
+    public BookingCreateTO(String workplaceId, String userId, Date startDate, Date endDate, Boolean isRecurring, List<Date> datesList) {
+        this.workplaceId = workplaceId;
+        this.userId = userId;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.isRecurring = isRecurring;
+        this.datesList = datesList;
+    }
+
+    public BookingCreateTO(String userId, Date startDate, Date endDate, Boolean isRecurring, List<Date> datesList) {
+        this.userId = userId;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.isRecurring = isRecurring;
+        this.datesList = datesList;
+    }
 }
