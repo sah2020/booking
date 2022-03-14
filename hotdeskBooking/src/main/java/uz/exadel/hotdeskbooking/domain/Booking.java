@@ -31,8 +31,6 @@ public class Booking extends BaseDomain {
     @ColumnDefault(value = "false")
     private Boolean isRecurring;
 
-    private Integer frequency;
-
     private Boolean active = true;
 
     public Booking(String workplaceId, Workplace workplace, String userId, User user, Date startDate, Date endDate, Boolean isRecurring, Integer frequency) {
@@ -43,6 +41,5 @@ public class Booking extends BaseDomain {
         this.startDate = startDate;
         this.endDate = endDate;
         this.isRecurring = isRecurring;
-        this.frequency = frequency;
     }
 }
