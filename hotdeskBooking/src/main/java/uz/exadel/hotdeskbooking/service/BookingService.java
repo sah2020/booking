@@ -12,7 +12,7 @@ public interface BookingService {
 
     CreatedResponse createAny(BookingAnyTO bookingAnyTO);
 
-    ResponseItem getOne(String id);
+    OkResponse getOne(String id);
 
     OkResponse save(StringListDTO stringListDTO);
 

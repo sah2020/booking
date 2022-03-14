@@ -3,10 +3,11 @@ package uz.exadel.hotdeskbooking.service.impl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import uz.exadel.hotdeskbooking.domain.*;
+import uz.exadel.hotdeskbooking.domain.Booking;
+import uz.exadel.hotdeskbooking.domain.User;
+import uz.exadel.hotdeskbooking.domain.Workplace;
 import uz.exadel.hotdeskbooking.dto.ResponseItem;
 import uz.exadel.hotdeskbooking.dto.StringListDTO;
-import uz.exadel.hotdeskbooking.dto.WorkplaceResponseDto;
 import uz.exadel.hotdeskbooking.dto.request.BookingAnyTO;
 import uz.exadel.hotdeskbooking.dto.request.BookingCreateTO;
 import uz.exadel.hotdeskbooking.dto.response.BookingResTO;
@@ -14,8 +15,7 @@ import uz.exadel.hotdeskbooking.exception.BadRequestException;
 import uz.exadel.hotdeskbooking.exception.ConflictException;
 import uz.exadel.hotdeskbooking.exception.ForbiddenException;
 import uz.exadel.hotdeskbooking.exception.NotFoundException;
-import uz.exadel.hotdeskbooking.mapper.OfficeMapper;
-import uz.exadel.hotdeskbooking.mapper.WorkplaceMapper;
+import uz.exadel.hotdeskbooking.mapper.BookingMapper;
 import uz.exadel.hotdeskbooking.repository.BookingRepository;
 import uz.exadel.hotdeskbooking.repository.UserRepository;
 import uz.exadel.hotdeskbooking.repository.WorkplaceRepository;
@@ -37,16 +37,14 @@ public class BookingServiceImpl implements BookingService {
     private UserRepository userRepository;
     private BookingRepository bookingRepository;
     private WorkplaceRepository workplaceRepository;
-    private WorkplaceMapper workplaceMapper;
-    private OfficeMapper officeMapper;
+    private BookingMapper bookingMapper;
 
-    public BookingServiceImpl(AuthServiceImpl authServiceImpl, UserRepository userRepository, BookingRepository bookingRepository, WorkplaceRepository workplaceRepository, WorkplaceMapper workplaceMapper, OfficeMapper officeMapper) {
+    public BookingServiceImpl(AuthServiceImpl authServiceImpl, UserRepository userRepository, BookingRepository bookingRepository, WorkplaceRepository workplaceRepository, BookingMapper bookingMapper) {
         this.authServiceImpl = authServiceImpl;
         this.userRepository = userRepository;
         this.bookingRepository = bookingRepository;
         this.workplaceRepository = workplaceRepository;
-        this.workplaceMapper = workplaceMapper;
-        this.officeMapper = officeMapper;
+        this.bookingMapper = bookingMapper;
     }
 
     @Override
@@ -212,31 +210,18 @@ public class BookingServiceImpl implements BookingService {
         List<BookingResTO> response = new ArrayList<>();
         if (!isRecurring) {
             Booking newBooking = bookingRepository.findFirstByWorkplaceIdAndStartDateAndUserIdAndActiveFalse(workplace.getId(), bookingAnyTO.getStartDate(), user.getId());
-            BookingResTO bookingResTO = toBookingResTO(workplace, newBooking);
+            BookingResTO bookingResTO = bookingMapper.toBookingRes(workplace, newBooking);
             response.add(bookingResTO);
         } else {
             List<Booking> bookings = bookingRepository.findAllByWorkplaceIdAndStartDateInAndUserIdAndActiveFalse(workplace.getId(), bookingAnyTO.getDatesList(), user.getId());
             for (Booking booking : bookings) {
-                BookingResTO bookingResTO = toBookingResTO(workplace, booking);
+                BookingResTO bookingResTO = bookingMapper.toBookingRes(workplace, booking);
                 response.add(bookingResTO);
             }
         }
         return response;
     }
 
-    private BookingResTO toBookingResTO(Workplace workplace, Booking booking) {
-        BookingResTO bookingResTO = new BookingResTO();
-        bookingResTO.setId(booking.getId());
-        bookingResTO.setStartDate(booking.getStartDate());
-        bookingResTO.setEndDate(booking.getEndDate() != null ? booking.getEndDate() : null);
-        bookingResTO.setRecurring(booking.getIsRecurring());
-        WorkplaceResponseDto workplaceResponseDto = workplaceMapper.entityToResponseDTO(workplace);
-        bookingResTO.setWorkplaceResponseDto(workplaceResponseDto);
-        Map map = workplace.getMap();
-        Office office = map.getOffice();
-        bookingResTO.setOfficeResponseTO(officeMapper.toResponseTO(office));
-        return bookingResTO;
-    }
 
     @Override
     public OkResponse save(StringListDTO stringListDTO) {
@@ -294,8 +279,16 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public ResponseItem getOne(String id) {
-        return new ResponseItem(new Booking());
+    public OkResponse getOne(String id) {
+        if (id == null) {
+            throw new BadRequestException("api.error.bad.request");
+        }
+        Booking booking = bookingRepository.findById(id).orElse(null);
+        if (booking == null) {
+            throw new NotFoundException("api.error.booking.notFound");
+        }
+        BookingResTO bookingResTO = bookingMapper.toBookingRes(booking.getWorkplace(), booking);
+        return new OkResponse(bookingResTO);
     }
 
     @Override

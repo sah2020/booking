@@ -52,9 +52,9 @@ public class BookingController {
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_COMMON_USER','ROLE_MANAGER','ROLE_MAP_EDITOR')")
     @GetMapping("/{id}")
-    public ResponseEntity<ResponseItem> get(@PathVariable("id") String id) {
-        ResponseItem responseItem = bookingService.getOne(id);
-        return new ResponseEntity<>(responseItem, HttpStatus.valueOf(responseItem.getStatusCode()));
+    public ResponseEntity<?> get(@PathVariable("id") String id) {
+        OkResponse responseItem = bookingService.getOne(id);
+        return new ResponseEntity<>(responseItem, HttpStatus.OK);
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_COMMON_USER','ROLE_MANAGER','ROLE_MAP_EDITOR')")
