@@ -288,6 +288,22 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
+    public OkResponse getByUserId(String userId) {
+        User currentUser = authServiceImpl.getCurrentUserDetails();
+        boolean isAdmin = currentUser.getRoles().contains(RoleTypeEnum.ROLE_ADMIN);
+        if (!isAdmin && !Objects.equals(currentUser.getId(), userId)) {
+            throw new ForbiddenException("api.error.forbidden");
+        }
+        List<Booking> bookings = bookingRepository.findAllByUserIdAndActiveTrue(userId);
+        List<BookingResTO> response = new ArrayList<>();
+        bookings.forEach(booking -> {
+            BookingResTO bookingResTO = bookingMapper.toBookingRes(booking.getWorkplace(), booking);
+            response.add(bookingResTO);
+        });
+        return new OkResponse(response);
+    }
+
+    @Override
     public OkResponse edit(String id, BookingCreateTO bookingCreateTO) {
         if (id == null || bookingCreateTO == null) {
             throw new BadRequestException("api.error.bad.request");

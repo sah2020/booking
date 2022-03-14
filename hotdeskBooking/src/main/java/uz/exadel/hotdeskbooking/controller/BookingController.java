@@ -56,6 +56,13 @@ public class BookingController {
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_COMMON_USER','ROLE_MANAGER','ROLE_MAP_EDITOR')")
+    @GetMapping("/userId/{id}")
+    public ResponseEntity<?> getByUserId(@PathVariable("id") String userId) {
+        OkResponse responseItem = bookingService.getByUserId(userId);
+        return new ResponseEntity<>(responseItem, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_COMMON_USER','ROLE_MANAGER','ROLE_MAP_EDITOR')")
     @PutMapping("/{id}")
     public ResponseEntity<?> edit(@PathVariable("id") String id, @RequestBody BookingCreateTO bookingCreateTO) {
         OkResponse responseItem = bookingService.edit(id, bookingCreateTO);

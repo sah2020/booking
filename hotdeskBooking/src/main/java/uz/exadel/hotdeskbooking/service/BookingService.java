@@ -13,6 +13,8 @@ public interface BookingService {
 
     OkResponse getOne(String id);
 
+    OkResponse getByUserId(String userId);
+
     OkResponse save(StringListDTO stringListDTO);
 
     OkResponse cancel(String id, String userId, Boolean all);
