@@ -6,6 +6,7 @@ import uz.exadel.hotdeskbooking.domain.Map;
 import uz.exadel.hotdeskbooking.domain.Office;
 import uz.exadel.hotdeskbooking.domain.Workplace;
 import uz.exadel.hotdeskbooking.dto.WorkplaceResponseDto;
+import uz.exadel.hotdeskbooking.dto.response.BookingReportResTO;
 import uz.exadel.hotdeskbooking.dto.response.BookingResTO;
 
 @Component
@@ -30,6 +31,21 @@ public class BookingMapper {
         Office office = map.getOffice();
         bookingResTO.setOfficeResponseTO(officeMapper.toResponseTO(office));
         return bookingResTO;
+    }
+
+    public BookingReportResTO toReportRes(Booking booking) {
+        BookingReportResTO bookingReportResTO = new BookingReportResTO();
+        bookingReportResTO.setId(booking.getId());
+        bookingReportResTO.setUser(booking.getUser());
+        Workplace workplace = booking.getWorkplace();
+        Map map = workplace.getMap();
+        Office office = map.getOffice();
+        bookingReportResTO.setOffice(office);
+        bookingReportResTO.setWorkplace(workplace);
+        bookingReportResTO.setStartDate(booking.getStartDate());
+        bookingReportResTO.setEndDate(booking.getEndDate());
+        bookingReportResTO.setRecurring(booking.getIsRecurring());
+        return bookingReportResTO;
     }
 
 }

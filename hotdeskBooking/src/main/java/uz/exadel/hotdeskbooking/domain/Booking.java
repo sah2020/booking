@@ -15,12 +15,12 @@ import java.util.Date;
 public class Booking extends BaseDomain {
 
     private String workplaceId;
-    @ManyToOne(cascade = {CascadeType.PERSIST}, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = {CascadeType.PERSIST}, fetch = FetchType.EAGER)
     @JoinColumn(name = "workplaceId", updatable = false, insertable = false)
     private Workplace workplace;
 
     private String userId;
-    @ManyToOne(cascade = {CascadeType.PERSIST}, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = {CascadeType.PERSIST}, fetch = FetchType.EAGER)
     @JoinColumn(name = "userId", updatable = false, insertable = false)
     private User user;
 

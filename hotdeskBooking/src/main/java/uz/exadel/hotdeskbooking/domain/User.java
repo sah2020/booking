@@ -1,5 +1,7 @@
 package uz.exadel.hotdeskbooking.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -34,6 +36,7 @@ public class User extends BaseDomain implements UserDetails {
 
     private Date employmentEnd;
 
+    @JsonIgnore
     private String password;
 
     private String preferredWorkplaceId;

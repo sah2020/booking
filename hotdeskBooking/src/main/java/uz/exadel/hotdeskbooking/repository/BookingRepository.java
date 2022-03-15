@@ -18,6 +18,27 @@ public interface BookingRepository extends JpaRepository<Booking, String> {
             "  AND b.active=true", nativeQuery = true)
     List<Booking> findAllByWorkplace_Map_OfficeIdAndStartDateAndEndDateAndActiveTrue(String workplace_map_officeId, Date startDate, Date endDate);
 
+    @Query(value = "SELECT b.* FROM booking b" +
+            "    INNER JOIN workplace wrk on b.workplace_id=wrk.id" +
+            "    INNER JOIN map m ON wrk.map_id=m.id" +
+            "    INNER JOIN office o on o.id=m.office_id" +
+            "   WHERE o.id=?1 AND b.active=true", nativeQuery = true)
+    List<Booking> findAllByWorkplace_Map_OfficeIdAndActiveTrue(String workplace_map_officeId);
+
+    @Query(value = "SELECT b.* FROM booking b" +
+            "    INNER JOIN workplace wrk on b.workplace_id=wrk.id" +
+            "    INNER JOIN map m ON wrk.map_id=m.id" +
+            "    INNER JOIN office o on o.id=m.office_id" +
+            "   WHERE o.id=?1 AND b.start_date > ?2 AND b.active=true", nativeQuery = true)
+    List<Booking> findAllByWorkplace_Map_OfficeIdAndStartDateAndActiveTrue(String workplace_map_officeId, Date startDate);
+
+    @Query(value = "SELECT b.* FROM booking b" +
+            "    INNER JOIN workplace wrk on b.workplace_id=wrk.id" +
+            "    INNER JOIN map m ON wrk.map_id=m.id" +
+            "    INNER JOIN office o on o.id=m.office_id" +
+            "   WHERE o.id=?1 AND b.start_date < ?2 AND b.active=true", nativeQuery = true)
+    List<Booking> findAllByWorkplace_Map_OfficeIdAndEndDateAndActiveTrue(String workplace_map_officeId, Date endDate);
+
     Booking findFirstByWorkplaceIdAndStartDateAndUserIdAndActiveFalse(String workplaceId, Date startDate, String userId);
 
     List<Booking> findAllByWorkplaceIdAndStartDateInAndUserIdAndActiveFalse(String workplaceId, List<Date> startDate, String userId);
