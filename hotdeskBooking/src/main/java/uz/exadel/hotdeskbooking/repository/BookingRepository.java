@@ -102,28 +102,41 @@ public interface BookingRepository extends JpaRepository<Booking, String> {
             "    INNER JOIN workplace wrk on b.workplace_id=wrk.id" +
             "    INNER JOIN map m ON wrk.map_id=m.id" +
             "   WHERE m.id=?1 AND b.start_date > ?2 AND b.active=true", nativeQuery = true)
-    List<Booking> findAllByWorkplace_MapIdAndStartDateAndActiveTrue(String workplace_map_office_city, Date startDate);
+    List<Booking> findAllByWorkplace_MapIdAndStartDateAndActiveTrue(String workplace_map_id, Date startDate);
 
     @Query(value = "SELECT b.* FROM booking b" +
             "    INNER JOIN workplace wrk on b.workplace_id=wrk.id" +
             "    INNER JOIN map m ON wrk.map_id=m.id" +
             "   WHERE m.id=?1 AND b.end_date < ?2 AND b.active=true", nativeQuery = true)
-    List<Booking> findAllByWorkplace_MapIdAndEndDateAndActiveTrue(String workplace_map_office_city, Date endDate);
+    List<Booking> findAllByWorkplace_MapIdAndEndDateAndActiveTrue(String workplace_map_id, Date endDate);
 
 
     @Query(value = "SELECT b.* FROM booking b" +
             "   WHERE b.user_id=?1 AND (b.start_date BETWEEN ?2 AND ?3)" +
             "  OR (b.end_date BETWEEN ?2 AND ?3)" +
             "  AND b.active=true", nativeQuery = true)
-    List<Booking> findAllByUserIdAndStartDateAndEndDateAndActiveTrue(String workplace_map_id, Date startDate, Date endDate);
+    List<Booking> findAllByUserIdAndStartDateAndEndDateAndActiveTrue(String workplace_user_id, Date startDate, Date endDate);
 
     @Query(value = "SELECT b.* FROM booking b" +
             "   WHERE b.user_id=?1 AND b.start_date > ?2 AND b.active=true", nativeQuery = true)
-    List<Booking> findAllByUserIdAndStartDateAndActiveTrue(String workplace_map_office_city, Date startDate);
+    List<Booking> findAllByUserIdAndStartDateAndActiveTrue(String workplace_user_id, Date startDate);
 
     @Query(value = "SELECT b.* FROM booking b" +
             "   WHERE b.user_id=?1 AND b.end_date < ?2 AND b.active=true", nativeQuery = true)
-    List<Booking> findAllByUserIdAndEndDateAndActiveTrue(String workplace_map_office_city, Date endDate);
+    List<Booking> findAllByUserIdAndEndDateAndActiveTrue(String workplace_user_id, Date endDate);
 
+    @Query(value = "SELECT b.* FROM booking b" +
+            "   WHERE (b.start_date BETWEEN ?1 AND ?2)" +
+            "  OR (b.end_date BETWEEN ?1 AND ?2)" +
+            "  AND b.active=true", nativeQuery = true)
+    List<Booking> findAllByStartDateAndEndDateAndActiveTrue(Date startDate, Date endDate);
+
+    @Query(value = "SELECT b.* FROM booking b" +
+            "   WHERE b.start_date > ?1 AND b.active=true", nativeQuery = true)
+    List<Booking> findAllByStartDateAndActiveTrue(Date startDate);
+
+    @Query(value = "SELECT b.* FROM booking b" +
+            "   WHERE b.end_date < ?1 AND b.active=true", nativeQuery = true)
+    List<Booking> findAllByEndDateAndActiveTrue(Date endDate);
 
 }

@@ -166,7 +166,29 @@ public class ReportServiceImpl implements ReportService {
 
     @Override
     public OkResponse getAll(String startDate, String endDate) {
-        return null;
+        boolean onlyStartDateGiven = startDate != null && endDate == null;
+        boolean onlyEndDateGiven = startDate == null && endDate != null;
+        boolean bothParamGiven = startDate != null && endDate != null;
+
+        List<Booking> bookingList = new ArrayList<>();
+        if (!bothParamGiven) {
+            bookingList = bookingRepository.findAllByActiveTrue();
+        }
+        if (onlyStartDateGiven) {
+            bookingList = bookingRepository.findAllByStartDateAndActiveTrue(parseDate(startDate));
+        } else if (onlyEndDateGiven) {
+            bookingList = bookingRepository.findAllByEndDateAndActiveTrue(parseDate(endDate));
+        } else if (bothParamGiven) {
+            bookingList = bookingRepository.findAllByStartDateAndEndDateAndActiveTrue(parseDate(startDate), parseDate(endDate));
+        }
+
+        List<BookingReportResTO> response = new ArrayList<>();
+        bookingList.forEach(booking -> {
+            BookingReportResTO bookingReportResTO = bookingMapper.toReportRes(booking);
+            response.add(bookingReportResTO);
+        });
+
+        return new OkResponse(response);
     }
 
     private Date parseDate(String strDate) {
