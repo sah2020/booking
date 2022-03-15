@@ -53,4 +53,35 @@ public interface BookingRepository extends JpaRepository<Booking, String> {
     List<Booking> findAllByUserIdAndActiveTrue(String userId);
 
     List<Booking> findAllByActiveTrue();
+
+    @Query(value = "SELECT b.* FROM booking b" +
+            "    INNER JOIN workplace wrk on b.workplace_id=wrk.id" +
+            "    INNER JOIN map m ON wrk.map_id=m.id" +
+            "    INNER JOIN office o on o.id=m.office_id" +
+            "   WHERE o.city=?1 AND (b.start_date BETWEEN ?2 AND ?3)" +
+            "  OR (b.end_date BETWEEN ?2 AND ?3)" +
+            "  AND b.active=true", nativeQuery = true)
+    List<Booking> findAllByWorkplace_Map_Office_CityAndStartDateAndEndDateAndActiveTrue(String workplace_map_office_city, Date startDate, Date endDate);
+
+    @Query(value = "SELECT b.* FROM booking b" +
+            "    INNER JOIN workplace wrk on b.workplace_id=wrk.id" +
+            "    INNER JOIN map m ON wrk.map_id=m.id" +
+            "    INNER JOIN office o on o.id=m.office_id" +
+            "   WHERE o.city=?1 AND b.active=true", nativeQuery = true)
+    List<Booking> findAllByWorkplace_Map_Office_CityAndActiveTrue(String workplace_map_office_city);
+
+    @Query(value = "SELECT b.* FROM booking b" +
+            "    INNER JOIN workplace wrk on b.workplace_id=wrk.id" +
+            "    INNER JOIN map m ON wrk.map_id=m.id" +
+            "    INNER JOIN office o on o.id=m.office_id" +
+            "   WHERE o.city=?1 AND b.start_date > ?2 AND b.active=true", nativeQuery = true)
+    List<Booking> findAllByWorkplace_Map_Office_CityAndStartDateAndActiveTrue(String workplace_map_office_city, Date startDate);
+
+    @Query(value = "SELECT b.* FROM booking b" +
+            "    INNER JOIN workplace wrk on b.workplace_id=wrk.id" +
+            "    INNER JOIN map m ON wrk.map_id=m.id" +
+            "    INNER JOIN office o on o.id=m.office_id" +
+            "   WHERE o.city=?1 AND b.start_date < ?2 AND b.active=true", nativeQuery = true)
+    List<Booking> findAllByWorkplace_Map_Office_CityAndEndDateAndActiveTrue(String workplace_map_office_city, Date endDate);
+
 }

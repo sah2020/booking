@@ -5,8 +5,11 @@ import org.springframework.stereotype.Service;
 import uz.exadel.hotdeskbooking.domain.Booking;
 import uz.exadel.hotdeskbooking.dto.response.BookingReportResTO;
 import uz.exadel.hotdeskbooking.exception.BadRequestException;
+import uz.exadel.hotdeskbooking.exception.ConflictException;
+import uz.exadel.hotdeskbooking.exception.NotFoundException;
 import uz.exadel.hotdeskbooking.mapper.BookingMapper;
 import uz.exadel.hotdeskbooking.repository.BookingRepository;
+import uz.exadel.hotdeskbooking.repository.OfficeRepository;
 import uz.exadel.hotdeskbooking.response.success.OkResponse;
 import uz.exadel.hotdeskbooking.service.ReportService;
 
@@ -23,15 +26,20 @@ import java.util.List;
 public class ReportServiceImpl implements ReportService {
     private BookingRepository bookingRepository;
     private BookingMapper bookingMapper;
+    private OfficeRepository officeRepository;
 
-    public ReportServiceImpl(BookingRepository bookingRepository, BookingMapper bookingMapper) {
+    public ReportServiceImpl(BookingRepository bookingRepository, BookingMapper bookingMapper, OfficeRepository officeRepository) {
         this.bookingRepository = bookingRepository;
         this.bookingMapper = bookingMapper;
+        this.officeRepository = officeRepository;
     }
 
     @Override
     public OkResponse getByOfficeId(String officeId, String startDate, String endDate) {
         if (officeId == null) throw new BadRequestException("api.error.bad.request");
+
+        if (officeRepository.findById(officeId).isEmpty()) throw new NotFoundException("api.error.office.not.found");
+
         boolean onlyStartDateGiven = startDate != null && endDate == null;
         boolean onlyEndDateGiven = startDate == null && endDate != null;
         boolean bothParamGiven = startDate != null && endDate != null;
@@ -59,7 +67,33 @@ public class ReportServiceImpl implements ReportService {
 
     @Override
     public OkResponse getByCity(String city, String startDate, String endDate) {
-        return null;
+        if (city == null) throw new BadRequestException("api.error.bad.request");
+
+        if (officeRepository.findAllByCity(city).isEmpty()) throw new ConflictException("api.error.office.not.found");
+
+        boolean onlyStartDateGiven = startDate != null && endDate == null;
+        boolean onlyEndDateGiven = startDate == null && endDate != null;
+        boolean bothParamGiven = startDate != null && endDate != null;
+
+        List<Booking> bookingList = new ArrayList<>();
+        if (!bothParamGiven) {
+            bookingList = bookingRepository.findAllByWorkplace_Map_Office_CityAndActiveTrue(city);
+        }
+        if (onlyStartDateGiven) {
+            bookingList = bookingRepository.findAllByWorkplace_Map_Office_CityAndStartDateAndActiveTrue(city, parseDate(startDate));
+        } else if (onlyEndDateGiven) {
+            bookingList = bookingRepository.findAllByWorkplace_Map_Office_CityAndEndDateAndActiveTrue(city, parseDate(endDate));
+        } else if (bothParamGiven) {
+            bookingList = bookingRepository.findAllByWorkplace_Map_Office_CityAndStartDateAndEndDateAndActiveTrue(city, parseDate(startDate), parseDate(endDate));
+        }
+
+        List<BookingReportResTO> response = new ArrayList<>();
+        bookingList.forEach(booking -> {
+            BookingReportResTO bookingReportResTO = bookingMapper.toReportRes(booking);
+            response.add(bookingReportResTO);
+        });
+
+        return new OkResponse(response);
     }
 
     @Override
