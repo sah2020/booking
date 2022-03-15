@@ -84,4 +84,30 @@ public interface BookingRepository extends JpaRepository<Booking, String> {
             "   WHERE o.city=?1 AND b.start_date < ?2 AND b.active=true", nativeQuery = true)
     List<Booking> findAllByWorkplace_Map_Office_CityAndEndDateAndActiveTrue(String workplace_map_office_city, Date endDate);
 
+    @Query(value = "SELECT b.* FROM booking b" +
+            "    INNER JOIN workplace wrk on b.workplace_id=wrk.id" +
+            "    INNER JOIN map m ON wrk.map_id=m.id" +
+            "   WHERE m.id=?1 AND (b.start_date BETWEEN ?2 AND ?3)" +
+            "  OR (b.end_date BETWEEN ?2 AND ?3)" +
+            "  AND b.active=true", nativeQuery = true)
+    List<Booking> findAllByWorkplace_MapIdAndStartDateAndEndDateAndActiveTrue(String workplace_map_id, Date startDate, Date endDate);
+
+    @Query(value = "SELECT b.* FROM booking b" +
+            "    INNER JOIN workplace wrk on b.workplace_id=wrk.id" +
+            "    INNER JOIN map m ON wrk.map_id=m.id" +
+            "   WHERE m.id=?1 AND b.active=true", nativeQuery = true)
+    List<Booking> findAllByWorkplace_MapIdAndActiveTrue(String workplace_map_id);
+
+    @Query(value = "SELECT b.* FROM booking b" +
+            "    INNER JOIN workplace wrk on b.workplace_id=wrk.id" +
+            "    INNER JOIN map m ON wrk.map_id=m.id" +
+            "   WHERE m.id=?1 AND b.start_date > ?2 AND b.active=true", nativeQuery = true)
+    List<Booking> findAllByWorkplace_MapIdAndStartDateAndActiveTrue(String workplace_map_office_city, Date startDate);
+
+    @Query(value = "SELECT b.* FROM booking b" +
+            "    INNER JOIN workplace wrk on b.workplace_id=wrk.id" +
+            "    INNER JOIN map m ON wrk.map_id=m.id" +
+            "   WHERE m.id=?1 AND b.start_date < ?2 AND b.active=true", nativeQuery = true)
+    List<Booking> findAllByWorkplace_MapIdAndEndDateAndActiveTrue(String workplace_map_office_city, Date endDate);
+
 }

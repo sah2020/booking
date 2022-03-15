@@ -9,6 +9,7 @@ import uz.exadel.hotdeskbooking.exception.ConflictException;
 import uz.exadel.hotdeskbooking.exception.NotFoundException;
 import uz.exadel.hotdeskbooking.mapper.BookingMapper;
 import uz.exadel.hotdeskbooking.repository.BookingRepository;
+import uz.exadel.hotdeskbooking.repository.MapRepository;
 import uz.exadel.hotdeskbooking.repository.OfficeRepository;
 import uz.exadel.hotdeskbooking.response.success.OkResponse;
 import uz.exadel.hotdeskbooking.service.ReportService;
@@ -27,11 +28,13 @@ public class ReportServiceImpl implements ReportService {
     private BookingRepository bookingRepository;
     private BookingMapper bookingMapper;
     private OfficeRepository officeRepository;
+    private MapRepository mapRepository;
 
-    public ReportServiceImpl(BookingRepository bookingRepository, BookingMapper bookingMapper, OfficeRepository officeRepository) {
+    public ReportServiceImpl(BookingRepository bookingRepository, BookingMapper bookingMapper, OfficeRepository officeRepository, MapRepository mapRepository) {
         this.bookingRepository = bookingRepository;
         this.bookingMapper = bookingMapper;
         this.officeRepository = officeRepository;
+        this.mapRepository = mapRepository;
     }
 
     @Override
@@ -98,7 +101,33 @@ public class ReportServiceImpl implements ReportService {
 
     @Override
     public OkResponse getByMapId(String mapId, String startDate, String endDate) {
-        return null;
+        if (mapId == null) throw new BadRequestException("api.error.bad.request");
+
+        if (mapRepository.findById(mapId).isEmpty()) throw new NotFoundException("api.error.map.not.found");
+
+        boolean onlyStartDateGiven = startDate != null && endDate == null;
+        boolean onlyEndDateGiven = startDate == null && endDate != null;
+        boolean bothParamGiven = startDate != null && endDate != null;
+
+        List<Booking> bookingList = new ArrayList<>();
+        if (!bothParamGiven) {
+            bookingList = bookingRepository.findAllByWorkplace_MapIdAndActiveTrue(mapId);
+        }
+        if (onlyStartDateGiven) {
+            bookingList = bookingRepository.findAllByWorkplace_MapIdAndStartDateAndActiveTrue(mapId, parseDate(startDate));
+        } else if (onlyEndDateGiven) {
+            bookingList = bookingRepository.findAllByWorkplace_MapIdAndEndDateAndActiveTrue(mapId, parseDate(endDate));
+        } else if (bothParamGiven) {
+            bookingList = bookingRepository.findAllByWorkplace_MapIdAndStartDateAndEndDateAndActiveTrue(mapId, parseDate(startDate), parseDate(endDate));
+        }
+
+        List<BookingReportResTO> response = new ArrayList<>();
+        bookingList.forEach(booking -> {
+            BookingReportResTO bookingReportResTO = bookingMapper.toReportRes(booking);
+            response.add(bookingReportResTO);
+        });
+
+        return new OkResponse(response);
     }
 
     @Override
