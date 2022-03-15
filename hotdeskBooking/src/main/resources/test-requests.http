@@ -144,3 +144,20 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5NTI2MzMzMzgiLCJpYXQiOjE2N
     "2022-01-17"
   ]
 }
+
+###
+<!--
+Booking report get by office ID
+-->
+###
+GET http://localhost:7123/api/report/officeId/test5
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5NTI2MzMzMzgiLCJpYXQiOjE2NDczNjQyMjQsImV4cCI6MTY0NzQ1MDYyNH0.QflRoEiytBt7A7gmge224cN42dqP1FfJFs8A7xscu7E0kqFRiD3BlvP5ZP0M7kFcKKbHhA6uBjh3I8IWwGJl9Q
+###
+<!--
+Booking report get by office ID
+-->
+###
+GET http://localhost:7123/api/report/officeId/test5?startDate="2022-01-01"
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5NTI2MzMzMzgiLCJpYXQiOjE2NDczNjQyMjQsImV4cCI6MTY0NzQ1MDYyNH0.QflRoEiytBt7A7gmge224cN42dqP1FfJFs8A7xscu7E0kqFRiD3BlvP5ZP0M7kFcKKbHhA6uBjh3I8IWwGJl9Q

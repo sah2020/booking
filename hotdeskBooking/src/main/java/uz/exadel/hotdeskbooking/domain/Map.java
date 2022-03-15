@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Entity
 public class Map extends BaseDomain {
     private String officeId;
-    @ManyToOne(cascade = {CascadeType.PERSIST}, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = {CascadeType.PERSIST}, fetch = FetchType.EAGER)
     @JoinColumn(name = "officeId", updatable = false, insertable = false)
     private Office office;
 
