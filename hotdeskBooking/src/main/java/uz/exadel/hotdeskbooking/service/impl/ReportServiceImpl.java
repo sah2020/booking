@@ -11,6 +11,7 @@ import uz.exadel.hotdeskbooking.mapper.BookingMapper;
 import uz.exadel.hotdeskbooking.repository.BookingRepository;
 import uz.exadel.hotdeskbooking.repository.MapRepository;
 import uz.exadel.hotdeskbooking.repository.OfficeRepository;
+import uz.exadel.hotdeskbooking.repository.UserRepository;
 import uz.exadel.hotdeskbooking.response.success.OkResponse;
 import uz.exadel.hotdeskbooking.service.ReportService;
 
@@ -29,12 +30,14 @@ public class ReportServiceImpl implements ReportService {
     private BookingMapper bookingMapper;
     private OfficeRepository officeRepository;
     private MapRepository mapRepository;
+    private UserRepository userRepository;
 
-    public ReportServiceImpl(BookingRepository bookingRepository, BookingMapper bookingMapper, OfficeRepository officeRepository, MapRepository mapRepository) {
+    public ReportServiceImpl(BookingRepository bookingRepository, BookingMapper bookingMapper, OfficeRepository officeRepository, MapRepository mapRepository, UserRepository userRepository) {
         this.bookingRepository = bookingRepository;
         this.bookingMapper = bookingMapper;
         this.officeRepository = officeRepository;
         this.mapRepository = mapRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -132,7 +135,33 @@ public class ReportServiceImpl implements ReportService {
 
     @Override
     public OkResponse getByUserId(String userId, String startDate, String endDate) {
-        return null;
+        if (userId == null) throw new BadRequestException("api.error.bad.request");
+
+        if (userRepository.findById(userId).isEmpty()) throw new NotFoundException("api.error.user.not.found");
+
+        boolean onlyStartDateGiven = startDate != null && endDate == null;
+        boolean onlyEndDateGiven = startDate == null && endDate != null;
+        boolean bothParamGiven = startDate != null && endDate != null;
+
+        List<Booking> bookingList = new ArrayList<>();
+        if (!bothParamGiven) {
+            bookingList = bookingRepository.findAllByUserIdAndActiveTrue(userId);
+        }
+        if (onlyStartDateGiven) {
+            bookingList = bookingRepository.findAllByUserIdAndStartDateAndActiveTrue(userId, parseDate(startDate));
+        } else if (onlyEndDateGiven) {
+            bookingList = bookingRepository.findAllByUserIdAndEndDateAndActiveTrue(userId, parseDate(endDate));
+        } else if (bothParamGiven) {
+            bookingList = bookingRepository.findAllByUserIdAndStartDateAndEndDateAndActiveTrue(userId, parseDate(startDate), parseDate(endDate));
+        }
+
+        List<BookingReportResTO> response = new ArrayList<>();
+        bookingList.forEach(booking -> {
+            BookingReportResTO bookingReportResTO = bookingMapper.toReportRes(booking);
+            response.add(bookingReportResTO);
+        });
+
+        return new OkResponse(response);
     }
 
     @Override
