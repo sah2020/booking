@@ -5,12 +5,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-import uz.exadel.hotdeskbooking.domain.Role;
-import uz.exadel.hotdeskbooking.domain.User;
+import uz.exadel.hotdeskbooking.domain.*;
 import uz.exadel.hotdeskbooking.enums.RoleTypeEnum;
-import uz.exadel.hotdeskbooking.repository.RoleRepository;
-import uz.exadel.hotdeskbooking.repository.UserRepository;
+import uz.exadel.hotdeskbooking.enums.WorkplaceTypeEnum;
+import uz.exadel.hotdeskbooking.repository.*;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -26,6 +26,9 @@ public class DataLoader implements CommandLineRunner {
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
+    private final OfficeRepository officeRepository;
+    private final MapRepository mapRepository;
+    private final WorkplaceRepository workplaceRepository;
 
     @Override
     public void run(String... args) throws Exception {
@@ -41,6 +44,8 @@ public class DataLoader implements CommandLineRunner {
             HashSet<Role> roles = new HashSet<>();
             roles.add(roleRepository.findByRoleType(RoleTypeEnum.ROLE_COMMON_USER));
 
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+
             List<User> users = new ArrayList<>();
             User userAkmaljon = new User(
                     "952633338",
@@ -48,7 +53,7 @@ public class DataLoader implements CommandLineRunner {
                     "Samandarov",
                     "example1@exadel.com",
                     new Date(),
-                    new Date(),
+                    dateFormat.parse("01-06-2022"),
                     null,
                     null
             );
@@ -63,7 +68,7 @@ public class DataLoader implements CommandLineRunner {
                     "",
                     "example2@exadel.com",
                     new Date(),
-                    new Date(),
+                    dateFormat.parse("01-06-2022"),
                     null,
                     null
             );
@@ -78,7 +83,7 @@ public class DataLoader implements CommandLineRunner {
                     "Ismoilov",
                     "example3@exadel.com",
                     new Date(),
-                    new Date(),
+                    dateFormat.parse("01-06-2022"),
                     null,
                     null
             );
@@ -88,6 +93,37 @@ public class DataLoader implements CommandLineRunner {
             users.add(userArabboy);
 
             userRepository.saveAll(users);
+
+            Office office = new Office();
+            office.setId("office1");
+            office.setName("Office 1");
+            office.setCountry("Uzbekistan");
+            office.setCity("Tashkent");
+            office.setAddress("Navoi street, 1");
+            office.setParkingAvailable(true);
+            officeRepository.save(office);
+
+            Map map = new Map();
+            map.setId("map1");
+            map.setOfficeId("office1");
+            map.setFloor(3);
+            map.setKitchen(true);
+            map.setConfRooms(true);
+            mapRepository.save(map);
+
+            Workplace workplace = new Workplace();
+            workplace.setId("workplace1");
+            workplace.setMap(map);
+            workplace.setWorkplaceNumber("1");
+            workplace.setType(WorkplaceTypeEnum.REGULAR);
+            workplace.setNextToWindow(true);
+            workplace.setHasPC(true);
+            workplace.setHasMonitor(true);
+            workplace.setHasKeyboard(true);
+            workplace.setHasMouse(true);
+            workplace.setHasHeadset(true);
+            workplaceRepository.save(workplace);
+
         }
     }
 }

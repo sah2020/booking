@@ -147,12 +147,31 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5NTI2MzMzMzgiLCJpYXQiOjE2N
 
 ###
 <!--
+Save/confirm booking
+-->
+
+###
+POST http://localhost:8123/api/booking/save
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5NTI2MzMzMzgiLCJpYXQiOjE2NDc0NDE0MDQsImV4cCI6MTY0NzUyNzgwNH0.XQ69jvuD6bYh6JjXM7XtV5iGbLAGtLH0Qxs5QiozeHrlGCIx8nfqR0ATXHEriruaC8j9V1ZxlvXTTWx_PgZ6yA
+
+{
+  "list": [
+    "ff8081817f8359e2017f835d5c980000",
+    "ff8081817f831114017f8312d1a30001"
+  ]
+}
+
+###
+<!--
 Booking report get by office ID
 -->
+
 ###
 GET http://localhost:7123/api/report/officeId/test5
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5NTI2MzMzMzgiLCJpYXQiOjE2NDczNjQyMjQsImV4cCI6MTY0NzQ1MDYyNH0.QflRoEiytBt7A7gmge224cN42dqP1FfJFs8A7xscu7E0kqFRiD3BlvP5ZP0M7kFcKKbHhA6uBjh3I8IWwGJl9Q
+
 ###
 <!--
 Booking report get by office ID

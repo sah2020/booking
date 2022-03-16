@@ -38,7 +38,7 @@ public class SwaggerConfig {
                 "Booking",
                 "1.0",
                 "Terms of service",
-                new Contact("Akmaljon Samandarov", "github.com/sah2020",
+                new Contact("Akmaljon Samandarov", "https://github.com/sah2020",
                         "akmaljonsamandarov@gmail.com"),
                 "License of API",
                 "API license URL",
