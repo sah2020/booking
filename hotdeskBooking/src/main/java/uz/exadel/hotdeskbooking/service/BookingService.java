@@ -1,23 +1,24 @@
 package uz.exadel.hotdeskbooking.service;
 
-import uz.exadel.hotdeskbooking.dto.ResponseItem;
-import uz.exadel.hotdeskbooking.dto.request.BookingAnyTO;
+import uz.exadel.hotdeskbooking.dto.StringListDTO;
 import uz.exadel.hotdeskbooking.dto.request.BookingCreateTO;
+import uz.exadel.hotdeskbooking.response.success.CreatedResponse;
+import uz.exadel.hotdeskbooking.response.success.OkResponse;
 
 public interface BookingService {
-    ResponseItem create(BookingCreateTO bookingCreateTO);
+    OkResponse create(BookingCreateTO bookingCreateTO);
 
-    ResponseItem createAny(BookingAnyTO bookingAnyTO);
+    CreatedResponse createAny(BookingCreateTO bookingCreateTO);
 
-    ResponseItem getOne(String id);
+    OkResponse getOne(String id);
 
-    ResponseItem save();
+    OkResponse getByUserId(String userId);
 
-    ResponseItem cancel(String id, String userId);
+    OkResponse save(StringListDTO stringListDTO);
 
-    ResponseItem getCurrent();
+    OkResponse cancel(String id, String userId, Boolean all);
 
-    ResponseItem edit(String id, BookingCreateTO bookingCreateTO);
+    OkResponse edit(String id, BookingCreateTO bookingCreateTO);
 
-    ResponseItem delete(String id);
+    OkResponse delete(String id);
 }

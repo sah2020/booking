@@ -15,12 +15,12 @@ import java.util.Date;
 public class Booking extends BaseDomain {
 
     private String workplaceId;
-    @ManyToOne(cascade = {CascadeType.PERSIST}, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = {CascadeType.PERSIST}, fetch = FetchType.EAGER)
     @JoinColumn(name = "workplaceId", updatable = false, insertable = false)
     private Workplace workplace;
 
     private String userId;
-    @ManyToOne(cascade = {CascadeType.PERSIST}, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = {CascadeType.PERSIST}, fetch = FetchType.EAGER)
     @JoinColumn(name = "userId", updatable = false, insertable = false)
     private User user;
 
@@ -30,8 +30,6 @@ public class Booking extends BaseDomain {
 
     @ColumnDefault(value = "false")
     private Boolean isRecurring;
-
-    private Integer frequency;
 
     private Boolean active = true;
 
@@ -43,6 +41,5 @@ public class Booking extends BaseDomain {
         this.startDate = startDate;
         this.endDate = endDate;
         this.isRecurring = isRecurring;
-        this.frequency = frequency;
     }
 }

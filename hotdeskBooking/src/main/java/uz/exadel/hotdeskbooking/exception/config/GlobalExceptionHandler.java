@@ -5,12 +5,15 @@ import org.springframework.context.MessageSource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import uz.exadel.hotdeskbooking.dto.ResponseItem;
-import uz.exadel.hotdeskbooking.exception.*;
+import uz.exadel.hotdeskbooking.exception.ExcelCsvFileReadException;
+import uz.exadel.hotdeskbooking.exception.HotdeskBookingGlobalException;
+import uz.exadel.hotdeskbooking.exception.RestException;
 import uz.exadel.hotdeskbooking.response.error.ErrorResponse;
 
 import java.util.Locale;
@@ -71,24 +74,25 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = {Exception.class})
     public HttpEntity<ResponseItem> handleException(Exception ex) {
         ex.printStackTrace();
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
-                new ResponseItem(
-                        "Server error",
-                        500
-                )
-        );
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseItem("Server error", 500));
+    }
+
+    @ExceptionHandler(value = {AuthenticationException.class})
+    public HttpEntity<ResponseItem> handleAuthenticationException(AuthenticationException ex) {
+        ex.printStackTrace();
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ResponseItem(messageSource.getMessage("api.error.unauthorized", null, Locale.ENGLISH), 401));
     }
 
 
+    @ExceptionHandler(value = {AccessDeniedException.class})
+    public HttpEntity<ResponseItem> handleAccessDeniedException(AccessDeniedException ex) {
+        ex.printStackTrace();
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ResponseItem(messageSource.getMessage("api.error.forbidden", null, Locale.ENGLISH), 403));
+    }
+
     @ExceptionHandler(ExcelCsvFileReadException.class)
     public ResponseEntity<Object> handleExcelCsvFileReadException(ExcelCsvFileReadException ex) {
-        return ResponseEntity
-                .status(HttpStatus.BAD_REQUEST)
-                .body(new ErrorResponse(
-                        ex.getCode(),
-                        ex.getStatus(),
-                        ex.getError())
-                );
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse(ex.getCode(), ex.getStatus(), ex.getError()));
     }
 
     @ExceptionHandler(IllegalArgumentException.class)

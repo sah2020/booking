@@ -13,7 +13,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class Workplace extends BaseDomain {
 
-    @ManyToOne()
+    @ManyToOne(cascade = {CascadeType.PERSIST}, fetch = FetchType.EAGER)
     @JoinColumn(name = "map_id")
     private Map map;
 

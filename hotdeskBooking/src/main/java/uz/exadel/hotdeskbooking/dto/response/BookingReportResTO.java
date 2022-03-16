@@ -3,20 +3,21 @@ package uz.exadel.hotdeskbooking.dto.response;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import uz.exadel.hotdeskbooking.dto.OfficeResponseTO;
-import uz.exadel.hotdeskbooking.dto.WorkplaceResponseDto;
+import uz.exadel.hotdeskbooking.domain.Office;
+import uz.exadel.hotdeskbooking.domain.User;
+import uz.exadel.hotdeskbooking.domain.Workplace;
 
-import java.io.Serializable;
 import java.util.Date;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class BookingResTO implements Serializable {
+public class BookingReportResTO {
     private String id;
-    private OfficeResponseTO officeResponseTO;
+    private User user;
+    private Office office;
+    private Workplace workplace;
     private Date startDate;
     private Date endDate;
     private boolean isRecurring;
-    private WorkplaceResponseDto workplaceResponseDto;
 }

@@ -37,7 +37,7 @@ public class OfficeServiceImpl implements OfficeService {
 
     @Override
     public OkResponse getOfficeListByCity(String city){
-        return new OkResponse(officeRepository.findOfficeByCity(city));
+        return new OkResponse(officeRepository.findAllByCity(city));
     }
 
     @Override
