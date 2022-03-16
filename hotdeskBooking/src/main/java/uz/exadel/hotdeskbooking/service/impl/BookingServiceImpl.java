@@ -22,10 +22,7 @@ import uz.exadel.hotdeskbooking.response.success.OkResponse;
 import uz.exadel.hotdeskbooking.service.BookingService;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Service
 @Transactional
@@ -72,20 +69,37 @@ public class BookingServiceImpl implements BookingService {
         if (bookingUser == null) {
             throw new ConflictException("api.error.user.not.found");
         }
-
+        Date employmentEndDate = null;
+        if (bookingUser.getEmploymentEnd() != null) {
+            employmentEndDate = bookingUser.getEmploymentEnd();
+        }
         if (!bookingCreateTO.getIsRecurring()) {
             if (bookingCreateTO.getStartDate() == null) throw new BadRequestException("api.error.bad.request");
             Date startDate = bookingCreateTO.getStartDate();
             if (bookingCreateTO.getEndDate() == null) {
-                bookingCreateTO.setEndDate(new Date(startDate.getTime() + 3600000));
+                bookingCreateTO.setEndDate(startDate);
             }
             Date endDate = bookingCreateTO.getEndDate();
+            if (employmentEndDate != null) {
+                List<Date> availableDates = checkBookingDatesWithEmployment(Arrays.asList(startDate, endDate), employmentEndDate);
+                if (availableDates.size() == 1) {
+                    endDate = employmentEndDate;
+                } else if (availableDates.size() == 0) {
+                    throw new ConflictException("api.error.booking.dates.unemployment");
+                }
+            }
             List<Booking> activeBookings = bookingRepository.findAllByWorkplaceIdAndStartDateAndEndDateAndActiveTrue(selectedWorkplaceId, startDate, endDate);
             if (activeBookings.size() != 0) {
                 throw new ConflictException("api.error.workplace.booked");
             }
         } else {
             List<Date> datesList = bookingCreateTO.getDatesList();
+            if (employmentEndDate != null) {
+                datesList = checkBookingDatesWithEmployment(datesList, employmentEndDate);
+                if (datesList.size() == 0) {
+                    throw new ConflictException("api.error.booking.dates.unemployment");
+                }
+            }
             List<Booking> activeBookings = new ArrayList<>();
             datesList.forEach(date -> activeBookings.addAll(bookingRepository.findAllByWorkplaceIdAndStartDateAndEndDateAndActiveTrue(selectedWorkplaceId, date, new Date(date.getTime() + 3600000))));
             if (activeBookings.size() != 0) {
@@ -132,7 +146,7 @@ public class BookingServiceImpl implements BookingService {
             Date startDate = bookingCreateTO.getStartDate();
             if (startDate != null && bookingCreateTO.getEndDate() == null) {
                 //one day
-                bookingCreateTO.setEndDate(new Date(startDate.getTime() + 1000 * 60 * 60 * 24));
+                bookingCreateTO.setEndDate(startDate);
             }
             //continuous
             Date endDate = bookingCreateTO.getEndDate();
@@ -217,6 +231,16 @@ public class BookingServiceImpl implements BookingService {
             }
         }
         return response;
+    }
+
+    private List<Date> checkBookingDatesWithEmployment(List<Date> datesList, Date employmentEndDate) {
+        List<Date> datesWithEmployment = new ArrayList<>();
+        datesList.forEach(date -> {
+            if (date.before(employmentEndDate)) {
+                datesWithEmployment.add(date);
+            }
+        });
+        return datesWithEmployment;
     }
 
     @Override
