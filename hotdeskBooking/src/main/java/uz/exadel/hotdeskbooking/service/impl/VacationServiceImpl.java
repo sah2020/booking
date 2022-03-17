@@ -4,11 +4,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import uz.exadel.hotdeskbooking.domain.Vacation;
-import uz.exadel.hotdeskbooking.dto.ResponseItem;
+import uz.exadel.hotdeskbooking.dto.response.ResponseItem;
 import uz.exadel.hotdeskbooking.dto.request.VacationDTO;
 import uz.exadel.hotdeskbooking.exception.RestException;
-import uz.exadel.hotdeskbooking.repository.vacation.VacationRepository;
-import uz.exadel.hotdeskbooking.service.base.VacationBase;
+import uz.exadel.hotdeskbooking.repository.VacationRepository;
+import uz.exadel.hotdeskbooking.service.VacationBase;
 
 import javax.transaction.Transactional;
 import java.util.Optional;

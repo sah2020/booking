@@ -17,11 +17,11 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import uz.exadel.hotdeskbooking.domain.User;
-import uz.exadel.hotdeskbooking.dto.ResponseItem;
 import uz.exadel.hotdeskbooking.dto.request.LoginDTO;
 import uz.exadel.hotdeskbooking.dto.response.UserBasicResTO;
 import uz.exadel.hotdeskbooking.exception.ForbiddenException;
 import uz.exadel.hotdeskbooking.repository.UserRepository;
+import uz.exadel.hotdeskbooking.response.success.OkResponse;
 import uz.exadel.hotdeskbooking.security.JWTProvider;
 import uz.exadel.hotdeskbooking.service.AuthService;
 
@@ -30,15 +30,12 @@ import java.util.Optional;
 @Service
 @Slf4j
 public class AuthServiceImpl implements AuthService, UserDetailsService {
-    //    private final ResponseItem unauthorizedResponse = new ResponseItem("User not found. Please contact the administration.", HttpStatus.UNAUTHORIZED.value());
     @Autowired
     private JWTProvider jwtProvider;
     @Autowired
     private UserRepository userRepository;
     @Autowired
     private AuthenticationManager authenticationManager;
-    @Autowired
-    private MessageSource messageSource;
 
     @Override
     public UserDetails loadUserByUsername(String username) {
@@ -51,7 +48,7 @@ public class AuthServiceImpl implements AuthService, UserDetailsService {
 
     @Override
     @Transactional
-    public ResponseItem login(LoginDTO loginDTO) {
+    public OkResponse login(LoginDTO loginDTO) {
         try {
             Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                     loginDTO.getUsername(),
@@ -61,7 +58,7 @@ public class AuthServiceImpl implements AuthService, UserDetailsService {
             String token = jwtProvider.generateTokenAdmin(user.getUsername());
             UserBasicResTO userBasicResTO = user.toBasic();
             userBasicResTO.setToken(token);
-            return new ResponseItem("Success", userBasicResTO);
+            return new OkResponse(userBasicResTO);
         } catch (BadCredentialsException ex) {
             log.info("Unauthorized user: " + loginDTO.getUsername());
             throw new BadCredentialsException("");
@@ -70,7 +67,7 @@ public class AuthServiceImpl implements AuthService, UserDetailsService {
 
     @Transactional
     @Override
-    public ResponseItem getCurrentUser() throws AuthenticationException {
+    public OkResponse getCurrentUser() throws AuthenticationException {
         SecurityContext context = SecurityContextHolder.getContext();
         if (context == null) throw new ForbiddenException("");
 
@@ -79,9 +76,9 @@ public class AuthServiceImpl implements AuthService, UserDetailsService {
             throw new ForbiddenException("");
         }
         if (authentication.getPrincipal() instanceof User) {
-            return new ResponseItem(((User) authentication.getPrincipal()).toBasic());
+            return new OkResponse(((User) authentication.getPrincipal()).toBasic());
         }
-        return new ResponseItem();
+        return new OkResponse();
     }
 
     public User getCurrentUserDetails() {

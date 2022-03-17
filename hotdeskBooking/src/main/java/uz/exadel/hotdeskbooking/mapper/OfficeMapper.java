@@ -3,7 +3,7 @@ package uz.exadel.hotdeskbooking.mapper;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 import uz.exadel.hotdeskbooking.domain.Office;
-import uz.exadel.hotdeskbooking.dto.OfficeResponseTO;
+import uz.exadel.hotdeskbooking.dto.response.OfficeResponseTO;
 
 @Component
 public class OfficeMapper {

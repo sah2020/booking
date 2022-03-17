@@ -4,7 +4,7 @@
 Login request
 -->
 ###
-POST http://localhost:7123/api/login
+POST http://localhost:8123/api/login
 Content-type: application/json
 
 {
@@ -18,12 +18,12 @@ Content-type: application/json
 Any Booking recurring CREATE request with dates list
 -->
 ###
-POST http://localhost:7123/api/booking/any
+POST http://localhost:8123/api/booking/any
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5NTI2MzMzMzgiLCJpYXQiOjE2NDcxNzA2NTEsImV4cCI6MTY0NzI1NzA1MX0.nQNi_d5ZtQzKMh6LM7CAtpUJTHfYPpJnMji6431jdGTzFqnu4r3L1TsxtvGUPF-a6mTL5LAkUzOKYVgxWBvFCw
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5NTI2MzMzMzgiLCJpYXQiOjE2NDc0NDk5NzAsImV4cCI6MTY0NzUzNjM3MH0.W4OfRDwHrKDKVqX45QyiGFrryfmPlDLTkVrtKfArPpPiNNUD-yUvlqLyeW6JX_24S0F55tw2IPBQ-x-BhxHNLg
 
 {
-  "userId": "17f2277680f0000                 ",
+  "userId": "ff8081817f227760017f2277680f0000",
   "officeId": "test5",
   "startDate": null,
   "endDate": null,

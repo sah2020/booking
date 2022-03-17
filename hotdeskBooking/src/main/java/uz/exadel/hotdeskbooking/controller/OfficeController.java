@@ -5,7 +5,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import uz.exadel.hotdeskbooking.dto.ResponseItem;
 import uz.exadel.hotdeskbooking.dto.request.OfficeDto;
 import uz.exadel.hotdeskbooking.response.success.OkResponse;
 import uz.exadel.hotdeskbooking.service.OfficeService;
@@ -45,7 +44,6 @@ public class OfficeController {
     public ResponseEntity<?> getOfficeAndMapsByOfficeId(@PathVariable String officeId) {
         OkResponse responseItem = officeService.getOfficeAndMapList(officeId);
         return ResponseEntity.status(201).body(responseItem);
-
     }
 
     @PreAuthorize("hasRole('ROLE_MAP_EDITOR')")
