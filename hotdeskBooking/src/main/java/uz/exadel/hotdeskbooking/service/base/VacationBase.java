@@ -1,6 +1,6 @@
 package uz.exadel.hotdeskbooking.service.base;
 
-import uz.exadel.hotdeskbooking.dto.ResponseItem;
+import uz.exadel.hotdeskbooking.dto.response.ResponseItem;
 
 public interface VacationBase<T,D> {
     ResponseItem post(T t);

@@ -1,29 +1,16 @@
 
-###
-<!--
-Login request
--->
-###
-POST http://localhost:7123/api/login
-Content-type: application/json
-
-{
-  "username": "952633338",
-  "password": "password"
-}
-
 
 ###
 <!--
 Any Booking recurring CREATE request with dates list
 -->
 ###
-POST http://localhost:7123/api/booking/any
+POST http://localhost:8123/api/booking/any
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5NTI2MzMzMzgiLCJpYXQiOjE2NDcxNzA2NTEsImV4cCI6MTY0NzI1NzA1MX0.nQNi_d5ZtQzKMh6LM7CAtpUJTHfYPpJnMji6431jdGTzFqnu4r3L1TsxtvGUPF-a6mTL5LAkUzOKYVgxWBvFCw
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5NTI2MzMzMzgiLCJpYXQiOjE2NDc1NDgyMzcsImV4cCI6MTY0NzYzNDYzN30.dz_PedDP-4oXD8pYXi-T3PAr2B8Ay16j1vBAQ6MfaxAzEHz6v--43dZbQpdusxByT61Mmq9ZlHdkpE4V1I1OTw
 
 {
-  "userId": "17f2277680f0000                 ",
+  "userId": "17f2277680f0000",
   "officeId": "test5",
   "startDate": null,
   "endDate": null,
@@ -150,7 +137,7 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5NTI2MzMzMzgiLCJpYXQiOjE2N
 Booking report get by office ID
 -->
 ###
-GET http://localhost:7123/api/report/officeId/test5
+GET http://localhost:8123/api/report/officeId/test5
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5NTI2MzMzMzgiLCJpYXQiOjE2NDczNjQyMjQsImV4cCI6MTY0NzQ1MDYyNH0.QflRoEiytBt7A7gmge224cN42dqP1FfJFs8A7xscu7E0kqFRiD3BlvP5ZP0M7kFcKKbHhA6uBjh3I8IWwGJl9Q
 ###
@@ -158,6 +145,11 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5NTI2MzMzMzgiLCJpYXQiOjE2N
 Booking report get by office ID
 -->
 ###
-GET http://localhost:7123/api/report/officeId/test5?startDate="2022-01-01"
+GET http://localhost:8123/api/report/officeId/test5?startDate="2022-01-01"
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5NTI2MzMzMzgiLCJpYXQiOjE2NDczNjQyMjQsImV4cCI6MTY0NzQ1MDYyNH0.QflRoEiytBt7A7gmge224cN42dqP1FfJFs8A7xscu7E0kqFRiD3BlvP5ZP0M7kFcKKbHhA6uBjh3I8IWwGJl9Q
+#Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5NTI2MzMzMzgiLCJpYXQiOjE2NDc1NDgyMzcsImV4cCI6MTY0NzYzNDYzN30.dz_PedDP-4oXD8pYXi-T3PAr2B8Ay16j1vBAQ6MfaxAzEHz6v--43dZbQpdusxByT61Mmq9ZlHdkpE4V1I1OTw
+
+
+
+
+

@@ -18,6 +18,7 @@ public class Office extends BaseDomain {
 
     private String address;
 
+    @JsonProperty("is_parking_available")
     private boolean isParkingAvailable;
 
 }

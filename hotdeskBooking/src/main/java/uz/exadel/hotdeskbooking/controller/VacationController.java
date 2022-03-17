@@ -1,11 +1,11 @@
-package uz.exadel.hotdeskbooking.controller.vacation;
+package uz.exadel.hotdeskbooking.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import uz.exadel.hotdeskbooking.dto.ResponseItem;
+import uz.exadel.hotdeskbooking.dto.response.ResponseItem;
 import uz.exadel.hotdeskbooking.dto.request.VacationDTO;
 import uz.exadel.hotdeskbooking.service.impl.VacationServiceImpl;
 
@@ -16,7 +16,7 @@ import uz.exadel.hotdeskbooking.service.impl.VacationServiceImpl;
 public class VacationController {
     private final VacationServiceImpl vacationService;
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MANAGER','ROLE_MAP_EDITOR')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_COMMON_USER','ROLE_MANAGER','ROLE_MAP_EDITOR')")
     @PostMapping()
     public ResponseEntity<ResponseItem> post(@RequestBody VacationDTO vacationDTO) {
         ResponseItem responseItem = vacationService.post(vacationDTO);
@@ -37,7 +37,7 @@ public class VacationController {
         return new ResponseEntity<>(responseItem, HttpStatus.valueOf(responseItem.getStatusCode()));
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MANAGER','ROLE_MAP_EDITOR')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_COMMON_USER','ROLE_MANAGER','ROLE_MAP_EDITOR')")
     @PutMapping("/{vacationId}")
     public ResponseEntity<ResponseItem> put(@PathVariable String vacationId, @RequestBody VacationDTO vacationDTO) {
         ResponseItem responseItem = vacationService.put(vacationId, vacationDTO);

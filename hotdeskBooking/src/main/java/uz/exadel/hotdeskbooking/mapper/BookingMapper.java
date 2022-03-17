@@ -5,14 +5,14 @@ import uz.exadel.hotdeskbooking.domain.Booking;
 import uz.exadel.hotdeskbooking.domain.Map;
 import uz.exadel.hotdeskbooking.domain.Office;
 import uz.exadel.hotdeskbooking.domain.Workplace;
-import uz.exadel.hotdeskbooking.dto.WorkplaceResponseDto;
+import uz.exadel.hotdeskbooking.dto.response.WorkplaceResponseDto;
 import uz.exadel.hotdeskbooking.dto.response.BookingReportResTO;
 import uz.exadel.hotdeskbooking.dto.response.BookingResTO;
 
 @Component
 public class BookingMapper {
-    private WorkplaceMapper workplaceMapper;
-    private OfficeMapper officeMapper;
+    private final WorkplaceMapper workplaceMapper;
+    private final OfficeMapper officeMapper;
 
     public BookingMapper(WorkplaceMapper workplaceMapper, OfficeMapper officeMapper) {
         this.workplaceMapper = workplaceMapper;

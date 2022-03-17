@@ -7,7 +7,7 @@ import uz.exadel.hotdeskbooking.domain.Map;
 import uz.exadel.hotdeskbooking.domain.Workplace;
 import uz.exadel.hotdeskbooking.dto.WorkplaceCreateDto;
 import uz.exadel.hotdeskbooking.dto.WorkplaceFilter;
-import uz.exadel.hotdeskbooking.dto.WorkplaceResponseDto;
+import uz.exadel.hotdeskbooking.dto.response.WorkplaceResponseDto;
 import uz.exadel.hotdeskbooking.dto.WorkplaceUpdateDto;
 import uz.exadel.hotdeskbooking.dto.response.CreatedResponseDto;
 import uz.exadel.hotdeskbooking.exception.BadRequestException;

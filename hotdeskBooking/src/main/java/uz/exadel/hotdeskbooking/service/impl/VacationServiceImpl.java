@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import uz.exadel.hotdeskbooking.domain.Vacation;
-import uz.exadel.hotdeskbooking.dto.ResponseItem;
+import uz.exadel.hotdeskbooking.dto.response.ResponseItem;
 import uz.exadel.hotdeskbooking.dto.request.VacationDTO;
 import uz.exadel.hotdeskbooking.exception.RestException;
 import uz.exadel.hotdeskbooking.repository.vacation.VacationRepository;
@@ -37,10 +37,7 @@ public class VacationServiceImpl implements VacationBase<VacationDTO, String> {
     @Override
     public ResponseItem get(String id) {
         Optional<Vacation> byId = repository.findById(id);
-        if (byId.isPresent()) {
-            return new ResponseItem(byId.get());
-        }
-        return new ResponseItem("Not found", HttpStatus.NOT_FOUND.value());
+        return byId.map(ResponseItem::new).orElseGet(() -> new ResponseItem("Not found", HttpStatus.NOT_FOUND.value()));
     }
 
     @Transactional

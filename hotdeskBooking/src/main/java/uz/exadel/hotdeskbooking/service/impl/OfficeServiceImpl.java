@@ -2,14 +2,12 @@ package uz.exadel.hotdeskbooking.service.impl;
 
 
 import lombok.RequiredArgsConstructor;
-import org.aspectj.weaver.ast.Not;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import uz.exadel.hotdeskbooking.domain.Map;
 import uz.exadel.hotdeskbooking.domain.Office;
-import uz.exadel.hotdeskbooking.dto.OfficeResponseTO;
-import uz.exadel.hotdeskbooking.dto.ResponseItem;
+import uz.exadel.hotdeskbooking.dto.response.OfficeResponseTO;
 import uz.exadel.hotdeskbooking.dto.request.OfficeDto;
 import uz.exadel.hotdeskbooking.exception.ConflictException;
 import uz.exadel.hotdeskbooking.exception.NotFoundException;
@@ -20,7 +18,6 @@ import uz.exadel.hotdeskbooking.response.success.OkResponse;
 import uz.exadel.hotdeskbooking.service.OfficeService;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -37,7 +34,9 @@ public class OfficeServiceImpl implements OfficeService {
 
     @Override
     public OkResponse getOfficeListByCity(String city){
-        return new OkResponse(officeRepository.findAllByCity(city));
+        List<Office> allByCity = officeRepository.findAllByCity(city);
+        if (allByCity.size()==0) return new OkResponse("api.success.no.office.found");
+        return new OkResponse(allByCity);
     }
 
     @Override
@@ -98,6 +97,10 @@ public class OfficeServiceImpl implements OfficeService {
     @Override
     public OkResponse getCityListByCountryName(String countryName) {
         List<String> cityNamesByCountryName = officeRepository.getCityNamesByCountryName(countryName);
+        if (cityNamesByCountryName.size()==0){
+            return new OkResponse("api.success.no.city.found");
+        }
+
         return new OkResponse(cityNamesByCountryName);
     }
 
@@ -123,7 +126,7 @@ public class OfficeServiceImpl implements OfficeService {
                 .orElseThrow(() -> new NotFoundException("api.error.office.notFound"));
 
         if (office.isParkingAvailable()) {
-            return new OkResponse(office);
+            return new OkResponse("api.success.parking.available");
         }
 
         return new OkResponse("api.success.parking.notAvailable");

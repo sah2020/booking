@@ -17,7 +17,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import uz.exadel.hotdeskbooking.domain.User;
-import uz.exadel.hotdeskbooking.dto.ResponseItem;
+import uz.exadel.hotdeskbooking.dto.response.ResponseItem;
 import uz.exadel.hotdeskbooking.dto.request.LoginDTO;
 import uz.exadel.hotdeskbooking.dto.response.UserBasicResTO;
 import uz.exadel.hotdeskbooking.exception.ForbiddenException;

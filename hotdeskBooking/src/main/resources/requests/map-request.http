@@ -1,0 +1,19 @@
+###################################
+###Getting all map list by office id
+GET http://localhost:8123/api/office/mapList/{{officeId}}
+
+###################################
+###Adding a new map
+POST http://localhost:8123/map
+
+###################################
+###Getting all offices list
+GET http://localhost:8123/map
+
+###################################
+###Getting all offices list
+DELETE http://localhost:8123/map/{{mapId}}
+
+###################################
+###Getting all offices list
+PUT http://localhost:8123/map/{{mapId}}

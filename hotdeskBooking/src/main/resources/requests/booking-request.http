@@ -1,0 +1,38 @@
+###
+POST http://localhost:8123/api/booking
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5NTI2MzMzMzgiLCJpYXQiOjE2NDc1NDgyMzcsImV4cCI6MTY0NzYzNDYzN30.dz_PedDP-4oXD8pYXi-T3PAr2B8Ay16j1vBAQ6MfaxAzEHz6v--43dZbQpdusxByT61Mmq9ZlHdkpE4V1I1OTw
+
+{
+  "workplaceId": "testWRK                         ",
+  "userId": "17f2277680f0000                 ",
+  "startDate": "2022-02-24",
+  "endDate": "2022-02-26",
+  "isRecurring": false,
+  "frequency": 1,
+  "daysOfWeek": null,
+  "datesList": null
+}
+
+
+
+###
+POST http://localhost:8123/api/booking/any
+
+###
+POST http://localhost:8123/api/booking/save
+
+###
+POST http://localhost:8123/api/booking/cancel
+
+###
+GET http://localhost:8123/api/booking/{{id}}
+
+###
+GET http://localhost:8123/api/booking/userId/{{id}}
+
+###
+PUT http://localhost:8123/api/booking/{{id}}
+
+###
+DELETE http://localhost:8123/api/booking/{{id}}

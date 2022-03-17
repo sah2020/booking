@@ -1,0 +1,91 @@
+###################################
+###Getting all offices list
+GET http://localhost:8123/api/office
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5NTI2MzMzMzgiLCJpYXQiOjE2NDc1NDgyMzcsImV4cCI6MTY0NzYzNDYzN30.dz_PedDP-4oXD8pYXi-T3PAr2B8Ay16j1vBAQ6MfaxAzEHz6v--43dZbQpdusxByT61Mmq9ZlHdkpE4V1I1OTw
+
+
+
+####################################
+###Getting office by city name
+GET http://localhost:8123/api/office/city/Tashkent
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5NTI2MzMzMzgiLCJpYXQiOjE2NDc1NDgyMzcsImV4cCI6MTY0NzYzNDYzN30.dz_PedDP-4oXD8pYXi-T3PAr2B8Ay16j1vBAQ6MfaxAzEHz6v--43dZbQpdusxByT61Mmq9ZlHdkpE4V1I1OTw
+
+
+
+####################################
+###Adding office
+POST http://localhost:8123/api/office
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5NTI2MzMzMzgiLCJpYXQiOjE2NDc1NDgyMzcsImV4cCI6MTY0NzYzNDYzN30.dz_PedDP-4oXD8pYXi-T3PAr2B8Ay16j1vBAQ6MfaxAzEHz6v--43dZbQpdusxByT61Mmq9ZlHdkpE4V1I1OTw
+
+{
+  "name": "M-1",
+  "country" : "Uzbekistan",
+  "city" : "Tashkent",
+  "address" : "Chilonzor-9",
+  "is_parking_available": false
+}
+
+
+
+####################################
+###Get office by office id
+GET http://localhost:8123/api/office/4028818a7f99e8b3017f99e91aea0003
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5NTI2MzMzMzgiLCJpYXQiOjE2NDc1NDgyMzcsImV4cCI6MTY0NzYzNDYzN30.dz_PedDP-4oXD8pYXi-T3PAr2B8Ay16j1vBAQ6MfaxAzEHz6v--43dZbQpdusxByT61Mmq9ZlHdkpE4V1I1OTw
+
+
+
+####################################
+###Updating the already existing office
+PUT http://localhost:8123/api/office/4028818a7f99e8b3017f99e91aea0003
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5NTI2MzMzMzgiLCJpYXQiOjE2NDc1NDgyMzcsImV4cCI6MTY0NzYzNDYzN30.dz_PedDP-4oXD8pYXi-T3PAr2B8Ay16j1vBAQ6MfaxAzEHz6v--43dZbQpdusxByT61Mmq9ZlHdkpE4V1I1OTw
+
+{
+  "name": "M-2",
+  "country" : "Uzbekistan",
+  "city" : "Tashkent",
+  "address" : "Chilonzor-9",
+  "is_parking_available": false
+}
+
+
+
+####################################
+###Deleting the office by office id
+DELETE http://localhost:8123/api/office/4028818a7f99b1b7017f99d2fd710004
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5NTI2MzMzMzgiLCJpYXQiOjE2NDc1NDgyMzcsImV4cCI6MTY0NzYzNDYzN30.dz_PedDP-4oXD8pYXi-T3PAr2B8Ay16j1vBAQ6MfaxAzEHz6v--43dZbQpdusxByT61Mmq9ZlHdkpE4V1I1OTw
+
+
+
+####################################
+###Getting all the cities regarless of country
+GET http://localhost:8123/api/office/cityList
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5NTI2MzMzMzgiLCJpYXQiOjE2NDc1NDgyMzcsImV4cCI6MTY0NzYzNDYzN30.dz_PedDP-4oXD8pYXi-T3PAr2B8Ay16j1vBAQ6MfaxAzEHz6v--43dZbQpdusxByT61Mmq9ZlHdkpE4V1I1OTw
+
+
+
+####################################
+###Getting all the cities in the country by country name
+GET http://localhost:8123/api/office/cityList/Uzbekistan
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5NTI2MzMzMzgiLCJpYXQiOjE2NDc1NDgyMzcsImV4cCI6MTY0NzYzNDYzN30.dz_PedDP-4oXD8pYXi-T3PAr2B8Ay16j1vBAQ6MfaxAzEHz6v--43dZbQpdusxByT61Mmq9ZlHdkpE4V1I1OTw
+
+
+
+####################################
+###Getting countries list
+GET http://localhost:8123/api/office/countryList
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5NTI2MzMzMzgiLCJpYXQiOjE2NDc1NDgyMzcsImV4cCI6MTY0NzYzNDYzN30.dz_PedDP-4oXD8pYXi-T3PAr2B8Ay16j1vBAQ6MfaxAzEHz6v--43dZbQpdusxByT61Mmq9ZlHdkpE4V1I1OTw
+
+
+
+####################################
+###Getting mapList by officeId
+GET http://localhost:8123/api/office/mapList/4028818a7f99b1b7017f99d2fd710004
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5NTI2MzMzMzgiLCJpYXQiOjE2NDc1NDgyMzcsImV4cCI6MTY0NzYzNDYzN30.dz_PedDP-4oXD8pYXi-T3PAr2B8Ay16j1vBAQ6MfaxAzEHz6v--43dZbQpdusxByT61Mmq9ZlHdkpE4V1I1OTw
+
+
+####################################
+###Checking whether the specific office has parking slot free
+GET http://localhost:8123/api/office/parking/4028818a7f99eb6a017f99eb946c0003
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5NTI2MzMzMzgiLCJpYXQiOjE2NDc1NDgyMzcsImV4cCI6MTY0NzYzNDYzN30.dz_PedDP-4oXD8pYXi-T3PAr2B8Ay16j1vBAQ6MfaxAzEHz6v--43dZbQpdusxByT61Mmq9ZlHdkpE4V1I1OTw
