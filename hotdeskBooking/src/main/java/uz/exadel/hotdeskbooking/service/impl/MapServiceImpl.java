@@ -34,18 +34,12 @@ public class MapServiceImpl implements MapService {
         if (byId.isEmpty()) throw new NotFoundException("api.error.office.notFound");
 
         Map map = modelMapper.map(mapDto, Map.class);
-
-        boolean exists = mapRepository.existsByFloorAndOfficeId(mapDto.getFloor(), mapDto.getOfficeId());
-        if (exists) throw new ConflictException("Map with floor "+mapDto.getFloor() +" already exists in "+byId.get().getName()+" office");
+        checkByFloorAndOfficeId(mapDto, byId.get()); //checks by map floor number and office id
 
         Map mapSaved = mapRepository.save(map);
-        return new CreatedResponse(mapSaved);
+        return new CreatedResponse(mapSaved.getId());
     }
 
-    @Override
-    public OkResponse getMapList(){
-        return new OkResponse(mapRepository.findAll());
-    }
 
     @Override
     public OkResponse deleteMap(String mapId){
@@ -60,6 +54,10 @@ public class MapServiceImpl implements MapService {
         Map map = mapRepository.findById(mapId)
                 .orElseThrow(() -> new NotFoundException("api.error.map.notFound"));
 
+        Optional<Office> byId = officeRepository.findById(mapDto.getOfficeId());
+        if (byId.isEmpty()) throw new NotFoundException("api.error.office.notFound");
+
+        checkByFloorAndOfficeId(mapDto, byId.get());
 
         map.setFloor(mapDto.getFloor());
         map.setKitchen(mapDto.isKitchen());
@@ -75,4 +73,19 @@ public class MapServiceImpl implements MapService {
         boolean exists = mapRepository.existsById(mapId);
         if (!exists) throw new NotFoundException("api.error.map.notFound");
     }
+
+    @Override
+    public OkResponse getMapById(String mapId) {
+        Map map = mapRepository.findById(mapId)
+                .orElseThrow(() -> new NotFoundException("api.error.map.notFound"));
+
+        return new OkResponse(map);
+    }
+
+    //specific map in specific office already exists!
+    private void checkByFloorAndOfficeId(MapDto mapDto, Office office){
+        boolean exists = mapRepository.existsByFloorAndOfficeId(mapDto.getFloor(), mapDto.getOfficeId());
+        if (exists) throw new ConflictException("Map with floor "+mapDto.getFloor() +" already exists in "+office.getName()+" office");
+    }
+
 }

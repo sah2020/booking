@@ -9,11 +9,12 @@ public interface MapService {
 
     CreatedResponse addMap(MapDto mapDto);
 
-    OkResponse getMapList();
-
     OkResponse deleteMap(String mapId);
 
     OkResponse updateMap(MapDto mapDto, String mapId);
 
     void checkMapExistence(String mapId);
+
+    OkResponse getMapById(String mapId);
+
 }

@@ -24,9 +24,9 @@ public class MapController {
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_COMMON_USER','ROLE_MANAGER','ROLE_MAP_EDITOR')")
-    @GetMapping
-    public ResponseEntity<?> getMapList() {
-        return ResponseEntity.ok(mapService.getMapList());
+    @GetMapping("/{mapId}")
+    public ResponseEntity<?> getMapById(@PathVariable String mapId){
+        return ResponseEntity.ok(mapService.getMapById(mapId));
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_COMMON_USER','ROLE_MANAGER','ROLE_MAP_EDITOR')")
@@ -40,6 +40,8 @@ public class MapController {
     public ResponseEntity<?> updateMap(@RequestBody MapDto mapDto, @NotNull @PathVariable String mapId) {
         return ResponseEntity.ok(mapService.updateMap(mapDto, mapId));
     }
+
+
 
 
 }
