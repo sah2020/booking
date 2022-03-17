@@ -1,9 +1,9 @@
 package uz.exadel.hotdeskbooking.service;
 
 import org.springframework.web.multipart.MultipartFile;
-import uz.exadel.hotdeskbooking.dto.WorkplaceCreateDto;
-import uz.exadel.hotdeskbooking.dto.WorkplaceFilter;
-import uz.exadel.hotdeskbooking.dto.WorkplaceUpdateDto;
+import uz.exadel.hotdeskbooking.dto.request.WorkplaceCreateDto;
+import uz.exadel.hotdeskbooking.dto.request.WorkplaceFilter;
+import uz.exadel.hotdeskbooking.dto.request.WorkplaceUpdateDto;
 import uz.exadel.hotdeskbooking.response.success.CreatedResponse;
 import uz.exadel.hotdeskbooking.response.success.OkResponse;
 

@@ -1,6 +1,5 @@
 package uz.exadel.hotdeskbooking.service;
 
-import uz.exadel.hotdeskbooking.dto.ResponseItem;
 import uz.exadel.hotdeskbooking.dto.request.OfficeDto;
 import uz.exadel.hotdeskbooking.response.success.OkResponse;
 import uz.exadel.hotdeskbooking.response.success.CreatedResponse;

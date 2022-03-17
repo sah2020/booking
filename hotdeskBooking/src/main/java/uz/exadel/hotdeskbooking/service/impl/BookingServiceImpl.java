@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import uz.exadel.hotdeskbooking.domain.Booking;
 import uz.exadel.hotdeskbooking.domain.User;
 import uz.exadel.hotdeskbooking.domain.Workplace;
-import uz.exadel.hotdeskbooking.dto.StringListDTO;
+import uz.exadel.hotdeskbooking.dto.request.StringListDTO;
 import uz.exadel.hotdeskbooking.dto.request.BookingCreateTO;
 import uz.exadel.hotdeskbooking.dto.response.BookingResTO;
 import uz.exadel.hotdeskbooking.enums.RoleTypeEnum;

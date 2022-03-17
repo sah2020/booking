@@ -10,7 +10,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
-import uz.exadel.hotdeskbooking.dto.ResponseItem;
+import uz.exadel.hotdeskbooking.dto.response.ResponseItem;
 import uz.exadel.hotdeskbooking.exception.ExcelCsvFileReadException;
 import uz.exadel.hotdeskbooking.exception.HotdeskBookingGlobalException;
 import uz.exadel.hotdeskbooking.exception.RestException;

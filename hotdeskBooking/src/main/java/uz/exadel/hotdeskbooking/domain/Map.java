@@ -19,6 +19,5 @@ public class Map extends BaseDomain {
 
     private boolean kitchen;
 
-    @JsonProperty("conf_rooms")
     private boolean confRooms;
 }

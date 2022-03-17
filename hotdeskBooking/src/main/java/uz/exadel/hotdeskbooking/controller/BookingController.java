@@ -5,7 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import uz.exadel.hotdeskbooking.dto.StringListDTO;
+import uz.exadel.hotdeskbooking.dto.request.StringListDTO;
 import uz.exadel.hotdeskbooking.dto.request.BookingCreateTO;
 import uz.exadel.hotdeskbooking.response.success.CreatedResponse;
 import uz.exadel.hotdeskbooking.response.success.OkResponse;
@@ -69,7 +69,7 @@ public class BookingController {
         return new ResponseEntity<>(responseItem, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_COMMON_USER','ROLE_MANAGER','ROLE_MAP_EDITOR')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable("id") String id) {
         OkResponse responseItem = bookingService.delete(id);

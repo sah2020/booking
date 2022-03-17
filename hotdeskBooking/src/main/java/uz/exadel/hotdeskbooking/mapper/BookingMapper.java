@@ -5,7 +5,7 @@ import uz.exadel.hotdeskbooking.domain.Booking;
 import uz.exadel.hotdeskbooking.domain.Map;
 import uz.exadel.hotdeskbooking.domain.Office;
 import uz.exadel.hotdeskbooking.domain.Workplace;
-import uz.exadel.hotdeskbooking.dto.WorkplaceResponseDto;
+import uz.exadel.hotdeskbooking.dto.response.WorkplaceResponseDto;
 import uz.exadel.hotdeskbooking.dto.response.BookingReportResTO;
 import uz.exadel.hotdeskbooking.dto.response.BookingResTO;
 

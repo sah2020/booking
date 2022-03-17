@@ -1,11 +1,11 @@
-package uz.exadel.hotdeskbooking.controller.vacation;
+package uz.exadel.hotdeskbooking.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import uz.exadel.hotdeskbooking.dto.ResponseItem;
+import uz.exadel.hotdeskbooking.dto.response.ResponseItem;
 import uz.exadel.hotdeskbooking.dto.request.VacationDTO;
 import uz.exadel.hotdeskbooking.service.impl.VacationServiceImpl;
 
