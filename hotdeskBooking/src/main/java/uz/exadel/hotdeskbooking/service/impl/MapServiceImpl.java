@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import uz.exadel.hotdeskbooking.domain.Map;
 import uz.exadel.hotdeskbooking.domain.Office;
 import uz.exadel.hotdeskbooking.dto.request.MapDto;
+import uz.exadel.hotdeskbooking.dto.response.MapResponseTO;
 import uz.exadel.hotdeskbooking.exception.ConflictException;
 import uz.exadel.hotdeskbooking.exception.NotFoundException;
 import uz.exadel.hotdeskbooking.repository.MapRepository;
@@ -34,6 +35,7 @@ public class MapServiceImpl implements MapService {
         if (byId.isEmpty()) throw new NotFoundException("api.error.office.notFound");
 
         Map map = modelMapper.map(mapDto, Map.class);
+        map.setOffice(byId.get());
         checkByFloorAndOfficeId(mapDto, byId.get()); //checks by map floor number and office id
 
         Map mapSaved = mapRepository.save(map);
@@ -79,7 +81,14 @@ public class MapServiceImpl implements MapService {
         Map map = mapRepository.findById(mapId)
                 .orElseThrow(() -> new NotFoundException("api.error.map.notFound"));
 
-        return new OkResponse(map);
+        MapResponseTO mapResponse = new MapResponseTO(
+                map.getId(),
+                map.getFloor(),
+                map.isKitchen(),
+                map.isConfRooms(),
+                map.getOfficeId()
+        );
+        return new OkResponse(mapResponse);
     }
 
     //specific map in specific office already exists!

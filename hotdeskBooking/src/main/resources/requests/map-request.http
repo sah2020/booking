@@ -1,19 +1,35 @@
 ###################################
-###Getting all map list by office id
-GET http://localhost:8123/api/office/mapList/{{officeId}}
-
-###################################
 ###Adding a new map
 POST http://localhost:8123/map
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5NTI2MzMzMzgiLCJpYXQiOjE2NDc1NDgyMzcsImV4cCI6MTY0NzYzNDYzN30.dz_PedDP-4oXD8pYXi-T3PAr2B8Ay16j1vBAQ6MfaxAzEHz6v--43dZbQpdusxByT61Mmq9ZlHdkpE4V1I1OTw
+
+{
+  "office_id": "4028818a7f9caf2a017f9caf51be0003",
+  "floor": 1,
+  "kitchen": true,
+  "conf_rooms": true
+}
 
 ###################################
-###Getting all offices list
-GET http://localhost:8123/map
+###Getting map by id
+GET http://localhost:8123/map/4028818a7f9caf2a017f9caf7a470004
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5NTI2MzMzMzgiLCJpYXQiOjE2NDc1NDgyMzcsImV4cCI6MTY0NzYzNDYzN30.dz_PedDP-4oXD8pYXi-T3PAr2B8Ay16j1vBAQ6MfaxAzEHz6v--43dZbQpdusxByT61Mmq9ZlHdkpE4V1I1OTw
 
 ###################################
-###Getting all offices list
-DELETE http://localhost:8123/map/{{mapId}}
+###deleting map
+DELETE http://localhost:8123/map/4028818a7f9caf2a017f9caf7a470004
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5NTI2MzMzMzgiLCJpYXQiOjE2NDc1NDgyMzcsImV4cCI6MTY0NzYzNDYzN30.dz_PedDP-4oXD8pYXi-T3PAr2B8Ay16j1vBAQ6MfaxAzEHz6v--43dZbQpdusxByT61Mmq9ZlHdkpE4V1I1OTw
 
 ###################################
-###Getting all offices list
-PUT http://localhost:8123/map/{{mapId}}
+###updating map
+PUT http://localhost:8123/map/4028818a7f9c950f017f9c9a29f90004
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5NTI2MzMzMzgiLCJpYXQiOjE2NDc1NDgyMzcsImV4cCI6MTY0NzYzNDYzN30.dz_PedDP-4oXD8pYXi-T3PAr2B8Ay16j1vBAQ6MfaxAzEHz6v--43dZbQpdusxByT61Mmq9ZlHdkpE4V1I1OTw
+
+{
+  "office_id": "4028818a7f9c950f017f9c99c68a0003",
+  "floor": 4,
+  "kitchen": false,
+  "conf_rooms": false
+}
