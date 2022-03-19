@@ -7,14 +7,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import uz.exadel.hotdeskbooking.domain.Map;
 import uz.exadel.hotdeskbooking.domain.Office;
-import uz.exadel.hotdeskbooking.dto.response.OfficeResponseTO;
 import uz.exadel.hotdeskbooking.dto.request.OfficeDto;
+import uz.exadel.hotdeskbooking.dto.response.OfficeResponseTO;
 import uz.exadel.hotdeskbooking.exception.ConflictException;
 import uz.exadel.hotdeskbooking.exception.NotFoundException;
 import uz.exadel.hotdeskbooking.repository.MapRepository;
 import uz.exadel.hotdeskbooking.repository.OfficeRepository;
-import uz.exadel.hotdeskbooking.response.success.CreatedResponse;
-import uz.exadel.hotdeskbooking.response.success.OkResponse;
+import uz.exadel.hotdeskbooking.response.OfficeResponse;
 import uz.exadel.hotdeskbooking.service.OfficeService;
 
 import java.util.List;
@@ -28,43 +27,43 @@ public class OfficeServiceImpl implements OfficeService {
     private final MapRepository mapRepository;
 
     @Override
-    public OkResponse getOfficeList() {
-        return new OkResponse(officeRepository.findAll());
+    public List<Office> getOfficeList() {
+        return officeRepository.findAll();
     }
 
     @Override
-    public OkResponse getOfficeListByCity(String city){
-        return new OkResponse(officeRepository.findAllByCity(city));
+    public List<Office> getOfficeListByCity(String city) {
+        return officeRepository.findAllByCity(city);
     }
 
     @Override
-    public CreatedResponse addOffice(OfficeDto officeDto) {
+    public String addOffice(OfficeDto officeDto) {
         checkOfficeByName(officeDto.getName()); //this checks the validity of the req name
 
         Office Office = modelMapper.map(officeDto, Office.class);
         Office officeSaved = officeRepository.save(Office);
 
-        return new CreatedResponse(officeSaved.getId());
+        return officeSaved.getId();
     }
 
     @Override
-    public OkResponse getOfficeAndMapList(String officeId) {
+    public OfficeResponseTO getOfficeAndMapList(String officeId) {
 
         Office office = officeRepository.findById(officeId)
-                .orElseThrow(() -> new NotFoundException("api.error.office.notFound"));
+                .orElseThrow(() -> new NotFoundException(OfficeResponse.OFFICE_NOT_FOUND.getMessage()));
 
         List<String> idsByOfficeId = mapRepository.findIdsByOfficeId(officeId); //GETTING ALL MAPIDS BY OFFICEiD
 
         OfficeResponseTO response = modelMapper.map(office, OfficeResponseTO.class);
         response.setMapIds(idsByOfficeId);
 
-        return new OkResponse(response);
+        return response;
     }
 
     @Override
-    public OkResponse updateOffice(OfficeDto officeDto, String officeId) {
+    public String updateOffice(OfficeDto officeDto, String officeId) {
         Office office = officeRepository.findById(officeId)
-                .orElseThrow(() -> new NotFoundException("api.error.office.notFound"));
+                .orElseThrow(() -> new NotFoundException(OfficeResponse.OFFICE_NOT_FOUND.getMessage()));
 
         office.setAddress(officeDto.getAddress());
         office.setCity(officeDto.getCity());
@@ -73,62 +72,56 @@ public class OfficeServiceImpl implements OfficeService {
         office.setParkingAvailable(officeDto.isParkingAvailable());
 
         Office save = officeRepository.save(office);
-        return new OkResponse(save);
+        return save.getId();
     }
 
     @Override
-    public OkResponse deleteOffice(String officeId) {
+    public String deleteOffice(String officeId) {
         boolean exists = officeRepository.existsById(officeId);
-        if (!exists) throw new NotFoundException("api.error.office.notFound");
+        if (!exists) throw new NotFoundException(OfficeResponse.OFFICE_NOT_FOUND.getMessage());
 
         officeRepository.deleteById(officeId);
-        return new OkResponse("success");
+        return OfficeResponse.OFFICE_DELETED_SUCCESSFULLY.getMessage();
     }
 
     //get all the city list (without country name)
     @Override
-    public OkResponse getCityList() {
-        List<String> cityNames = officeRepository.getCityNames();
-        return new OkResponse(cityNames);
+    public List<String> getCityList() {
+        return officeRepository.getCityNames();
     }
 
     @Override
-    public OkResponse getCityListByCountryName(String countryName) {
-        List<String> cityNamesByCountryName = officeRepository.getCityNamesByCountryName(countryName);
-        return new OkResponse(cityNamesByCountryName);
+    public List<String> getCityListByCountryName(String countryName) {
+        return officeRepository.getCityNamesByCountryName(countryName);
     }
 
     @Override
-    public OkResponse getCountryList() {
-        List<String> countryNames = officeRepository.getCountryNames();
-        return new OkResponse(countryNames);
+    public List<String> getCountryList() {
+        return officeRepository.getCountryNames();
     }
 
     @Override
-    public OkResponse getMapListByOfficeId(String officeId) {
+    public List<Map> getMapListByOfficeId(String officeId) {
         boolean exists = officeRepository.existsById(officeId);
-        if (!exists) throw new NotFoundException("api.error.office.notFound");
+        if (!exists) {
+            throw new NotFoundException(OfficeResponse.OFFICE_NOT_FOUND.getMessage());
+        }
 
-        List<Map> allByOfficeId = mapRepository.findAllByOfficeId(officeId);
-        return new OkResponse(allByOfficeId);
+        return mapRepository.findAllByOfficeId(officeId);
     }
 
     //checking if the office has parking slot available
     @Override
-    public OkResponse checkForParking(String officeId) {
+    public boolean checkForParking(String officeId) {
         Office office = officeRepository.findById(officeId)
-                .orElseThrow(() -> new NotFoundException("api.error.office.notFound"));
+                .orElseThrow(() -> new NotFoundException(OfficeResponse.OFFICE_NOT_FOUND.getMessage()));
 
-        if (office.isParkingAvailable()) {
-            return new OkResponse(office);
-        }
-
-        return new OkResponse("api.success.parking.notAvailable");
+        return office.isParkingAvailable();
     }
 
     @Override
     public void checkOfficeByName(String officeName) {
         boolean exists = officeRepository.existsByName(officeName);
-        if (exists) throw new ConflictException("Office with this name already exists!");
+        if (exists) throw new ConflictException(OfficeResponse.OFFICE_ALREADY_EXISTS.getMessage());
     }
 }

@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import uz.exadel.hotdeskbooking.dto.request.LoginDTO;
+import uz.exadel.hotdeskbooking.dto.response.ResponseItem;
 import uz.exadel.hotdeskbooking.response.success.OkResponse;
 import uz.exadel.hotdeskbooking.service.AuthService;
 
@@ -27,7 +28,7 @@ public class AuthController {
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_COMMON_USER','ROLE_MANAGER','ROLE_MAP_EDITOR')")
     @GetMapping("/current")
     public ResponseEntity<?> getCurrentUser() {
-        OkResponse responseItem = authService.getCurrentUser();
-        return new ResponseEntity<>(responseItem, HttpStatus.OK);
+        ResponseItem responseItem = authService.getCurrentUser();
+        return new ResponseEntity<>(responseItem, HttpStatus.valueOf(responseItem.getStatusCode()));
     }
 }

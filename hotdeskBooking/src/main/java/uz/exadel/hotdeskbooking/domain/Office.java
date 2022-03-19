@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+import java.util.List;
 
 @Getter
 @Setter
@@ -18,6 +20,10 @@ public class Office extends BaseDomain {
 
     private String address;
 
+    @JsonProperty("is_parking_available")
     private boolean isParkingAvailable;
+
+    @OneToMany
+    List<Map> mapList;
 
 }

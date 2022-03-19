@@ -11,8 +11,8 @@ import uz.exadel.hotdeskbooking.dto.response.BookingResTO;
 
 @Component
 public class BookingMapper {
-    private WorkplaceMapper workplaceMapper;
-    private OfficeMapper officeMapper;
+    private final WorkplaceMapper workplaceMapper;
+    private final OfficeMapper officeMapper;
 
     public BookingMapper(WorkplaceMapper workplaceMapper, OfficeMapper officeMapper) {
         this.workplaceMapper = workplaceMapper;

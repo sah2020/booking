@@ -6,10 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import uz.exadel.hotdeskbooking.dto.request.OfficeDto;
-import uz.exadel.hotdeskbooking.response.success.OkResponse;
 import uz.exadel.hotdeskbooking.service.OfficeService;
-import uz.exadel.hotdeskbooking.response.success.CreatedResponse;
-
 
 import javax.validation.constraints.NotNull;
 
@@ -35,22 +32,20 @@ public class OfficeController {
     @PreAuthorize("hasRole('ROLE_MAP_EDITOR')")
     @PostMapping
     public ResponseEntity<?> addOffice(@RequestBody OfficeDto officeDto) {
-        CreatedResponse responseItem = officeService.addOffice(officeDto);
-        return ResponseEntity.status(201).body(responseItem);
+        return ResponseEntity.ok(officeService.addOffice(officeDto));
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_COMMON_USER','ROLE_MANAGER','ROLE_MAP_EDITOR')")
     @GetMapping("/{officeId}")
     public ResponseEntity<?> getOfficeAndMapsByOfficeId(@PathVariable String officeId) {
-        OkResponse responseItem = officeService.getOfficeAndMapList(officeId);
-        return ResponseEntity.status(201).body(responseItem);
+        return ResponseEntity.ok(officeService.getOfficeAndMapList(officeId));
+
     }
 
     @PreAuthorize("hasRole('ROLE_MAP_EDITOR')")
     @PutMapping("/{officeId}")
     public ResponseEntity<?> updateOffice(@RequestBody OfficeDto officeDto, @PathVariable String officeId) {
-        OkResponse responseItem = officeService.updateOffice(officeDto, officeId);
-        return ResponseEntity.ok(responseItem);
+        return ResponseEntity.ok(officeService.updateOffice(officeDto, officeId));
     }
 
     @PreAuthorize("hasRole('ROLE_MAP_EDITOR')")

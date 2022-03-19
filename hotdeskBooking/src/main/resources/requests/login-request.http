@@ -1,0 +1,15 @@
+###Login request
+POST http://localhost:8123/api/login
+Content-type: application/json
+
+{
+  "username": "5097735057",
+  "password": "password"
+}
+
+#############################
+### Get current user
+GET http://localhost:8123/api/login/current
+
+
+

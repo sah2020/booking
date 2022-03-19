@@ -4,8 +4,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 import uz.exadel.hotdeskbooking.domain.Workplace;
 import uz.exadel.hotdeskbooking.dto.request.WorkplaceCreateDto;
-import uz.exadel.hotdeskbooking.dto.response.WorkplaceResponseDto;
 import uz.exadel.hotdeskbooking.dto.request.WorkplaceUpdateDto;
+import uz.exadel.hotdeskbooking.dto.response.WorkplaceResponseDto;
 
 @Component
 public class WorkplaceMapper {

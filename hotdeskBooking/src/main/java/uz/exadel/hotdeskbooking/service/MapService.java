@@ -2,18 +2,18 @@ package uz.exadel.hotdeskbooking.service;
 
 
 import uz.exadel.hotdeskbooking.dto.request.MapDto;
-import uz.exadel.hotdeskbooking.response.success.CreatedResponse;
-import uz.exadel.hotdeskbooking.response.success.OkResponse;
+import uz.exadel.hotdeskbooking.dto.response.MapResponseTO;
 
 public interface MapService {
 
-    CreatedResponse addMap(MapDto mapDto);
+    String addMap(MapDto mapDto);
 
-    OkResponse getMapList();
+    void deleteMap(String mapId);
 
-    OkResponse deleteMap(String mapId);
-
-    OkResponse updateMap(MapDto mapDto, String mapId);
+    MapDto updateMap(MapDto mapDto, String mapId);
 
     void checkMapExistence(String mapId);
+
+    MapResponseTO getMapById(String mapId);
+
 }

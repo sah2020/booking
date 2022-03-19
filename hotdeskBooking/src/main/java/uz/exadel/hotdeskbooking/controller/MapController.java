@@ -4,8 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import uz.exadel.hotdeskbooking.service.MapService;
 import uz.exadel.hotdeskbooking.dto.request.MapDto;
+import uz.exadel.hotdeskbooking.service.MapService;
 
 import javax.validation.constraints.NotNull;
 
@@ -23,9 +23,9 @@ public class MapController {
     }
 
     @PreAuthorize("hasRole('ROLE_MAP_EDITOR')")
-    @GetMapping
-    public ResponseEntity<?> getMapList() {
-        return ResponseEntity.ok(mapService.getMapList());
+    @GetMapping("/{mapId}")
+    public ResponseEntity<?> getMapById(@PathVariable String mapId) {
+        return ResponseEntity.ok(mapService.getMapById(mapId));
     }
 
     @PreAuthorize("hasRole('ROLE_MAP_EDITOR')")

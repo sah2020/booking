@@ -1,0 +1,24 @@
+###################################
+###Add a vacation
+POST http://localhost:8123/api/vacation
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5NTI2MzMzMzgiLCJpYXQiOjE2NDc1NDgyMzcsImV4cCI6MTY0NzYzNDYzN30.dz_PedDP-4oXD8pYXi-T3PAr2B8Ay16j1vBAQ6MfaxAzEHz6v--43dZbQpdusxByT61Mmq9ZlHdkpE4V1I1OTw
+
+{
+  "user_id":"4028818a7f9d3b29017f9d3b32df0000",
+  "vacation_start" : "2020-10-10",
+  "vacation_end" : "2020-11-11"
+}
+
+###
+GET http://localhost:8123/api/vacation/all
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5NTI2MzMzMzgiLCJpYXQiOjE2NDc1NDgyMzcsImV4cCI6MTY0NzYzNDYzN30.dz_PedDP-4oXD8pYXi-T3PAr2B8Ay16j1vBAQ6MfaxAzEHz6v--43dZbQpdusxByT61Mmq9ZlHdkpE4V1I1OTw
+
+###
+GET http://localhost:8123/api/vacation/{{vacationId}}
+
+###
+PUT http://localhost:8123/api/vacation/{{vacationId}}
+
+###
+DELETE http://localhost:8123/api/vacation/{{vacationId}}
