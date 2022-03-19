@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Getter
 @Setter
@@ -20,5 +21,8 @@ public class Office extends BaseDomain {
 
     @JsonProperty("is_parking_available")
     private boolean isParkingAvailable;
+
+    @OneToMany
+    List<Map> mapList;
 
 }

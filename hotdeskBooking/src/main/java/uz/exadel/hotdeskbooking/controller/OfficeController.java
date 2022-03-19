@@ -35,23 +35,20 @@ public class OfficeController {
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_COMMON_USER','ROLE_MANAGER','ROLE_MAP_EDITOR')")
     @PostMapping
     public ResponseEntity<?> addOffice(@RequestBody OfficeDto officeDto) {
-        CreatedResponse responseItem = officeService.addOffice(officeDto);
-        return ResponseEntity.status(201).body(responseItem);
+        return ResponseEntity.ok(officeService.addOffice(officeDto));
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_COMMON_USER','ROLE_MANAGER','ROLE_MAP_EDITOR')")
     @GetMapping("/{officeId}")
     public ResponseEntity<?> getOfficeAndMapsByOfficeId(@PathVariable String officeId) {
-        OkResponse responseItem = officeService.getOfficeAndMapList(officeId);
-        return ResponseEntity.status(201).body(responseItem);
+        return ResponseEntity.ok(officeService.getOfficeAndMapList(officeId));
 
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_COMMON_USER','ROLE_MANAGER','ROLE_MAP_EDITOR')")
     @PutMapping("/{officeId}")
     public ResponseEntity<?> updateOffice(@RequestBody OfficeDto officeDto, @PathVariable String officeId) {
-        OkResponse responseItem = officeService.updateOffice(officeDto, officeId);
-        return ResponseEntity.ok(responseItem);
+        return ResponseEntity.ok(officeService.updateOffice(officeDto, officeId));
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_COMMON_USER','ROLE_MANAGER','ROLE_MAP_EDITOR')")

@@ -5,7 +5,7 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5NTI2MzMzMzgiLCJpYXQiOjE2NDc1NDgyMzcsImV4cCI6MTY0NzYzNDYzN30.dz_PedDP-4oXD8pYXi-T3PAr2B8Ay16j1vBAQ6MfaxAzEHz6v--43dZbQpdusxByT61Mmq9ZlHdkpE4V1I1OTw
 
 {
-  "office_id": "4028818a7f9caf2a017f9caf51be0003",
+  "office_id": "4028818a7f9d3fc4017f9d40280d0003",
   "floor": 1,
   "kitchen": true,
   "conf_rooms": true

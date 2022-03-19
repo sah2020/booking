@@ -7,6 +7,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import uz.exadel.hotdeskbooking.dto.response.ResponseItem;
 import uz.exadel.hotdeskbooking.dto.request.VacationDTO;
+import uz.exadel.hotdeskbooking.response.success.CreatedResponse;
 import uz.exadel.hotdeskbooking.service.impl.VacationServiceImpl;
 
 @RestController
@@ -17,38 +18,35 @@ public class VacationController {
     private final VacationServiceImpl vacationService;
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_COMMON_USER','ROLE_MANAGER','ROLE_MAP_EDITOR')")
-    @PostMapping()
-    public ResponseEntity<ResponseItem> post(@RequestBody VacationDTO vacationDTO) {
-        ResponseItem responseItem = vacationService.post(vacationDTO);
-        return new ResponseEntity<>(responseItem, HttpStatus.valueOf(responseItem.getStatusCode()));
+    @PostMapping
+    public ResponseEntity<?> addVacation(@RequestBody VacationDTO vacationDTO) {
+        return ResponseEntity.ok(vacationService.post(vacationDTO));
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_COMMON_USER','ROLE_MANAGER','ROLE_MAP_EDITOR')")
     @GetMapping("/all")
-    public ResponseEntity<ResponseItem> findAllVacation() {
-        ResponseItem responseItem = vacationService.getAll();
-        return new ResponseEntity<>(responseItem, HttpStatus.valueOf(responseItem.getStatusCode()));
+    public ResponseEntity<?> findAllVacations() {
+        return ResponseEntity.ok(vacationService.getAll());
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_COMMON_USER','ROLE_MANAGER','ROLE_MAP_EDITOR')")
     @GetMapping("/{vacationId}")
-    public ResponseEntity<ResponseItem> get(@PathVariable String vacationId) {
-        ResponseItem responseItem = vacationService.get(vacationId);
-        return new ResponseEntity<>(responseItem, HttpStatus.valueOf(responseItem.getStatusCode()));
+    public ResponseEntity<?> get(@PathVariable String vacationId) {
+        return ResponseEntity.ok(vacationService.get(vacationId));
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_COMMON_USER','ROLE_MANAGER','ROLE_MAP_EDITOR')")
     @PutMapping("/{vacationId}")
-    public ResponseEntity<ResponseItem> put(@PathVariable String vacationId, @RequestBody VacationDTO vacationDTO) {
-        ResponseItem responseItem = vacationService.put(vacationId, vacationDTO);
-        return new ResponseEntity<>(responseItem, HttpStatus.valueOf(responseItem.getStatusCode()));
+    public ResponseEntity<?> updateVacation(@PathVariable String vacationId, @RequestBody VacationDTO vacationDTO) {
+        vacationService.put(vacationId, vacationDTO);
+        return ResponseEntity.ok().build();
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_COMMON_USER','ROLE_MANAGER','ROLE_MAP_EDITOR')")
     @DeleteMapping("/{vacationId}")
-    public ResponseEntity<ResponseItem> delete(@PathVariable String vacationId) {
-        ResponseItem responseItem = vacationService.delete(vacationId);
-        return new ResponseEntity<>(responseItem, HttpStatus.valueOf(responseItem.getStatusCode()));
+    public ResponseEntity<?> delete(@PathVariable String vacationId) {
+        vacationService.delete(vacationId);
+        return ResponseEntity.ok().build();
     }
 
 }

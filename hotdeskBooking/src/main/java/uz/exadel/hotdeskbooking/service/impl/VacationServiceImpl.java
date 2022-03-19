@@ -1,67 +1,84 @@
 package uz.exadel.hotdeskbooking.service.impl;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import uz.exadel.hotdeskbooking.domain.User;
 import uz.exadel.hotdeskbooking.domain.Vacation;
-import uz.exadel.hotdeskbooking.dto.response.ResponseItem;
 import uz.exadel.hotdeskbooking.dto.request.VacationDTO;
-import uz.exadel.hotdeskbooking.exception.RestException;
+import uz.exadel.hotdeskbooking.exception.NotFoundException;
+import uz.exadel.hotdeskbooking.repository.UserRepository;
 import uz.exadel.hotdeskbooking.repository.vacation.VacationRepository;
-import uz.exadel.hotdeskbooking.service.base.VacationBase;
+import uz.exadel.hotdeskbooking.response.OfficeResponse;
+import uz.exadel.hotdeskbooking.response.VacancyResponse;
+import uz.exadel.hotdeskbooking.response.success.OkResponse;
+import uz.exadel.hotdeskbooking.service.VacationService;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
-public class VacationServiceImpl implements VacationBase<VacationDTO, String> {
+@Transactional
+public class VacationServiceImpl implements VacationService {
 
     private final VacationRepository repository;
+    private final UserRepository userRepository;
 
-    @Transactional
     @Override
-    public ResponseItem post(VacationDTO vacationDTO) {
-        VacationDTO save = repository.save(vacationDTO);
-        return new ResponseItem("OK", HttpStatus.OK.value());
+    public String post(VacationDTO vacationDTO) {
+
+        Optional<User> byId = userRepository.findById(vacationDTO.getUserId());
+        if (byId.isEmpty()){
+            throw new  NotFoundException("api.error.user.notFound");
+        }
+
+        Vacation vacation = new Vacation();
+        vacation.setVacationStart(vacationDTO.getVacationStart());
+        vacation.setVacationEnd(vacationDTO.getVacationEnd());
+        vacation.setUserId(vacationDTO.getUserId());
+        vacation.setUser(byId.get());
+        Vacation savedVacation = repository.save(vacation);
+        return savedVacation.getId();
     }
 
-    @Transactional
     @Override
-    public ResponseItem getAll() {
-        repository.findAll();
-        return new ResponseItem("Vacations found", HttpStatus.FOUND.value());
+    public List<Vacation> getAll() {
+        return repository.findAll();
     }
 
-    @Transactional
     @Override
-    public ResponseItem get(String id) {
+    public Vacation get(String id) {
         Optional<Vacation> byId = repository.findById(id);
-        return byId.map(ResponseItem::new).orElseGet(() -> new ResponseItem("Not found", HttpStatus.NOT_FOUND.value()));
+        checkVacationExistence(id); //throws an exception, if not found
+
+        return byId.get();
     }
 
-    @Transactional
     @Override
-    public ResponseItem put(String id, VacationDTO vacationDTO) {
-        Optional<Vacation> findById = repository.findById(id);
+    public void put(String vacationId, VacationDTO vacationDTO) {
+        Optional<Vacation> findById = repository.findById(vacationId);
 
-        if (findById.isEmpty())
-            throw new RestException("Requested vacation doesn’t exist", HttpStatus.NOT_FOUND.value());
+        checkVacationExistence(vacationId); //throws an exception, if not found
 
         Vacation vacation = findById.get();
         vacation.setVacationStart(vacationDTO.getVacationEnd());
         vacation.setVacationStart(vacationDTO.getVacationStart());
-        return new ResponseItem("OK", HttpStatus.OK.value());
+        repository.save(vacation);
     }
 
-    @Transactional
     @Override
-    public ResponseItem delete(String id) {
-
-        boolean existsById = repository.existsById(id);
-        if (!existsById)
-            throw new RestException("Requested vacation doesn’t exist", HttpStatus.NOT_FOUND.value());
+    public void delete(String id) {
+        checkVacationExistence(id);
         repository.deleteById(id);
-        return null;
+    }
+
+    private void checkVacationExistence(String id) {
+        boolean existsById = repository.existsById(id);
+        if (!existsById){
+            throw new NotFoundException(VacancyResponse.VACATION_NOT_FOUND.getMessage());
+        }
     }
 }
+

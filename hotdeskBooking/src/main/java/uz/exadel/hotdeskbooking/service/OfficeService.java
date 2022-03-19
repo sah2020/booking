@@ -1,34 +1,38 @@
 package uz.exadel.hotdeskbooking.service;
 
+import uz.exadel.hotdeskbooking.domain.Map;
+import uz.exadel.hotdeskbooking.domain.Office;
 import uz.exadel.hotdeskbooking.dto.request.OfficeDto;
+import uz.exadel.hotdeskbooking.dto.response.OfficeResponseTO;
 import uz.exadel.hotdeskbooking.response.success.OkResponse;
 import uz.exadel.hotdeskbooking.response.success.CreatedResponse;
 
+import java.util.List;
 
 
 public interface OfficeService {
 
-    OkResponse getOfficeList();
+    List<Office> getOfficeList();
 
-    CreatedResponse addOffice(OfficeDto officeDto);
+    String addOffice(OfficeDto officeDto);
 
-    OkResponse getOfficeAndMapList(String officeId);
+    OfficeResponseTO getOfficeAndMapList(String officeId);
 
-    OkResponse updateOffice(OfficeDto officeDto, String officeId);
+    String updateOffice(OfficeDto officeDto, String officeId);
 
-    OkResponse deleteOffice(String officeId);
+    String deleteOffice(String officeId);
 
-    OkResponse getCityList();
+    List<String> getCityList();
 
-    OkResponse getOfficeListByCity(String city);
+    List<Office> getOfficeListByCity(String city);
 
-    OkResponse getCityListByCountryName(String countryName);
+    List<String> getCityListByCountryName(String countryName);
 
-    OkResponse getCountryList();
+    List<String> getCountryList();
 
-    OkResponse getMapListByOfficeId(String officeId);
+    List<Map> getMapListByOfficeId(String officeId);
 
-    OkResponse checkForParking(String officeId);
+    boolean checkForParking(String officeId);
 
     void checkOfficeByName(String officeName);
 }

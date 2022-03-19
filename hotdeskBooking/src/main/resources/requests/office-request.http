@@ -1,7 +1,7 @@
 ###################################
 ###Getting all offices list
 GET http://localhost:8123/api/office
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5NTI2MzMzMzgiLCJpYXQiOjE2NDc1NDgyMzcsImV4cCI6MTY0NzYzNDYzN30.dz_PedDP-4oXD8pYXi-T3PAr2B8Ay16j1vBAQ6MfaxAzEHz6v--43dZbQpdusxByT61Mmq9ZlHdkpE4V1I1OTw
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI1MDk3NzM1MDU3IiwiaWF0IjoxNjQ3Njg5MjQ4LCJleHAiOjE2NDc3NzU2NDh9.nHE8e4Mh2EljIKhb8a_uLOf8d7ALM2omufJ1G9tpMOE_tv_ohFoQdIKzOHp4PUju-b6pMyke3NCipcJlsOdQSw
 
 
 
@@ -16,7 +16,7 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5NTI2MzMzMzgiLCJpYXQiOjE2N
 ###Adding office
 POST http://localhost:8123/api/office
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5NTI2MzMzMzgiLCJpYXQiOjE2NDc1NDgyMzcsImV4cCI6MTY0NzYzNDYzN30.dz_PedDP-4oXD8pYXi-T3PAr2B8Ay16j1vBAQ6MfaxAzEHz6v--43dZbQpdusxByT61Mmq9ZlHdkpE4V1I1OTw
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI1MDk3NzM1MDU3IiwiaWF0IjoxNjQ3Njg5MjQ4LCJleHAiOjE2NDc3NzU2NDh9.nHE8e4Mh2EljIKhb8a_uLOf8d7ALM2omufJ1G9tpMOE_tv_ohFoQdIKzOHp4PUju-b6pMyke3NCipcJlsOdQSw
 
 {
   "name": "M-1",
@@ -30,16 +30,16 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5NTI2MzMzMzgiLCJpYXQiOjE2N
 
 ####################################
 ###Get office by office id
-GET http://localhost:8123/api/office/4028818a7f9c924a017f9c92abc90003
+GET http://localhost:8123/api/office/4028818a7f9d3fc4017f9d40280d0003
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5NTI2MzMzMzgiLCJpYXQiOjE2NDc1NDgyMzcsImV4cCI6MTY0NzYzNDYzN30.dz_PedDP-4oXD8pYXi-T3PAr2B8Ay16j1vBAQ6MfaxAzEHz6v--43dZbQpdusxByT61Mmq9ZlHdkpE4V1I1OTw
 
 
 
 ####################################
 ###Updating the already existing office
-PUT http://localhost:8123/api/office/4028818a7f99e8b3017f99e91aea0003
+PUT http://localhost:8123/api/office/4028818a7fa1f75a017fa1f773200003
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5NTI2MzMzMzgiLCJpYXQiOjE2NDc1NDgyMzcsImV4cCI6MTY0NzYzNDYzN30.dz_PedDP-4oXD8pYXi-T3PAr2B8Ay16j1vBAQ6MfaxAzEHz6v--43dZbQpdusxByT61Mmq9ZlHdkpE4V1I1OTw
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI1MDk3NzM1MDU3IiwiaWF0IjoxNjQ3Njg5MjQ4LCJleHAiOjE2NDc3NzU2NDh9.nHE8e4Mh2EljIKhb8a_uLOf8d7ALM2omufJ1G9tpMOE_tv_ohFoQdIKzOHp4PUju-b6pMyke3NCipcJlsOdQSw
 
 {
   "name": "M-2",
@@ -53,7 +53,7 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5NTI2MzMzMzgiLCJpYXQiOjE2N
 
 ####################################
 ###Deleting the office by office id
-DELETE http://localhost:8123/api/office/4028818a7f9c7ef7017f9c7f2ff30003
+DELETE http://localhost:8123/api/office/4028818a7f9d3fc4017f9d40280d0002
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5NTI2MzMzMzgiLCJpYXQiOjE2NDc1NDgyMzcsImV4cCI6MTY0NzYzNDYzN30.dz_PedDP-4oXD8pYXi-T3PAr2B8Ay16j1vBAQ6MfaxAzEHz6v--43dZbQpdusxByT61Mmq9ZlHdkpE4V1I1OTw
 
 
