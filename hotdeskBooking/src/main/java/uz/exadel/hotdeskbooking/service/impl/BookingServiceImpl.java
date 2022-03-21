@@ -17,8 +17,7 @@ import uz.exadel.hotdeskbooking.mapper.BookingMapper;
 import uz.exadel.hotdeskbooking.repository.BookingRepository;
 import uz.exadel.hotdeskbooking.repository.UserRepository;
 import uz.exadel.hotdeskbooking.repository.WorkplaceRepository;
-import uz.exadel.hotdeskbooking.response.success.CreatedResponse;
-import uz.exadel.hotdeskbooking.response.success.OkResponse;
+import uz.exadel.hotdeskbooking.response.ResponseMessage;
 import uz.exadel.hotdeskbooking.service.BookingService;
 
 import javax.transaction.Transactional;
@@ -43,38 +42,39 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public OkResponse create(BookingCreateTO bookingCreateTO) {
+    public List<BookingResTO> create(BookingCreateTO bookingCreateTO) {
         if (bookingCreateTO == null) {
-            throw new BadRequestException("api.error.bad.request");
+            throw new BadRequestException(ResponseMessage.REQUEST_BODY_NULL.getMessage());
         }
         if (authServiceImpl.getCurrentUserDetails() == null) {
-            throw new ForbiddenException("api.error.forbidden");
+            throw new ForbiddenException(ResponseMessage.SESSION_EXPIRED.getMessage());
         }
 
         String selectedWorkplaceId = bookingCreateTO.getWorkplaceId();
         if (selectedWorkplaceId == null) {
-            throw new BadRequestException("api.error.workplace.not.found");
+            throw new BadRequestException(ResponseMessage.WORKPLACE_NOT_FOUND.getMessage());
         }
 
-        Workplace workplace = workplaceRepository.findById(selectedWorkplaceId).orElseThrow(() -> new BadRequestException("api.error.workplace.notFound"));
+        Workplace workplace = workplaceRepository.findById(selectedWorkplaceId).orElseThrow(() -> new BadRequestException(ResponseMessage.WORKPLACE_NOT_FOUND.getMessage()));
 
         User currentUser = authServiceImpl.getCurrentUserDetails();
 
         boolean isOwnBooking = currentUser.getId().equals(bookingCreateTO.getUserId());
         if (!isOwnBooking && !currentUser.getRoles().contains(RoleTypeEnum.ROLE_ADMIN)) {
-            throw new ForbiddenException("api.error.forbidden");
+            throw new ForbiddenException(ResponseMessage.FORBIDDEN.getMessage());
         }
 
         User bookingUser = isOwnBooking ? currentUser : userRepository.findById(bookingCreateTO.getUserId()).orElse(null);
         if (bookingUser == null) {
-            throw new ConflictException("api.error.user.not.found");
+            throw new ConflictException(ResponseMessage.USER_NOT_FOUND.getMessage());
         }
         Date employmentEndDate = null;
         if (bookingUser.getEmploymentEnd() != null) {
             employmentEndDate = bookingUser.getEmploymentEnd();
         }
         if (!bookingCreateTO.getIsRecurring()) {
-            if (bookingCreateTO.getStartDate() == null) throw new BadRequestException("api.error.bad.request");
+            if (bookingCreateTO.getStartDate() == null)
+                throw new BadRequestException(ResponseMessage.BAD_REQUEST.getMessage());
             Date startDate = bookingCreateTO.getStartDate();
             if (bookingCreateTO.getEndDate() == null) {
                 bookingCreateTO.setEndDate(startDate);
@@ -85,57 +85,57 @@ public class BookingServiceImpl implements BookingService {
                 if (availableDates.size() == 1) {
                     endDate = employmentEndDate;
                 } else if (availableDates.size() == 0) {
-                    throw new ConflictException("api.error.booking.dates.unemployment");
+                    throw new ConflictException(ResponseMessage.UNEMPLOYMENT_ERROR.getMessage());
                 }
             }
             List<Booking> activeBookings = bookingRepository.findAllByWorkplaceIdAndStartDateAndEndDateAndActiveTrue(selectedWorkplaceId, startDate, endDate);
             if (activeBookings.size() != 0) {
-                throw new ConflictException("api.error.workplace.booked");
+                throw new ConflictException(ResponseMessage.WORKPLACE_BOOKED.getMessage());
             }
         } else {
             List<Date> datesList = bookingCreateTO.getDatesList();
             if (employmentEndDate != null) {
                 datesList = checkBookingDatesWithEmployment(datesList, employmentEndDate);
                 if (datesList.size() == 0) {
-                    throw new ConflictException("api.error.booking.dates.unemployment");
+                    throw new ConflictException(ResponseMessage.UNEMPLOYMENT_ERROR.getMessage());
                 }
             }
             List<Booking> activeBookings = new ArrayList<>();
             datesList.forEach(date -> activeBookings.addAll(bookingRepository.findAllByWorkplaceIdAndStartDateAndEndDateAndActiveTrue(selectedWorkplaceId, date, new Date(date.getTime() + 3600000))));
             if (activeBookings.size() != 0) {
-                throw new ConflictException("api.error.workplace.booked");
+                throw new ConflictException(ResponseMessage.WORKPLACE_BOOKED.getMessage());
             }
         }
         List<BookingResTO> response = createBookingWithParams(workplace, bookingUser, bookingCreateTO);
 
-        return new OkResponse(response);
+        return response;
     }
 
     @Override
-    public CreatedResponse createAny(BookingCreateTO bookingCreateTO) {
+    public List<BookingResTO> createAny(BookingCreateTO bookingCreateTO) {
         if (bookingCreateTO == null) {
-            throw new BadRequestException("api.error.bad.request");
+            throw new BadRequestException(ResponseMessage.REQUEST_BODY_NULL.getMessage());
         }
         if (authServiceImpl.getCurrentUserDetails() == null) {
-            throw new ForbiddenException("api.error.forbidden");
+            throw new ForbiddenException(ResponseMessage.SESSION_EXPIRED.getMessage());
         }
 
         String selectedOfficeId = bookingCreateTO.getOfficeId();
         if (selectedOfficeId == null) {
-            throw new BadRequestException("api.error.office.not.found");
+            throw new BadRequestException(ResponseMessage.OFFICE_NOT_FOUND.getMessage());
         }
 
         User currentUser = authServiceImpl.getCurrentUserDetails();
 
         boolean isOwnBooking = currentUser.getId().equals(bookingCreateTO.getUserId());
         if (!isOwnBooking && !currentUser.getRoles().contains(RoleTypeEnum.ROLE_ADMIN)) {
-            throw new ForbiddenException("api.error.forbidden");
+            throw new ForbiddenException(ResponseMessage.FORBIDDEN.getMessage());
         }
         Workplace chosenWorkplace = null;
 
         User bookingUser = isOwnBooking ? currentUser : userRepository.findById(bookingCreateTO.getUserId()).orElse(null);
         if (bookingUser == null) {
-            throw new ConflictException("api.error.user.not.found");
+            throw new ConflictException(ResponseMessage.USER_NOT_FOUND.getMessage());
         }
         if (!bookingCreateTO.getIsRecurring()) {
             /*
@@ -169,12 +169,12 @@ public class BookingServiceImpl implements BookingService {
             chosenWorkplace = checkWorkplacesForDates(selectedOfficeId, activeBookingsForDate);
         }
         if (chosenWorkplace == null) {
-            throw new BadRequestException("api.error.no.workplace.available");
+            throw new BadRequestException(ResponseMessage.WORKPLACE_UNAVAILABLE.getMessage());
         }
 
         List<BookingResTO> response = createBookingWithParams(chosenWorkplace, bookingUser, bookingCreateTO);
 
-        return new CreatedResponse(response);
+        return response;
     }
 
     private Workplace checkWorkplacesForDates(String selectedOfficeId, List<Booking> activeBookingsForDate) {
@@ -182,7 +182,7 @@ public class BookingServiceImpl implements BookingService {
             List<String> bookedWorkplaceIds = activeBookingsForDate.stream().map(Booking::getWorkplaceId).toList();
             Workplace optionalWorkplace = workplaceRepository.findFirstByMap_OfficeIdAndIdNotIn(selectedOfficeId, bookedWorkplaceIds);
             if (optionalWorkplace == null) {
-                throw new BadRequestException("api.error.no.workplace.available");
+                throw new BadRequestException(ResponseMessage.WORKPLACE_UNAVAILABLE.getMessage());
             }
             return optionalWorkplace;
         } else {
@@ -244,16 +244,16 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public OkResponse save(StringListDTO stringListDTO) {
+    public String save(StringListDTO stringListDTO) {
         List<String> idList = stringListDTO.getList();
         List<Booking> bookings = bookingRepository.findAllByIdIn(idList);
         bookings.forEach(booking -> booking.setActive(true));
         bookingRepository.saveAll(bookings);
-        return new OkResponse("Booking saved successfully");
+        return ResponseMessage.BOOKING_SAVE.toString();
     }
 
     @Override
-    public OkResponse cancel(String id, String userId, Boolean all) {
+    public String cancel(String id, String userId, Boolean all) {
         /*
         there should be logic for canceling one booking and all bookings
         check role of the current user
@@ -268,22 +268,22 @@ public class BookingServiceImpl implements BookingService {
         boolean isAdmin = currentUser.getRoles().contains(RoleTypeEnum.ROLE_ADMIN);
 
         if ((userId != null || all) && !Objects.equals(currentUser.getId(), userId) && !isAdmin) {
-            throw new ForbiddenException("api.error.forbidden");
+            throw new ForbiddenException(ResponseMessage.FORBIDDEN.getMessage());
         }
         if (id != null) {
             Booking booking = bookingRepository.findById(id).orElse(null);
             if (booking == null) {
-                throw new NotFoundException("api.error.booking.notFound");
+                throw new NotFoundException(ResponseMessage.BOOKING_NOT_FOUND.getMessage());
             }
             String bookingUserId = booking.getUserId();
             if (!bookingUserId.equals(currentUser.getId()) && !isAdmin) {
-                throw new ForbiddenException("api.error.forbidden");
+                throw new ForbiddenException(ResponseMessage.FORBIDDEN.getMessage());
             }
             booking.setActive(false);
             bookingRepository.save(booking);
         } else if (userId != null && all) {
             if (!isAdmin) {
-                throw new ForbiddenException("api.error.forbidden");
+                throw new ForbiddenException(ResponseMessage.FORBIDDEN.getMessage());
             }
             List<Booking> userBookings = bookingRepository.findAllByUserIdAndActiveTrue(userId);
             userBookings.forEach(booking -> booking.setActive(false));
@@ -293,30 +293,29 @@ public class BookingServiceImpl implements BookingService {
             allBookings.forEach(booking -> booking.setActive(false));
             bookingRepository.saveAll(allBookings);
         } else {
-            throw new BadRequestException("api.error.bad.request");
+            throw new BadRequestException(ResponseMessage.BAD_REQUEST.getMessage());
         }
-        return new OkResponse("api.success.cancel.booking");
+        return ResponseMessage.BOOKING_CANCEL.toString();
     }
 
     @Override
-    public OkResponse getOne(String id) {
+    public BookingResTO getOne(String id) {
         if (id == null) {
-            throw new BadRequestException("api.error.bad.request");
+            throw new BadRequestException(ResponseMessage.REQUEST_BODY_NULL.getMessage());
         }
         Booking booking = bookingRepository.findById(id).orElse(null);
         if (booking == null) {
-            throw new NotFoundException("api.error.booking.notFound");
+            throw new NotFoundException(ResponseMessage.BOOKING_NOT_FOUND.getMessage());
         }
-        BookingResTO bookingResTO = bookingMapper.toBookingRes(booking.getWorkplace(), booking);
-        return new OkResponse(bookingResTO);
+        return bookingMapper.toBookingRes(booking.getWorkplace(), booking);
     }
 
     @Override
-    public OkResponse getByUserId(String userId) {
+    public List<BookingResTO> getByUserId(String userId) {
         User currentUser = authServiceImpl.getCurrentUserDetails();
         boolean isAdmin = currentUser.getRoles().contains(RoleTypeEnum.ROLE_ADMIN);
         if (!isAdmin && !Objects.equals(currentUser.getId(), userId)) {
-            throw new ForbiddenException("api.error.forbidden");
+            throw new ForbiddenException(ResponseMessage.FORBIDDEN.getMessage());
         }
         List<Booking> bookings = bookingRepository.findAllByUserIdAndActiveTrue(userId);
         List<BookingResTO> response = new ArrayList<>();
@@ -324,13 +323,13 @@ public class BookingServiceImpl implements BookingService {
             BookingResTO bookingResTO = bookingMapper.toBookingRes(booking.getWorkplace(), booking);
             response.add(bookingResTO);
         });
-        return new OkResponse(response);
+        return response;
     }
 
     @Override
-    public OkResponse edit(String id, BookingCreateTO bookingCreateTO) {
+    public String edit(String id, BookingCreateTO bookingCreateTO) {
         if (id == null || bookingCreateTO == null) {
-            throw new BadRequestException("api.error.bad.request");
+            throw new BadRequestException(ResponseMessage.REQUEST_BODY_NULL.getMessage());
         }
 
         //user can only edit his own booking
@@ -340,20 +339,21 @@ public class BookingServiceImpl implements BookingService {
 
         boolean isOwnBooking = currentUser.getId().equals(bookingCreateTO.getUserId());
         if (!isOwnBooking && !isAdmin) {
-            throw new ForbiddenException("api.error.forbidden");
+            throw new ForbiddenException(ResponseMessage.FORBIDDEN.getMessage());
         }
 
         User bookingUser = isOwnBooking ? currentUser : userRepository.findById(bookingUserId).orElse(null);
         if (bookingUser == null) {
-            throw new ConflictException("api.error.user.not.found");
+            throw new ConflictException(ResponseMessage.USER_NOT_FOUND.getMessage());
         }
 
         Booking existingBooking = bookingRepository.findById(id).orElse(null);
         if (existingBooking == null) {
-            throw new NotFoundException("api.error.booking.notFound");
+            throw new NotFoundException(ResponseMessage.BOOKING_NOT_FOUND.getMessage());
         }
 
-        if (bookingCreateTO.getStartDate() == null) throw new BadRequestException("api.error.bad.request");
+        if (bookingCreateTO.getStartDate() == null)
+            throw new BadRequestException(ResponseMessage.BAD_REQUEST.getMessage());
 
         existingBooking.setActive(false);
         bookingRepository.save(existingBooking);
@@ -381,19 +381,19 @@ public class BookingServiceImpl implements BookingService {
             if (chosenWorkplace == null) {
                 existingBooking.setActive(true);
                 bookingRepository.save(existingBooking);
-                throw new NotFoundException("api.error.workplace.notFound");
+                throw new NotFoundException(ResponseMessage.WORKPLACE_NOT_FOUND.getMessage());
             }
             activeBookingsForDates = bookingRepository.findAllByWorkplaceIdAndStartDateAndEndDateAndActiveTrue(chosenWorkplace.getId(), startDate, endDate);
             if (activeBookingsForDates.size() > 0) {
                 existingBooking.setActive(true);
                 bookingRepository.save(existingBooking);
-                throw new ConflictException("api.error.workplace.booked");
+                throw new ConflictException(ResponseMessage.WORKPLACE_BOOKED.getMessage());
             }
         }
         if (chosenWorkplace == null) {
             existingBooking.setActive(true);
             bookingRepository.save(existingBooking);
-            throw new BadRequestException("api.error.bad.request");
+            throw new BadRequestException(ResponseMessage.BAD_REQUEST.getMessage());
         }
 
         existingBooking.setWorkplaceId(chosenWorkplace.getId());
@@ -402,27 +402,27 @@ public class BookingServiceImpl implements BookingService {
         existingBooking.setActive(true);
         bookingRepository.save(existingBooking);
 
-        BookingResTO response = bookingMapper.toBookingRes(chosenWorkplace, existingBooking);
+//        BookingResTO response = bookingMapper.toBookingRes(chosenWorkplace, existingBooking);
 
-        return new OkResponse("Booking edited successfully", response);
+        return ResponseMessage.BOOKING_UPDATE.toString();
     }
 
     @Override
-    public OkResponse delete(String id) {
+    public String delete(String id) {
         if (id == null) {
-            throw new BadRequestException("api.error.bad.request");
+            throw new BadRequestException(ResponseMessage.REQUEST_BODY_NULL.getMessage());
         }
         Booking booking = bookingRepository.findById(id).orElse(null);
         if (booking == null) {
-            throw new NotFoundException("api.error.booking.notFound");
+            throw new NotFoundException(ResponseMessage.BOOKING_NOT_FOUND.getMessage());
         }
         String bookingUserId = booking.getUserId();
         User currentUser = authServiceImpl.getCurrentUserDetails();
         boolean isAdmin = currentUser.getRoles().contains(RoleTypeEnum.ROLE_ADMIN);
         if (!bookingUserId.equals(currentUser.getId()) && !isAdmin) {
-            throw new ForbiddenException("api.error.forbidden");
+            throw new ForbiddenException(ResponseMessage.FORBIDDEN.getMessage());
         }
         bookingRepository.delete(booking);
-        return new OkResponse("Booking deleted successfully");
+        return ResponseMessage.BOOKING_DELETE.toString();
     }
 }
