@@ -6,9 +6,9 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum WorkplaceTypeEnum {
-    REGULAR("Regular"),
-    ADMINISTRATIVE("Administrative"),
-    NON_BOOKABLE("Non_bookable");
+    REGULAR("REGULAR"),
+    ADMINISTRATIVE("ADMINISTRATIVE"),
+    NON_BOOKABLE("NON_BOOKABLE");
 
     private final String name;
 

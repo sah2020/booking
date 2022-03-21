@@ -9,6 +9,7 @@ import uz.exadel.hotdeskbooking.dto.StringListDTO;
 import uz.exadel.hotdeskbooking.dto.request.BookingCreateTO;
 import uz.exadel.hotdeskbooking.dto.response.BookingResTO;
 import uz.exadel.hotdeskbooking.enums.RoleTypeEnum;
+import uz.exadel.hotdeskbooking.enums.WorkplaceTypeEnum;
 import uz.exadel.hotdeskbooking.exception.BadRequestException;
 import uz.exadel.hotdeskbooking.exception.ConflictException;
 import uz.exadel.hotdeskbooking.exception.ForbiddenException;
@@ -58,9 +59,10 @@ public class BookingServiceImpl implements BookingService {
         Workplace workplace = workplaceRepository.findById(selectedWorkplaceId).orElseThrow(() -> new BadRequestException(ResponseMessage.WORKPLACE_NOT_FOUND.getMessage()));
 
         User currentUser = authServiceImpl.getCurrentUserDetails();
+        boolean isAdmin = currentUser.getRoles().contains(RoleTypeEnum.ROLE_ADMIN);
 
         boolean isOwnBooking = currentUser.getId().equals(bookingCreateTO.getUserId());
-        if (!isOwnBooking && !currentUser.getRoles().contains(RoleTypeEnum.ROLE_ADMIN)) {
+        if (!isOwnBooking && !isAdmin) {
             throw new ForbiddenException(ResponseMessage.FORBIDDEN.getMessage());
         }
 
@@ -126,9 +128,10 @@ public class BookingServiceImpl implements BookingService {
         }
 
         User currentUser = authServiceImpl.getCurrentUserDetails();
+        boolean isAdmin = currentUser.getRoles().contains(RoleTypeEnum.ROLE_ADMIN);
 
         boolean isOwnBooking = currentUser.getId().equals(bookingCreateTO.getUserId());
-        if (!isOwnBooking && !currentUser.getRoles().contains(RoleTypeEnum.ROLE_ADMIN)) {
+        if (!isOwnBooking && !isAdmin) {
             throw new ForbiddenException(ResponseMessage.FORBIDDEN.getMessage());
         }
         Workplace chosenWorkplace = null;
@@ -151,7 +154,7 @@ public class BookingServiceImpl implements BookingService {
             //continuous
             Date endDate = bookingCreateTO.getEndDate();
             List<Booking> activeBookingsForDates = bookingRepository.findAllByWorkplace_Map_OfficeIdAndStartDateAndEndDateAndActiveTrue(selectedOfficeId, startDate, endDate);
-            chosenWorkplace = checkWorkplacesForDates(selectedOfficeId, activeBookingsForDates);
+            chosenWorkplace = checkWorkplacesForDates(selectedOfficeId, activeBookingsForDates, isAdmin);
         }
         else {
             /*
@@ -166,7 +169,7 @@ public class BookingServiceImpl implements BookingService {
             datesList.forEach(date ->
                     activeBookingsForDate.addAll(bookingRepository.findAllByWorkplace_Map_OfficeIdAndStartDateAndEndDateAndActiveTrue(selectedOfficeId, date, new Date(date.getTime() + 1000 * 60 * 60 * 24)))
             );
-            chosenWorkplace = checkWorkplacesForDates(selectedOfficeId, activeBookingsForDate);
+            chosenWorkplace = checkWorkplacesForDates(selectedOfficeId, activeBookingsForDate, isAdmin);
         }
         if (chosenWorkplace == null) {
             throw new BadRequestException(ResponseMessage.WORKPLACE_UNAVAILABLE.getMessage());
@@ -177,17 +180,27 @@ public class BookingServiceImpl implements BookingService {
         return response;
     }
 
-    private Workplace checkWorkplacesForDates(String selectedOfficeId, List<Booking> activeBookingsForDate) {
+    private Workplace checkWorkplacesForDates(String selectedOfficeId, List<Booking> activeBookingsForDate, boolean isAdmin) {
+        Workplace optionalWorkplace = null;
         if (activeBookingsForDate.size() > 0) {
             List<String> bookedWorkplaceIds = activeBookingsForDate.stream().map(Booking::getWorkplaceId).toList();
-            Workplace optionalWorkplace = workplaceRepository.findFirstByMap_OfficeIdAndIdNotIn(selectedOfficeId, bookedWorkplaceIds);
-            if (optionalWorkplace == null) {
-                throw new BadRequestException(ResponseMessage.WORKPLACE_UNAVAILABLE.getMessage());
+            if (isAdmin) {
+                optionalWorkplace = workplaceRepository.findFirstByMap_OfficeIdAndIdNotIn(selectedOfficeId, bookedWorkplaceIds);
+            } else {
+                optionalWorkplace = workplaceRepository.findFirstByMap_OfficeIdAndTypeAndIdNotIn(selectedOfficeId, WorkplaceTypeEnum.REGULAR, bookedWorkplaceIds);
             }
-            return optionalWorkplace;
+
         } else {
-            return workplaceRepository.findFirstByMap_OfficeId(selectedOfficeId);
+            if (isAdmin) {
+                optionalWorkplace = workplaceRepository.findFirstByMap_OfficeId(selectedOfficeId);
+            } else {
+                optionalWorkplace = workplaceRepository.findFirstByTypeAndMap_OfficeId(WorkplaceTypeEnum.REGULAR, selectedOfficeId);
+            }
         }
+        if (optionalWorkplace == null) {
+            throw new BadRequestException(ResponseMessage.WORKPLACE_UNAVAILABLE.getMessage());
+        }
+        return optionalWorkplace;
     }
 
     private List<BookingResTO> createBookingWithParams(Workplace workplace, User user, BookingCreateTO bookingCreateTO) {
@@ -370,7 +383,7 @@ public class BookingServiceImpl implements BookingService {
         if (bookingCreateTO.getOfficeId() != null && bookingCreateTO.getWorkplaceId() == null) {
             activeBookingsForDates = bookingRepository.findAllByWorkplace_Map_OfficeIdAndStartDateAndEndDateAndActiveTrue(bookingCreateTO.getOfficeId(), startDate, endDate);
             try {
-                chosenWorkplace = checkWorkplacesForDates(bookingCreateTO.getOfficeId(), activeBookingsForDates);
+                chosenWorkplace = checkWorkplacesForDates(bookingCreateTO.getOfficeId(), activeBookingsForDates, isAdmin);
             } catch (BadRequestException ignored) {
                 existingBooking.setActive(true);
                 bookingRepository.save(existingBooking);
