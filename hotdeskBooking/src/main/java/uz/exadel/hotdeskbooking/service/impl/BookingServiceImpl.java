@@ -22,7 +22,10 @@ import uz.exadel.hotdeskbooking.response.ResponseMessage;
 import uz.exadel.hotdeskbooking.service.BookingService;
 
 import javax.transaction.Transactional;
+import java.time.temporal.Temporal;
 import java.util.*;
+
+import static java.time.temporal.ChronoUnit.DAYS;
 
 @Service
 @Transactional
@@ -82,6 +85,7 @@ public class BookingServiceImpl implements BookingService {
                 bookingCreateTO.setEndDate(startDate);
             }
             Date endDate = bookingCreateTO.getEndDate();
+            checkBookingLength(startDate, endDate);
             if (employmentEndDate != null) {
                 List<Date> availableDates = checkBookingDatesWithEmployment(Arrays.asList(startDate, endDate), employmentEndDate);
                 if (availableDates.size() == 1) {
@@ -113,6 +117,13 @@ public class BookingServiceImpl implements BookingService {
         return response;
     }
 
+    private void checkBookingLength(Date startDate, Date endDate) {
+        long days = DAYS.between((Temporal) startDate, (Temporal) endDate);
+        if (days > 180) {
+            throw new BadRequestException(ResponseMessage.BOOKING_LENGTH_ERROR.getMessage());
+        }
+    }
+
     @Override
     public List<BookingResTO> createAny(BookingCreateTO bookingCreateTO) {
         if (bookingCreateTO == null) {
@@ -140,6 +151,10 @@ public class BookingServiceImpl implements BookingService {
         if (bookingUser == null) {
             throw new ConflictException(ResponseMessage.USER_NOT_FOUND.getMessage());
         }
+        Date employmentEndDate = null;
+        if (bookingUser.getEmploymentEnd() != null) {
+            employmentEndDate = bookingUser.getEmploymentEnd();
+        }
         if (!bookingCreateTO.getIsRecurring()) {
             /*
             if booking is not recurring, it can be for one day or several days
@@ -153,6 +168,15 @@ public class BookingServiceImpl implements BookingService {
             }
             //continuous
             Date endDate = bookingCreateTO.getEndDate();
+            checkBookingLength(startDate, endDate);
+            if (employmentEndDate != null) {
+                List<Date> availableDates = checkBookingDatesWithEmployment(Arrays.asList(startDate, endDate), employmentEndDate);
+                if (availableDates.size() == 1) {
+                    endDate = employmentEndDate;
+                } else if (availableDates.size() == 0) {
+                    throw new ConflictException(ResponseMessage.UNEMPLOYMENT_ERROR.getMessage());
+                }
+            }
             List<Booking> activeBookingsForDates = bookingRepository.findAllByWorkplace_Map_OfficeIdAndStartDateAndEndDateAndActiveTrue(selectedOfficeId, startDate, endDate);
             chosenWorkplace = checkWorkplacesForDates(selectedOfficeId, activeBookingsForDates, isAdmin);
         }
@@ -163,6 +187,12 @@ public class BookingServiceImpl implements BookingService {
             datesList contains specific dates for bookings
              */
             List<Date> datesList = bookingCreateTO.getDatesList();
+            if (employmentEndDate != null) {
+                datesList = checkBookingDatesWithEmployment(datesList, employmentEndDate);
+                if (datesList.size() == 0) {
+                    throw new ConflictException(ResponseMessage.UNEMPLOYMENT_ERROR.getMessage());
+                }
+            }
             //gets list of dates for booking
             List<Booking> activeBookingsForDate = new ArrayList<>();
             //checks each date for booking if it is available
@@ -360,6 +390,11 @@ public class BookingServiceImpl implements BookingService {
             throw new ConflictException(ResponseMessage.USER_NOT_FOUND.getMessage());
         }
 
+        Date employmentEndDate = null;
+        if (bookingUser.getEmploymentEnd() != null) {
+            employmentEndDate = bookingUser.getEmploymentEnd();
+        }
+
         Booking existingBooking = bookingRepository.findById(id).orElse(null);
         if (existingBooking == null) {
             throw new NotFoundException(ResponseMessage.BOOKING_NOT_FOUND.getMessage());
@@ -382,6 +417,17 @@ public class BookingServiceImpl implements BookingService {
             bookingCreateTO.setEndDate(new Date(startDate.getTime() + 3600000));
         }
         Date endDate = bookingCreateTO.getEndDate();
+        checkBookingLength(startDate, endDate);
+
+        if (employmentEndDate != null) {
+            List<Date> availableDates = checkBookingDatesWithEmployment(Arrays.asList(startDate, endDate), employmentEndDate);
+            if (availableDates.size() == 1) {
+                endDate = employmentEndDate;
+            } else if (availableDates.size() == 0) {
+                throw new ConflictException(ResponseMessage.UNEMPLOYMENT_ERROR.getMessage());
+            }
+        }
+
         List<Booking> activeBookingsForDates;
 
         Workplace chosenWorkplace = null;
