@@ -365,6 +365,12 @@ public class BookingServiceImpl implements BookingService {
             throw new NotFoundException(ResponseMessage.BOOKING_NOT_FOUND.getMessage());
         }
 
+        //check date if booking has already finished
+        Date currentDate = new Date();
+        if (existingBooking.getEndDate().before(currentDate)) {
+            throw new ConflictException(ResponseMessage.BOOKING_DATE_EXPIRED.getMessage());
+        }
+
         if (bookingCreateTO.getStartDate() == null)
             throw new BadRequestException(ResponseMessage.BAD_REQUEST.getMessage());
 

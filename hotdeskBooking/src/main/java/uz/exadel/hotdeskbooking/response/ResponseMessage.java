@@ -20,7 +20,8 @@ public enum ResponseMessage {
     WORKPLACE_BOOKED("api.error.workplace.booked"),
     OFFICE_NOT_FOUND("api.error.office.not.found"),
     WORKPLACE_UNAVAILABLE("api.error.no.workplace.available"),
-    BOOKING_NOT_FOUND("api.error.booking.notFound");
+    BOOKING_NOT_FOUND("api.error.booking.notFound"),
+    BOOKING_DATE_EXPIRED("api.error.booking.date.expired");
 
     private final String message;
 
