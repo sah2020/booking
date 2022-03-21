@@ -22,7 +22,8 @@ public enum ResponseMessage {
     WORKPLACE_UNAVAILABLE("api.error.no.workplace.available"),
     BOOKING_NOT_FOUND("api.error.booking.notFound"),
     BOOKING_DATE_EXPIRED("api.error.booking.date.expired"),
-    BOOKING_LENGTH_ERROR("api.error.booking.length");
+    BOOKING_LENGTH_ERROR("api.error.booking.length"),
+    VACATION_FULL_ERROR("api.error.booking.vacation");
 
     private final String message;
 

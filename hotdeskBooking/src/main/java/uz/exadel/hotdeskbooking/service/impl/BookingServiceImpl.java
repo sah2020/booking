@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import uz.exadel.hotdeskbooking.domain.Booking;
 import uz.exadel.hotdeskbooking.domain.User;
+import uz.exadel.hotdeskbooking.domain.Vacation;
 import uz.exadel.hotdeskbooking.domain.Workplace;
 import uz.exadel.hotdeskbooking.dto.StringListDTO;
 import uz.exadel.hotdeskbooking.dto.request.BookingCreateTO;
@@ -18,6 +19,7 @@ import uz.exadel.hotdeskbooking.mapper.BookingMapper;
 import uz.exadel.hotdeskbooking.repository.BookingRepository;
 import uz.exadel.hotdeskbooking.repository.UserRepository;
 import uz.exadel.hotdeskbooking.repository.WorkplaceRepository;
+import uz.exadel.hotdeskbooking.repository.vacation.VacationRepository;
 import uz.exadel.hotdeskbooking.response.ResponseMessage;
 import uz.exadel.hotdeskbooking.service.BookingService;
 
@@ -36,13 +38,15 @@ public class BookingServiceImpl implements BookingService {
     private BookingRepository bookingRepository;
     private WorkplaceRepository workplaceRepository;
     private BookingMapper bookingMapper;
+    private VacationRepository vacationRepository;
 
-    public BookingServiceImpl(AuthServiceImpl authServiceImpl, UserRepository userRepository, BookingRepository bookingRepository, WorkplaceRepository workplaceRepository, BookingMapper bookingMapper) {
+    public BookingServiceImpl(AuthServiceImpl authServiceImpl, UserRepository userRepository, BookingRepository bookingRepository, WorkplaceRepository workplaceRepository, BookingMapper bookingMapper, VacationRepository vacationRepository) {
         this.authServiceImpl = authServiceImpl;
         this.userRepository = userRepository;
         this.bookingRepository = bookingRepository;
         this.workplaceRepository = workplaceRepository;
         this.bookingMapper = bookingMapper;
+        this.vacationRepository = vacationRepository;
     }
 
     @Override
@@ -85,7 +89,9 @@ public class BookingServiceImpl implements BookingService {
                 bookingCreateTO.setEndDate(startDate);
             }
             Date endDate = bookingCreateTO.getEndDate();
+
             checkBookingLength(startDate, endDate);
+
             if (employmentEndDate != null) {
                 List<Date> availableDates = checkBookingDatesWithEmployment(Arrays.asList(startDate, endDate), employmentEndDate);
                 if (availableDates.size() == 1) {
@@ -94,6 +100,12 @@ public class BookingServiceImpl implements BookingService {
                     throw new ConflictException(ResponseMessage.UNEMPLOYMENT_ERROR.getMessage());
                 }
             }
+
+            Set<Date> dates = checkBookingDatesWithVacation(Arrays.asList(startDate, endDate), bookingUser.getId());
+            if (dates.size() < 2) {
+                throw new ConflictException(ResponseMessage.VACATION_FULL_ERROR.getMessage());
+            }
+
             List<Booking> activeBookings = bookingRepository.findAllByWorkplaceIdAndStartDateAndEndDateAndActiveTrue(selectedWorkplaceId, startDate, endDate);
             if (activeBookings.size() != 0) {
                 throw new ConflictException(ResponseMessage.WORKPLACE_BOOKED.getMessage());
@@ -106,8 +118,12 @@ public class BookingServiceImpl implements BookingService {
                     throw new ConflictException(ResponseMessage.UNEMPLOYMENT_ERROR.getMessage());
                 }
             }
+            Set<Date> dateList = checkBookingDatesWithVacation(datesList, bookingUser.getId());
+            datesList.removeAll(datesList);
+
+            datesList.addAll(dateList);
             List<Booking> activeBookings = new ArrayList<>();
-            datesList.forEach(date -> activeBookings.addAll(bookingRepository.findAllByWorkplaceIdAndStartDateAndEndDateAndActiveTrue(selectedWorkplaceId, date, new Date(date.getTime() + 3600000))));
+            dateList.forEach(date -> activeBookings.addAll(bookingRepository.findAllByWorkplaceIdAndStartDateAndEndDateAndActiveTrue(selectedWorkplaceId, date, date)));
             if (activeBookings.size() != 0) {
                 throw new ConflictException(ResponseMessage.WORKPLACE_BOOKED.getMessage());
             }
@@ -117,9 +133,20 @@ public class BookingServiceImpl implements BookingService {
         return response;
     }
 
+    private Set<Date> checkBookingDatesWithVacation(List<Date> dateList, String userId) {
+        Set<Date> dates = new HashSet<>();
+        dateList.forEach(date -> {
+            List<Vacation> vacations = vacationRepository.findAllByUserIdAndStartDateAndEndDate(userId, date, date);
+            if (vacations.size() == 0) {
+                dates.add(date);
+            }
+        });
+        return dates;
+    }
+
     private void checkBookingLength(Date startDate, Date endDate) {
         long days = DAYS.between((Temporal) startDate, (Temporal) endDate);
-        if (days > 180) {
+        if (days > 90) {
             throw new BadRequestException(ResponseMessage.BOOKING_LENGTH_ERROR.getMessage());
         }
     }
@@ -177,6 +204,12 @@ public class BookingServiceImpl implements BookingService {
                     throw new ConflictException(ResponseMessage.UNEMPLOYMENT_ERROR.getMessage());
                 }
             }
+
+            Set<Date> dates = checkBookingDatesWithVacation(Arrays.asList(startDate, endDate), bookingUser.getId());
+            if (dates.size() < 2) {
+                throw new ConflictException(ResponseMessage.VACATION_FULL_ERROR.getMessage());
+            }
+
             List<Booking> activeBookingsForDates = bookingRepository.findAllByWorkplace_Map_OfficeIdAndStartDateAndEndDateAndActiveTrue(selectedOfficeId, startDate, endDate);
             chosenWorkplace = checkWorkplacesForDates(selectedOfficeId, activeBookingsForDates, isAdmin);
         }
@@ -193,11 +226,17 @@ public class BookingServiceImpl implements BookingService {
                     throw new ConflictException(ResponseMessage.UNEMPLOYMENT_ERROR.getMessage());
                 }
             }
+
+            Set<Date> dateList = checkBookingDatesWithVacation(datesList, bookingUser.getId());
+            datesList.removeAll(datesList);
+
+            datesList.addAll(dateList);
+
             //gets list of dates for booking
             List<Booking> activeBookingsForDate = new ArrayList<>();
             //checks each date for booking if it is available
             datesList.forEach(date ->
-                    activeBookingsForDate.addAll(bookingRepository.findAllByWorkplace_Map_OfficeIdAndStartDateAndEndDateAndActiveTrue(selectedOfficeId, date, new Date(date.getTime() + 1000 * 60 * 60 * 24)))
+                    activeBookingsForDate.addAll(bookingRepository.findAllByWorkplace_Map_OfficeIdAndStartDateAndEndDateAndActiveTrue(selectedOfficeId, date, date))
             );
             chosenWorkplace = checkWorkplacesForDates(selectedOfficeId, activeBookingsForDate, isAdmin);
         }
@@ -431,6 +470,11 @@ public class BookingServiceImpl implements BookingService {
             } else if (availableDates.size() == 0) {
                 throw new ConflictException(ResponseMessage.UNEMPLOYMENT_ERROR.getMessage());
             }
+        }
+
+        Set<Date> dates = checkBookingDatesWithVacation(Arrays.asList(startDate, endDate), bookingUser.getId());
+        if (dates.size() < 2) {
+            throw new ConflictException(ResponseMessage.VACATION_FULL_ERROR.getMessage());
         }
 
         List<Booking> activeBookingsForDates;
