@@ -292,6 +292,11 @@ public class BookingServiceImpl implements BookingService {
         List<Booking> bookings = bookingRepository.findAllByIdIn(idList);
         bookings.forEach(booking -> booking.setActive(true));
         bookingRepository.saveAll(bookings);
+
+        User user = userRepository.getById(bookings.get(0).getUserId());
+        user.setPreferredWorkplaceId(bookings.get(0).getWorkplaceId());
+        userRepository.save(user);
+
         return ResponseMessage.BOOKING_SAVE.toString();
     }
 
