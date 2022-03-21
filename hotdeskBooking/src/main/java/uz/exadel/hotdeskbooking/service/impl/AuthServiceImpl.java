@@ -20,7 +20,6 @@ import uz.exadel.hotdeskbooking.dto.request.LoginDTO;
 import uz.exadel.hotdeskbooking.dto.response.UserBasicResTO;
 import uz.exadel.hotdeskbooking.exception.ForbiddenException;
 import uz.exadel.hotdeskbooking.repository.UserRepository;
-import uz.exadel.hotdeskbooking.response.success.OkResponse;
 import uz.exadel.hotdeskbooking.security.JWTProvider;
 import uz.exadel.hotdeskbooking.service.AuthService;
 
@@ -47,7 +46,7 @@ public class AuthServiceImpl implements AuthService, UserDetailsService {
 
     @Override
     @Transactional
-    public OkResponse login(LoginDTO loginDTO) {
+    public UserBasicResTO login(LoginDTO loginDTO) {
         try {
             Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                     loginDTO.getUsername(),
@@ -57,7 +56,7 @@ public class AuthServiceImpl implements AuthService, UserDetailsService {
             String token = jwtProvider.generateTokenAdmin(user.getUsername());
             UserBasicResTO userBasicResTO = user.toBasic();
             userBasicResTO.setToken(token);
-            return new OkResponse(userBasicResTO);
+            return userBasicResTO;
         } catch (BadCredentialsException ex) {
             log.info("Unauthorized user: " + loginDTO.getUsername());
             throw new BadCredentialsException("");
@@ -66,18 +65,12 @@ public class AuthServiceImpl implements AuthService, UserDetailsService {
 
     @Transactional
     @Override
-    public OkResponse getCurrentUser() throws AuthenticationException {
-        SecurityContext context = SecurityContextHolder.getContext();
-        if (context == null) throw new ForbiddenException("");
-
-        Authentication authentication = context.getAuthentication();
-        if (authentication == null || authentication instanceof AnonymousAuthenticationToken) {
+    public UserBasicResTO getCurrentUser() throws AuthenticationException {
+        User currentUser = this.getCurrentUserDetails();
+        if (currentUser == null) {
             throw new ForbiddenException("");
         }
-        if (authentication.getPrincipal() instanceof User) {
-            return new OkResponse(((User) authentication.getPrincipal()).toBasic());
-        }
-        return new OkResponse();
+        return currentUser.toBasic();
     }
 
     public User getCurrentUserDetails() {

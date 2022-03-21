@@ -8,11 +8,11 @@ public interface MapService {
 
     String addMap(MapDto mapDto);
 
-    void deleteMap(String mapId);
+    String deleteMap(String mapId);
 
     MapDto updateMap(MapDto mapDto, String mapId);
 
-    void checkMapExistence(String mapId);
+    String checkMapExistence(String mapId);
 
     MapResponseTO getMapById(String mapId);
 

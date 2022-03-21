@@ -44,9 +44,10 @@ public class MapServiceImpl implements MapService {
 
 
     @Override
-    public void deleteMap(String mapId) {
+    public String deleteMap(String mapId) {
         checkMapExistence(mapId);
         mapRepository.deleteById(mapId);
+        return "Success";
     }
 
     @Override
@@ -76,11 +77,12 @@ public class MapServiceImpl implements MapService {
     }
 
     @Override
-    public void checkMapExistence(String mapId) {
+    public String checkMapExistence(String mapId) {
         boolean exists = mapRepository.existsById(mapId);
         if (!exists) {
             throw new NotFoundException(MapResponse.MAP_NOT_FOUND.getMessage());
         }
+        return "Success";
     }
 
     @Override
@@ -98,11 +100,12 @@ public class MapServiceImpl implements MapService {
     }
 
     //specific map in specific office already exists!
-    private void checkByFloorAndOfficeId(MapDto mapDto, Office office) {
+    private String checkByFloorAndOfficeId(MapDto mapDto, Office office) {
         boolean exists = mapRepository.existsByFloorAndOfficeId(mapDto.getFloor(), mapDto.getOfficeId());
         if (exists) {
             throw new ConflictException(String.format("Map with floor %1$s already exists in %2$s office", mapDto.getFloor(), office.getName()));
         }
+        return "Success";
     }
 
 }

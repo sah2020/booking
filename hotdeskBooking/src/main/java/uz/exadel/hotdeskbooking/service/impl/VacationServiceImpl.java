@@ -8,7 +8,7 @@ import uz.exadel.hotdeskbooking.dto.request.VacationDTO;
 import uz.exadel.hotdeskbooking.exception.NotFoundException;
 import uz.exadel.hotdeskbooking.repository.UserRepository;
 import uz.exadel.hotdeskbooking.repository.VacationRepository;
-import uz.exadel.hotdeskbooking.response.VacancyResponse;
+import uz.exadel.hotdeskbooking.response.VacationResponse;
 import uz.exadel.hotdeskbooking.service.VacationService;
 
 import javax.transaction.Transactional;
@@ -74,7 +74,7 @@ public class VacationServiceImpl implements VacationService {
     private void checkVacationExistence(String id) {
         boolean existsById = repository.existsById(id);
         if (!existsById) {
-            throw new NotFoundException(VacancyResponse.VACATION_NOT_FOUND.getMessage());
+            throw new NotFoundException(VacationResponse.VACATION_NOT_FOUND.getMessage());
         }
     }
 }

@@ -479,10 +479,8 @@ class BookingServiceImplTest {
         user2.setUpdateById("2020-03-01");
         user2.setUpdatedAt(mock(Timestamp.class));
         when(this.authServiceImpl.getCurrentUserDetails()).thenReturn(user2);
-        OkResponse actualCancelResult = this.bookingServiceImpl.cancel("42", "42", true);
-        assertEquals(200, actualCancelResult.getCode());
-        assertEquals("OK", actualCancelResult.getStatus());
-        assertEquals("api.success.cancel.booking", actualCancelResult.getMessage());
+        String cancel = this.bookingServiceImpl.cancel("42", "42", true);
+        assertEquals("api.success.cancel.booking", cancel);
         verify(this.bookingRepository).save((Booking) any());
         verify(this.bookingRepository).findById((String) any());
         verify(this.authServiceImpl).getCurrentUserDetails();

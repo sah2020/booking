@@ -1,10 +1,10 @@
 package uz.exadel.hotdeskbooking.service;
 
 import uz.exadel.hotdeskbooking.dto.request.LoginDTO;
-import uz.exadel.hotdeskbooking.response.success.OkResponse;
+import uz.exadel.hotdeskbooking.dto.response.UserBasicResTO;
 
 public interface AuthService {
-    OkResponse login(LoginDTO loginDTO);
+    UserBasicResTO login(LoginDTO loginDTO);
 
-    OkResponse getCurrentUser();
+    UserBasicResTO getCurrentUser();
 }
