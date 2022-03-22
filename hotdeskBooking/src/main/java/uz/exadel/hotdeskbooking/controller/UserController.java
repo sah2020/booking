@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import uz.exadel.hotdeskbooking.response.success.OkResponse;
 import uz.exadel.hotdeskbooking.service.UserService;
 
 @RestController
@@ -17,7 +16,6 @@ public class UserController {
 
     @GetMapping("/{telegramId}")
     public ResponseEntity<?> getUserByTelegramId(@PathVariable String telegramId){
-        OkResponse okResponse = userService.getUserByTelegramId(telegramId);
-        return ResponseEntity.ok(okResponse);
+        return ResponseEntity.ok(userService.getUserByTelegramId(telegramId));
     }
 }
