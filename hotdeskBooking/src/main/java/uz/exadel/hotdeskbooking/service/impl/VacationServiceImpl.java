@@ -8,7 +8,6 @@ import uz.exadel.hotdeskbooking.dto.request.VacationDTO;
 import uz.exadel.hotdeskbooking.exception.NotFoundException;
 import uz.exadel.hotdeskbooking.repository.UserRepository;
 import uz.exadel.hotdeskbooking.repository.VacationRepository;
-import uz.exadel.hotdeskbooking.response.VacationResponse;
 import uz.exadel.hotdeskbooking.service.VacationService;
 
 import javax.transaction.Transactional;
