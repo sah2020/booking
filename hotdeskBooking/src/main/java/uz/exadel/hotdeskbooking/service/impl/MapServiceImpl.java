@@ -12,7 +12,7 @@ import uz.exadel.hotdeskbooking.exception.ConflictException;
 import uz.exadel.hotdeskbooking.exception.NotFoundException;
 import uz.exadel.hotdeskbooking.repository.MapRepository;
 import uz.exadel.hotdeskbooking.repository.OfficeRepository;
-import uz.exadel.hotdeskbooking.response.MapResponse;
+import uz.exadel.hotdeskbooking.response.ResponseMessage;
 import uz.exadel.hotdeskbooking.service.MapService;
 
 import javax.transaction.Transactional;
@@ -31,33 +31,32 @@ public class MapServiceImpl implements MapService {
     public String addMap(MapDto mapDto) {
         Optional<Office> byId = officeRepository.findById(mapDto.getOfficeId());
         if (byId.isEmpty()) {
-            throw new NotFoundException(MapResponse.MAP_NOT_FOUND.getMessage());
+            throw new NotFoundException(ResponseMessage.MAP_NOT_FOUND.getMessage());
         }
 
         Map map = modelMapper.map(mapDto, Map.class);
         map.setOffice(byId.get());
         checkByFloorAndOfficeId(mapDto, byId.get()); //checks by map floor number and office id
 
-        Map mapSaved = mapRepository.save(map);
-        return mapSaved.getId();
+        mapRepository.save(map);
+        return ResponseMessage.OFFICE_SAVED.getMessage();
     }
-
 
     @Override
     public String deleteMap(String mapId) {
         checkMapExistence(mapId);
         mapRepository.deleteById(mapId);
-        return "Success";
+        return ResponseMessage.OFFICE_DELETED.getMessage();
     }
 
     @Override
     public MapDto updateMap(MapDto mapDto, String mapId) {
         Map map = mapRepository.findById(mapId)
-                .orElseThrow(() -> new NotFoundException(MapResponse.MAP_NOT_FOUND.getMessage()));
+                .orElseThrow(() -> new NotFoundException(ResponseMessage.MAP_NOT_FOUND.getMessage()));
 
         Optional<Office> byId = officeRepository.findById(mapDto.getOfficeId());
         if (byId.isEmpty()) {
-            throw new NotFoundException("api.error.office.notFound");
+            throw new NotFoundException(ResponseMessage.OFFICE_NOT_FOUND.getMessage());
         }
 
         checkByFloorAndOfficeId(mapDto, byId.get());
@@ -76,19 +75,18 @@ public class MapServiceImpl implements MapService {
         return mapDtoSaved;
     }
 
-    @Override
-    public String checkMapExistence(String mapId) {
+    private boolean checkMapExistence(String mapId) {
         boolean exists = mapRepository.existsById(mapId);
         if (!exists) {
-            throw new NotFoundException(MapResponse.MAP_NOT_FOUND.getMessage());
+            throw new NotFoundException(ResponseMessage.MAP_NOT_FOUND.getMessage());
         }
-        return "Success";
+        return true;
     }
 
     @Override
     public MapResponseTO getMapById(String mapId) {
         Map map = mapRepository.findById(mapId)
-                .orElseThrow(() -> new NotFoundException(MapResponse.MAP_NOT_FOUND.getMessage()));
+                .orElseThrow(() -> new NotFoundException(ResponseMessage.MAP_NOT_FOUND.getMessage()));
 
         return new MapResponseTO(
                 map.getId(),
@@ -100,12 +98,12 @@ public class MapServiceImpl implements MapService {
     }
 
     //specific map in specific office already exists!
-    private String checkByFloorAndOfficeId(MapDto mapDto, Office office) {
+    private boolean checkByFloorAndOfficeId(MapDto mapDto, Office office) {
         boolean exists = mapRepository.existsByFloorAndOfficeId(mapDto.getFloor(), mapDto.getOfficeId());
         if (exists) {
             throw new ConflictException(String.format("Map with floor %1$s already exists in %2$s office", mapDto.getFloor(), office.getName()));
         }
-        return "Success";
+        return true;
     }
 
 }

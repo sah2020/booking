@@ -12,7 +12,7 @@ public interface VacationService {
 
     Vacation get(String vacationId);
 
-    void put(String id, VacationDTO vacationDTO);
+    String put(String id, VacationDTO vacationDTO);
 
-    void delete(String vacationId);
+    String delete(String vacationId);
 }

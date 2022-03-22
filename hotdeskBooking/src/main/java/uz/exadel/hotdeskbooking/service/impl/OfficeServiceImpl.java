@@ -13,7 +13,7 @@ import uz.exadel.hotdeskbooking.exception.ConflictException;
 import uz.exadel.hotdeskbooking.exception.NotFoundException;
 import uz.exadel.hotdeskbooking.repository.MapRepository;
 import uz.exadel.hotdeskbooking.repository.OfficeRepository;
-import uz.exadel.hotdeskbooking.response.OfficeResponse;
+import uz.exadel.hotdeskbooking.response.ResponseMessage;
 import uz.exadel.hotdeskbooking.service.OfficeService;
 
 import java.util.List;
@@ -50,7 +50,7 @@ public class OfficeServiceImpl implements OfficeService {
     public OfficeResponseTO getOfficeAndMapList(String officeId) {
 
         Office office = officeRepository.findById(officeId)
-                .orElseThrow(() -> new NotFoundException(OfficeResponse.OFFICE_NOT_FOUND.getMessage()));
+                .orElseThrow(() -> new NotFoundException(ResponseMessage.OFFICE_NOT_FOUND.getMessage()));
 
         List<String> idsByOfficeId = mapRepository.findIdsByOfficeId(officeId); //GETTING ALL MAPIDS BY OFFICEiD
 
@@ -63,7 +63,7 @@ public class OfficeServiceImpl implements OfficeService {
     @Override
     public String updateOffice(OfficeDto officeDto, String officeId) {
         Office office = officeRepository.findById(officeId)
-                .orElseThrow(() -> new NotFoundException(OfficeResponse.OFFICE_NOT_FOUND.getMessage()));
+                .orElseThrow(() -> new NotFoundException(ResponseMessage.OFFICE_NOT_FOUND.getMessage()));
 
         office.setAddress(officeDto.getAddress());
         office.setCity(officeDto.getCity());
@@ -71,17 +71,17 @@ public class OfficeServiceImpl implements OfficeService {
         office.setName(officeDto.getName());
         office.setParkingAvailable(officeDto.isParkingAvailable());
 
-        Office save = officeRepository.save(office);
-        return save.getId();
+        officeRepository.save(office);
+        return ResponseMessage.OFFICE_UPDATED.getMessage();
     }
 
     @Override
     public String deleteOffice(String officeId) {
         boolean exists = officeRepository.existsById(officeId);
-        if (!exists) throw new NotFoundException(OfficeResponse.OFFICE_NOT_FOUND.getMessage());
+        if (!exists) throw new NotFoundException(ResponseMessage.OFFICE_NOT_FOUND.getMessage());
 
         officeRepository.deleteById(officeId);
-        return OfficeResponse.OFFICE_DELETED_SUCCESSFULLY.getMessage();
+        return ResponseMessage.OFFICE_DELETED_SUCCESSFULLY.getMessage();
     }
 
     //get all the city list (without country name)
@@ -104,7 +104,7 @@ public class OfficeServiceImpl implements OfficeService {
     public List<Map> getMapListByOfficeId(String officeId) {
         boolean exists = officeRepository.existsById(officeId);
         if (!exists) {
-            throw new NotFoundException(OfficeResponse.OFFICE_NOT_FOUND.getMessage());
+            throw new NotFoundException(ResponseMessage.OFFICE_NOT_FOUND.getMessage());
         }
 
         return mapRepository.findAllByOfficeId(officeId);
@@ -114,7 +114,7 @@ public class OfficeServiceImpl implements OfficeService {
     @Override
     public boolean checkForParking(String officeId) {
         Office office = officeRepository.findById(officeId)
-                .orElseThrow(() -> new NotFoundException(OfficeResponse.OFFICE_NOT_FOUND.getMessage()));
+                .orElseThrow(() -> new NotFoundException(ResponseMessage.OFFICE_NOT_FOUND.getMessage()));
 
         return office.isParkingAvailable();
     }
@@ -122,6 +122,6 @@ public class OfficeServiceImpl implements OfficeService {
     @Override
     public void checkOfficeByName(String officeName) {
         boolean exists = officeRepository.existsByName(officeName);
-        if (exists) throw new ConflictException(OfficeResponse.OFFICE_ALREADY_EXISTS.getMessage());
+        if (exists) throw new ConflictException(ResponseMessage.OFFICE_ALREADY_EXISTS.getMessage());
     }
 }

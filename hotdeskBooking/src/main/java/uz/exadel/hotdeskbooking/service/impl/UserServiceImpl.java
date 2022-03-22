@@ -6,17 +6,21 @@ import uz.exadel.hotdeskbooking.domain.User;
 import uz.exadel.hotdeskbooking.dto.response.UserBasicResTO;
 import uz.exadel.hotdeskbooking.exception.NotFoundException;
 import uz.exadel.hotdeskbooking.repository.UserRepository;
-import uz.exadel.hotdeskbooking.response.success.OkResponse;
+import uz.exadel.hotdeskbooking.response.ResponseMessage;
 import uz.exadel.hotdeskbooking.service.UserService;
+
+import javax.transaction.Transactional;
 
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
+
+    @Transactional
     @Override
-    public OkResponse getUserByTelegramId(String telegramId) {
+    public UserBasicResTO getUserByTelegramId(String telegramId) {
         User user = userRepository.findFirstByTelegramIdAndEnabledTrue(telegramId)
-                .orElseThrow(() -> new NotFoundException("api.error.user.notFound"));
-        return new OkResponse(user.toBasic());
+                .orElseThrow(() -> new NotFoundException(ResponseMessage.USER_NOT_FOUND.getMessage()));
+        return user.toBasic();
     }
 }

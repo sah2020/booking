@@ -23,7 +23,20 @@ public enum ResponseMessage {
     BOOKING_NOT_FOUND("api.error.booking.notFound"),
     BOOKING_DATE_EXPIRED("api.error.booking.date.expired"),
     BOOKING_LENGTH_ERROR("api.error.booking.length"),
-    VACATION_FULL_ERROR("api.error.booking.vacation");
+    VACATION_FULL_ERROR("api.error.booking.vacation"),
+    MAP_NOT_FOUND("api.error.map.notFound"),
+    OFFICE_DELETED_SUCCESSFULLY("api.success.office.deleted"),
+    OFFICE_ALREADY_EXISTS("api.success.office.already.exists"),
+    VACATION_UPDATED("api.success.vacation.updated"),
+    VACATION_NOT_FOUND("api.success.vacation.not.found"),
+    VACATION_DELETED("api.success.vacation.deleted"),
+    OFFICE_SAVED("api.success.office.saved"),
+    OFFICE_UPDATED("api.success.office.updated"),
+    OFFICE_DELETED("api.success.office.deleted"),
+    WORKPLACE_NUMBER_NOT_UNIQUE("api.error.workplace.numberNotUnique"),
+    WORKPLACE_WRONG_FORMAT("api.error.workplace.wrongFormat"),
+    FILE_READ_ERROR("api.error.workplace.fileException"),
+    WORKPLACE_DELETED("api.success.workplace.deleted");
 
     private final String message;
 

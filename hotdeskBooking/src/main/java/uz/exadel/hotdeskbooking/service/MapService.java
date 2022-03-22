@@ -12,8 +12,6 @@ public interface MapService {
 
     MapDto updateMap(MapDto mapDto, String mapId);
 
-    String checkMapExistence(String mapId);
-
     MapResponseTO getMapById(String mapId);
 
 }

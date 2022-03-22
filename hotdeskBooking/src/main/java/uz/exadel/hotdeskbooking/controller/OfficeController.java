@@ -73,8 +73,8 @@ public class OfficeController {
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_COMMON_USER','ROLE_MANAGER','ROLE_MAP_EDITOR')")
-    @GetMapping("/mapList") //getting mapList by officeId "request param"
-    public ResponseEntity<?> getMapListByOfficeId(@RequestParam @NotNull String officeId) {
+    @GetMapping("/mapList/{officeId}") //getting mapList by officeId "request param"
+    public ResponseEntity<?> getMapListByOfficeId(@PathVariable String officeId) {
         return ResponseEntity.ok(officeService.getMapListByOfficeId(officeId));
     }
 

@@ -1,7 +1,6 @@
 package uz.exadel.hotdeskbooking.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -9,14 +8,17 @@ import org.springframework.web.multipart.MultipartFile;
 import uz.exadel.hotdeskbooking.dto.request.WorkplaceCreateDto;
 import uz.exadel.hotdeskbooking.dto.request.WorkplaceFilter;
 import uz.exadel.hotdeskbooking.dto.request.WorkplaceUpdateDto;
+import uz.exadel.hotdeskbooking.dto.response.WorkplaceResponseDto;
 import uz.exadel.hotdeskbooking.enums.WorkplaceTypeEnum;
-import uz.exadel.hotdeskbooking.response.success.CreatedResponse;
-import uz.exadel.hotdeskbooking.response.success.OkResponse;
 import uz.exadel.hotdeskbooking.service.WorkplaceService;
+
+import java.net.URI;
+import java.util.List;
 
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/api")
 public class WorkplaceController {
 
     private final WorkplaceService workplaceService;
@@ -38,42 +40,42 @@ public class WorkplaceController {
             @RequestParam(required = false) Boolean confRoom
     ) {
         WorkplaceFilter workplaceFilter = new WorkplaceFilter(number, type, nextToWindow, hasPC, hasMonitor, hasKeyboard, hasMouse, hasHeadset, floor, kitchen, confRoom, officeId);
-        OkResponse okResponse = workplaceService.getWorkplaceList(workplaceFilter);
-        return ResponseEntity.ok(okResponse);
+        List<WorkplaceResponseDto> workplaceList = workplaceService.getWorkplaceList(workplaceFilter);
+        return ResponseEntity.ok(workplaceList);
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_COMMON_USER','ROLE_MANAGER','ROLE_MAP_EDITOR')")
     @GetMapping("/workplace/{workplaceId}")
     public ResponseEntity<?> getWorkplace(@PathVariable String workplaceId) {
-        OkResponse okResponse = workplaceService.getOne(workplaceId);
-        return ResponseEntity.ok(okResponse);
+        WorkplaceResponseDto workplace = workplaceService.getOne(workplaceId);
+        return ResponseEntity.ok(workplace);
     }
 
     @PreAuthorize("hasRole('ROLE_MAP_EDITOR')")
     @PostMapping("/map/{mapId}/workplace")
     public ResponseEntity<?> addWorkplace(@PathVariable String mapId, @RequestBody WorkplaceCreateDto workplaceCreateDto) {
-        CreatedResponse createdResponse = workplaceService.createByJson(mapId, workplaceCreateDto);
-        return new ResponseEntity<>(createdResponse, HttpStatus.CREATED);
+        String response = workplaceService.createByJson(mapId, workplaceCreateDto);
+        return ResponseEntity.created(URI.create("")).body(response);
     }
 
     @PreAuthorize("hasRole('ROLE_MAP_EDITOR')")
     @PostMapping("/map/{mapId}/workplace/bulk")
     public ResponseEntity<?> addWorkplaceByFile(@PathVariable String mapId, @RequestParam MultipartFile file) {
-        CreatedResponse createdResponse = workplaceService.createByFile(mapId, file);
-        return new ResponseEntity<>(createdResponse, HttpStatus.CREATED);
+        List<WorkplaceResponseDto> workplaceList = workplaceService.createByFile(mapId, file);
+        return ResponseEntity.created(URI.create("")).body(workplaceList);
     }
 
     @PreAuthorize("hasRole('ROLE_MAP_EDITOR')")
     @PutMapping("/workplace/{workplaceId}")
     public ResponseEntity<?> editWorkplace(@PathVariable String workplaceId, @RequestBody WorkplaceUpdateDto workplaceUpdateDto) {
-        OkResponse okResponse = workplaceService.edit(workplaceId, workplaceUpdateDto);
-        return ResponseEntity.ok(okResponse);
+        WorkplaceResponseDto responseDto = workplaceService.edit(workplaceId, workplaceUpdateDto);
+        return ResponseEntity.ok(responseDto);
     }
 
     @PreAuthorize("hasRole('ROLE_MAP_EDITOR')")
     @DeleteMapping("/workplace/{workplaceId}")
     public ResponseEntity<?> deleteWorkplace(@PathVariable String workplaceId) {
-        OkResponse okResponse = workplaceService.delete(workplaceId);
-        return ResponseEntity.ok(okResponse);
+        String response = workplaceService.delete(workplaceId);
+        return ResponseEntity.ok(response);
     }
 }
