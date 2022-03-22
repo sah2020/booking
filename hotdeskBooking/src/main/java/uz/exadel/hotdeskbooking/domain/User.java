@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import uz.exadel.hotdeskbooking.dto.response.UserBasicResTO;
 
 import javax.persistence.*;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Set;
@@ -97,7 +98,8 @@ public class User extends BaseDomain implements UserDetails {
         userBasicResTO.setId(this.getId());
         userBasicResTO.setFirstName(this.getFirstName());
         userBasicResTO.setLastName(this.getLastName());
-        userBasicResTO.setRole(this.getRoles().iterator().next().getRoleType().toString());
+        Object[] roles = this.getRoles().toArray();
+        userBasicResTO.setRole(Arrays.toString(roles));
         return userBasicResTO;
     }
 }

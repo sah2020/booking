@@ -36,7 +36,7 @@ public class BookingMapper {
     public BookingReportResTO toReportRes(Booking booking) {
         BookingReportResTO bookingReportResTO = new BookingReportResTO();
         bookingReportResTO.setId(booking.getId());
-        bookingReportResTO.setUser(booking.getUser());
+        bookingReportResTO.setUser(booking.getUser().toBasic());
         Workplace workplace = booking.getWorkplace();
         Map map = workplace.getMap();
         Office office = map.getOffice();

@@ -12,9 +12,9 @@ import javax.persistence.*;
 @Entity
 @NoArgsConstructor
 public class Workplace extends BaseDomain {
-
+    private String mapId;
     @ManyToOne(cascade = {CascadeType.PERSIST}, fetch = FetchType.EAGER)
-    @JoinColumn(name = "map_id")
+    @JoinColumn(name = "mapId", updatable = false, insertable = false)
     private Map map;
 
     private String workplaceNumber;
