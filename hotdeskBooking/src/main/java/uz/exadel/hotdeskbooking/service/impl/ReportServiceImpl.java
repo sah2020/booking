@@ -14,8 +14,11 @@ import uz.exadel.hotdeskbooking.repository.OfficeRepository;
 import uz.exadel.hotdeskbooking.repository.UserRepository;
 import uz.exadel.hotdeskbooking.response.ResponseMessage;
 import uz.exadel.hotdeskbooking.service.ReportService;
+import uz.exadel.hotdeskbooking.util.ReportExcelExporter;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -41,8 +44,14 @@ public class ReportServiceImpl implements ReportService {
     }
 
     @Override
+    public void getByOfficeIdExcel(String officeId, String startDate, String endDate, HttpServletResponse response) {
+        List<BookingReportResTO> list = this.getByOfficeId(officeId, startDate, endDate);
+        this.prepareResponse(response, list);
+    }
+
+    @Override
     public List<BookingReportResTO> getByOfficeId(String officeId, String startDate, String endDate) {
-        if (officeId == null) throw new BadRequestException(ResponseMessage.REQUEST_BODY_NULL.getMessage());
+        if (officeId == null) throw new BadRequestException("api.error.bad.request");
 
         if (officeRepository.findById(officeId).isEmpty())
             throw new NotFoundException(ResponseMessage.OFFICE_NOT_FOUND.getMessage());
@@ -63,13 +72,13 @@ public class ReportServiceImpl implements ReportService {
             bookingList = bookingRepository.findAllByWorkplace_Map_OfficeIdAndStartDateAndEndDateAndActiveTrue(officeId, parseDate(startDate), parseDate(endDate));
         }
 
-        List<BookingReportResTO> response = new ArrayList<>();
+        List<BookingReportResTO> bookingReportResTOList = new ArrayList<>();
         bookingList.forEach(booking -> {
             BookingReportResTO bookingReportResTO = bookingMapper.toReportRes(booking);
-            response.add(bookingReportResTO);
+            bookingReportResTOList.add(bookingReportResTO);
         });
 
-        return response;
+        return bookingReportResTOList;
     }
 
     @Override
@@ -104,6 +113,12 @@ public class ReportServiceImpl implements ReportService {
         return response;
     }
 
+    public void getByCityExcel(String city, String startDate, String endDate, HttpServletResponse response) {
+        List<BookingReportResTO> list = this.getByCity(city, startDate, endDate);
+        this.prepareResponse(response, list);
+    }
+
+
     @Override
     public List<BookingReportResTO> getByMapId(String mapId, String startDate, String endDate) {
         if (mapId == null) throw new BadRequestException(ResponseMessage.REQUEST_BODY_NULL.getMessage());
@@ -137,10 +152,17 @@ public class ReportServiceImpl implements ReportService {
     }
 
     @Override
+    public void getByMapIdExcel(String mapId, String startDate, String endDate, HttpServletResponse response) {
+        List<BookingReportResTO> list = this.getByMapId(mapId, startDate, endDate);
+        this.prepareResponse(response, list);
+    }
+
+    @Override
     public List<BookingReportResTO> getByUserId(String userId, String startDate, String endDate) {
         if (userId == null) throw new BadRequestException(ResponseMessage.REQUEST_BODY_NULL.getMessage());
 
-        if (userRepository.findById(userId).isEmpty()) throw new NotFoundException(ResponseMessage.USER_NOT_FOUND.getMessage());
+        if (userRepository.findById(userId).isEmpty())
+            throw new NotFoundException(ResponseMessage.USER_NOT_FOUND.getMessage());
 
         boolean onlyStartDateGiven = startDate != null && endDate == null;
         boolean onlyEndDateGiven = startDate == null && endDate != null;
@@ -165,6 +187,12 @@ public class ReportServiceImpl implements ReportService {
         });
 
         return response;
+    }
+
+    @Override
+    public void getByUserIdExcel(String userId, String startDate, String endDate, HttpServletResponse response) {
+        List<BookingReportResTO> list = this.getByUserId(userId, startDate, endDate);
+        this.prepareResponse(response, list);
     }
 
     @Override
@@ -194,6 +222,45 @@ public class ReportServiceImpl implements ReportService {
         return response;
     }
 
+    @Override
+    public void getAllExcel(String startDate, String endDate, HttpServletResponse response) {
+        List<BookingReportResTO> list = this.getAll(startDate, endDate);
+        this.prepareResponse(response, list);
+    }
+
+    @Override
+    public List<BookingReportResTO> getByFloor(Integer floorNumber, String startDate, String endDate) {
+        if (floorNumber == null) throw new BadRequestException("api.error.bad.request");
+        boolean onlyStartDateGiven = startDate != null && endDate == null;
+        boolean onlyEndDateGiven = startDate == null && endDate != null;
+        boolean bothParamGiven = startDate != null && endDate != null;
+
+        List<Booking> bookingList = new ArrayList<>();
+        if (!bothParamGiven) {
+            bookingList = bookingRepository.findAllByWorkplace_Map_FloorNumberAndActiveTrue(floorNumber);
+        } else if (onlyStartDateGiven) {
+            bookingList = bookingRepository.findAllByWorkplace_Map_FloorNumberAndStartDateAndActiveTrue(floorNumber, parseDate(startDate));
+        } else if (onlyEndDateGiven) {
+            bookingList = bookingRepository.findAllByWorkplace_Map_FloorNumberAndEndDateAndActiveTrue(floorNumber, parseDate(endDate));
+        } else if (bothParamGiven) {
+            bookingList = bookingRepository.findAllByWorkplace_Map_FloorNumberAndStartDateAndEndDateAndActiveTrue(floorNumber, parseDate(startDate), parseDate(endDate));
+        }
+
+        List<BookingReportResTO> response = new ArrayList<>();
+        bookingList.forEach(booking -> {
+            BookingReportResTO bookingReportResTO = bookingMapper.toReportRes(booking);
+            response.add(bookingReportResTO);
+        });
+
+        return response;
+    }
+
+    @Override
+    public void getByFloorExcel(Integer floorNumber, String startDate, String endDate, HttpServletResponse response) {
+        List<BookingReportResTO> list = this.getByFloor(floorNumber, startDate, endDate);
+        this.prepareResponse(response, list);
+    }
+
     private Date parseDate(String strDate) {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         try {
@@ -202,5 +269,19 @@ public class ReportServiceImpl implements ReportService {
         } catch (ParseException e) {
             throw new BadRequestException(ResponseMessage.BAD_REQUEST.getMessage());
         }
+    }
+
+    private void prepareResponse(HttpServletResponse response, List<BookingReportResTO> bookingReportResTOList) {
+        response.setContentType("application/octet-stream");
+        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+        String currentDateTime = dateFormatter.format(new Date());
+
+        String headerKey = "Content-Disposition";
+        String headerValue = "attachment; filename=bookings_" + currentDateTime + ".xlsx";
+        response.setHeader(headerKey, headerValue);
+
+        ReportExcelExporter excelExporter = new ReportExcelExporter(bookingReportResTOList);
+
+        excelExporter.export(response);
     }
 }

@@ -14,7 +14,7 @@ import java.util.Date;
 @NoArgsConstructor
 public class BookingReportResTO {
     private String id;
-    private User user;
+    private UserBasicResTO user;
     private Office office;
     private Workplace workplace;
     private Date startDate;
