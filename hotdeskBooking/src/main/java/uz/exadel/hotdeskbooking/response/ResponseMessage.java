@@ -32,7 +32,11 @@ public enum ResponseMessage {
     VACATION_DELETED("api.success.vacation.deleted"),
     OFFICE_SAVED("api.success.office.saved"),
     OFFICE_UPDATED("api.success.office.updated"),
-    OFFICE_DELETED("api.success.office.deleted");
+    OFFICE_DELETED("api.success.office.deleted"),
+    WORKPLACE_NUMBER_NOT_UNIQUE("api.error.workplace.numberNotUnique"),
+    WORKPLACE_WRONG_FORMAT("api.error.workplace.wrongFormat"),
+    FILE_READ_ERROR("api.error.workplace.fileException"),
+    WORKPLACE_DELETED("api.success.workplace.deleted");
 
     private final String message;
 
