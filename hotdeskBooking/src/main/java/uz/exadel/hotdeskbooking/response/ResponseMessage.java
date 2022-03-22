@@ -27,8 +27,9 @@ public enum ResponseMessage {
     MAP_NOT_FOUND("api.error.map.notFound"),
     OFFICE_DELETED_SUCCESSFULLY("api.success.office.deleted"),
     OFFICE_ALREADY_EXISTS("api.success.office.already.exists"),
-    VACATION_UPDATED_SUCCESSFULLY("api.success.vacation.updated"),
+    VACATION_UPDATED("api.success.vacation.updated"),
     VACATION_NOT_FOUND("api.success.vacation.not.found"),
+    VACATION_DELETED("api.success.vacation.deleted"),
     OFFICE_SAVED("api.success.office.saved"),
     OFFICE_UPDATED("api.success.office.updated"),
     OFFICE_DELETED("api.success.office.deleted");

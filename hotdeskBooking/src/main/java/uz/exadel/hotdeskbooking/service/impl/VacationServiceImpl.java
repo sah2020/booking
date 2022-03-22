@@ -5,9 +5,11 @@ import org.springframework.stereotype.Service;
 import uz.exadel.hotdeskbooking.domain.User;
 import uz.exadel.hotdeskbooking.domain.Vacation;
 import uz.exadel.hotdeskbooking.dto.request.VacationDTO;
-import uz.exadel.hotdeskbooking.exception.NotFoundException;
+import uz.exadel.hotdeskbooking.exception.BadRequestException;
+import uz.exadel.hotdeskbooking.exception.ConflictException;
 import uz.exadel.hotdeskbooking.repository.UserRepository;
 import uz.exadel.hotdeskbooking.repository.VacationRepository;
+import uz.exadel.hotdeskbooking.response.ResponseMessage;
 import uz.exadel.hotdeskbooking.service.VacationService;
 
 import javax.transaction.Transactional;
@@ -27,7 +29,7 @@ public class VacationServiceImpl implements VacationService {
 
         Optional<User> byId = userRepository.findById(vacationDTO.getUserId());
         if (byId.isEmpty()) {
-            throw new NotFoundException("api.error.user.notFound");
+            throw new ConflictException(ResponseMessage.USER_NOT_FOUND.getMessage());
         }
 
         Vacation vacation = new Vacation();
@@ -46,34 +48,35 @@ public class VacationServiceImpl implements VacationService {
 
     @Override
     public Vacation get(String id) {
-        Optional<Vacation> byId = repository.findById(id);
         checkVacationExistence(id); //throws an exception, if not found
-
-        return byId.get();
+        return repository.getById(id);
     }
 
     @Override
-    public void put(String vacationId, VacationDTO vacationDTO) {
-        Optional<Vacation> findById = repository.findById(vacationId);
-
+    public String put(String vacationId, VacationDTO vacationDTO) {
         checkVacationExistence(vacationId); //throws an exception, if not found
+        Vacation vacation = repository.getById(vacationId);
 
-        Vacation vacation = findById.get();
         vacation.setVacationStart(vacationDTO.getVacationEnd());
         vacation.setVacationStart(vacationDTO.getVacationStart());
         repository.save(vacation);
+        return ResponseMessage.VACATION_UPDATED.getMessage();
     }
 
     @Override
-    public void delete(String id) {
+    public String delete(String id) {
         checkVacationExistence(id);
         repository.deleteById(id);
+        return ResponseMessage.VACATION_DELETED.getMessage();
     }
 
     private void checkVacationExistence(String id) {
+        if (id == null) {
+            throw new BadRequestException(ResponseMessage.REQUEST_BODY_NULL.getMessage());
+        }
         boolean existsById = repository.existsById(id);
         if (!existsById) {
-            throw new NotFoundException(VacationResponse.VACATION_NOT_FOUND.getMessage());
+            throw new ConflictException(ResponseMessage.VACATION_NOT_FOUND.getMessage());
         }
     }
 }
