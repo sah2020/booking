@@ -191,6 +191,33 @@ public class ReportServiceImpl implements ReportService {
         return new OkResponse(response);
     }
 
+    @Override
+    public List<BookingReportResTO> getByFloor(Integer floorNumber, String startDate, String endDate) {
+        if (floorNumber == null) throw new BadRequestException("api.error.bad.request");
+        boolean onlyStartDateGiven = startDate != null && endDate == null;
+        boolean onlyEndDateGiven = startDate == null && endDate != null;
+        boolean bothParamGiven = startDate != null && endDate != null;
+
+        List<Booking> bookingList = new ArrayList<>();
+        if (!bothParamGiven) {
+            bookingList = bookingRepository.findAllByWorkplace_Map_FloorNumberAndActiveTrue(floorNumber);
+        } else if (onlyStartDateGiven) {
+            bookingList = bookingRepository.findAllByWorkplace_Map_FloorNumberAndStartDateAndActiveTrue(floorNumber, parseDate(startDate));
+        } else if (onlyEndDateGiven) {
+            bookingList = bookingRepository.findAllByWorkplace_Map_FloorNumberAndEndDateAndActiveTrue(floorNumber, parseDate(endDate));
+        } else if (bothParamGiven) {
+            bookingList = bookingRepository.findAllByWorkplace_Map_FloorNumberAndStartDateAndEndDateAndActiveTrue(floorNumber, parseDate(startDate), parseDate(endDate));
+        }
+
+        List<BookingReportResTO> response = new ArrayList<>();
+        bookingList.forEach(booking -> {
+            BookingReportResTO bookingReportResTO = bookingMapper.toReportRes(booking);
+            response.add(bookingReportResTO);
+        });
+
+        return response;
+    }
+
     private Date parseDate(String strDate) {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         try {

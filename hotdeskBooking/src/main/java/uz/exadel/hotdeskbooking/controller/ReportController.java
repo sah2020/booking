@@ -6,8 +6,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import uz.exadel.hotdeskbooking.service.ReportService;
 
-import java.util.Date;
-
 @RestController
 @RequestMapping("/api/report")
 @RequiredArgsConstructor
@@ -40,6 +38,15 @@ public class ReportController {
             @RequestParam(value = "startDate", required = false) String startDate,
             @RequestParam(value = "endDate", required = false) String endDate) {
         return ResponseEntity.ok(reportService.getByMapId(mapId, startDate, endDate));
+    }
+
+    @PreAuthorize("hasRole('ROLE_MANAGER')")
+    @GetMapping("/floor/{floorNumber}")
+    public ResponseEntity<?> getByFloor(
+            @PathVariable Integer floorNumber,
+            @RequestParam(value = "startDate", required = false) String startDate,
+            @RequestParam(value = "endDate", required = false) String endDate) {
+        return ResponseEntity.ok(reportService.getByFloor(floorNumber, startDate, endDate));
     }
 
     @PreAuthorize("hasRole('ROLE_MANAGER')")

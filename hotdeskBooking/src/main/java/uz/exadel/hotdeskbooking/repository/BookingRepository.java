@@ -110,7 +110,6 @@ public interface BookingRepository extends JpaRepository<Booking, String> {
             "   WHERE m.id=?1 AND b.end_date < ?2 AND b.active=true", nativeQuery = true)
     List<Booking> findAllByWorkplace_MapIdAndEndDateAndActiveTrue(String workplace_map_id, Date endDate);
 
-
     @Query(value = "SELECT b.* FROM booking b" +
             "   WHERE b.user_id=?1 AND (b.start_date BETWEEN ?2 AND ?3)" +
             "  OR (b.end_date BETWEEN ?2 AND ?3)" +
@@ -139,4 +138,29 @@ public interface BookingRepository extends JpaRepository<Booking, String> {
             "   WHERE b.end_date < ?1 AND b.active=true", nativeQuery = true)
     List<Booking> findAllByEndDateAndActiveTrue(Date endDate);
 
+    @Query(value = "SELECT b.* FROM booking b" +
+            " INNER JOIN workplace wrk on b.workplace_id=wrk.id" +
+            " INNER JOIN map m ON wrk.map_id=m.id" +
+            " WHERE m.floor=?1 AND b.active=true", nativeQuery = true)
+    List<Booking> findAllByWorkplace_Map_FloorNumberAndActiveTrue(Integer floorNumber);
+
+    @Query(value = "SELECT b.* FROM booking b" +
+            "    INNER JOIN workplace wrk on b.workplace_id=wrk.id" +
+            "    INNER JOIN map m ON wrk.map_id=m.id" +
+            "   WHERE m.floor=?1 AND b.start_date > ?2 AND b.active=true", nativeQuery = true)
+    List<Booking> findAllByWorkplace_Map_FloorNumberAndStartDateAndActiveTrue(Integer floorNumber, Date parseDate);
+
+    @Query(value = "SELECT b.* FROM booking b" +
+            "    INNER JOIN workplace wrk on b.workplace_id=wrk.id" +
+            "    INNER JOIN map m ON wrk.map_id=m.id" +
+            "   WHERE m.floor=?1 AND b.end_date < ?2 AND b.active=true", nativeQuery = true)
+    List<Booking> findAllByWorkplace_Map_FloorNumberAndEndDateAndActiveTrue(Integer floorNumber, Date parseDate);
+
+    @Query(value = "SELECT b.* FROM booking b" +
+            "    INNER JOIN workplace wrk on b.workplace_id=wrk.id" +
+            "    INNER JOIN map m ON wrk.map_id=m.id" +
+            "   WHERE m.floor=?1 AND (b.start_date BETWEEN ?2 AND ?3)" +
+            "  OR (b.end_date BETWEEN ?2 AND ?3)" +
+            "  AND b.active=true", nativeQuery = true)
+    List<Booking> findAllByWorkplace_Map_FloorNumberAndStartDateAndEndDateAndActiveTrue(Integer floorNumber, Date parseDate, Date parseDate1);
 }

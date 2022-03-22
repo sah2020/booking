@@ -1,8 +1,9 @@
 package uz.exadel.hotdeskbooking.service;
 
+import uz.exadel.hotdeskbooking.dto.response.BookingReportResTO;
 import uz.exadel.hotdeskbooking.response.success.OkResponse;
 
-import java.util.Date;
+import java.util.List;
 
 public interface ReportService {
     OkResponse getByOfficeId(String officeId, String startDate, String endDate);
@@ -14,4 +15,6 @@ public interface ReportService {
     OkResponse getByUserId(String userId, String startDate, String endDate);
 
     OkResponse getAll(String startDate, String endDate);
+
+    List<BookingReportResTO> getByFloor(Integer floorNumber, String startDate, String endDate);
 }
