@@ -12,7 +12,7 @@ import uz.exadel.hotdeskbooking.repository.BookingRepository;
 import uz.exadel.hotdeskbooking.repository.MapRepository;
 import uz.exadel.hotdeskbooking.repository.OfficeRepository;
 import uz.exadel.hotdeskbooking.repository.UserRepository;
-import uz.exadel.hotdeskbooking.response.success.OkResponse;
+import uz.exadel.hotdeskbooking.response.ResponseMessage;
 import uz.exadel.hotdeskbooking.service.ReportService;
 
 import javax.transaction.Transactional;
@@ -41,10 +41,11 @@ public class ReportServiceImpl implements ReportService {
     }
 
     @Override
-    public OkResponse getByOfficeId(String officeId, String startDate, String endDate) {
-        if (officeId == null) throw new BadRequestException("api.error.bad.request");
+    public List<BookingReportResTO> getByOfficeId(String officeId, String startDate, String endDate) {
+        if (officeId == null) throw new BadRequestException(ResponseMessage.REQUEST_BODY_NULL.getMessage());
 
-        if (officeRepository.findById(officeId).isEmpty()) throw new NotFoundException("api.error.office.not.found");
+        if (officeRepository.findById(officeId).isEmpty())
+            throw new NotFoundException(ResponseMessage.OFFICE_NOT_FOUND.getMessage());
 
         boolean onlyStartDateGiven = startDate != null && endDate == null;
         boolean onlyEndDateGiven = startDate == null && endDate != null;
@@ -68,14 +69,15 @@ public class ReportServiceImpl implements ReportService {
             response.add(bookingReportResTO);
         });
 
-        return new OkResponse(response);
+        return response;
     }
 
     @Override
-    public OkResponse getByCity(String city, String startDate, String endDate) {
-        if (city == null) throw new BadRequestException("api.error.bad.request");
+    public List<BookingReportResTO> getByCity(String city, String startDate, String endDate) {
+        if (city == null) throw new BadRequestException(ResponseMessage.REQUEST_BODY_NULL.getMessage());
 
-        if (officeRepository.findAllByCity(city).isEmpty()) throw new ConflictException("api.error.office.not.found");
+        if (officeRepository.findAllByCity(city).isEmpty())
+            throw new ConflictException(ResponseMessage.OFFICE_NOT_FOUND.getMessage());
 
         boolean onlyStartDateGiven = startDate != null && endDate == null;
         boolean onlyEndDateGiven = startDate == null && endDate != null;
@@ -99,14 +101,15 @@ public class ReportServiceImpl implements ReportService {
             response.add(bookingReportResTO);
         });
 
-        return new OkResponse(response);
+        return response;
     }
 
     @Override
-    public OkResponse getByMapId(String mapId, String startDate, String endDate) {
-        if (mapId == null) throw new BadRequestException("api.error.bad.request");
+    public List<BookingReportResTO> getByMapId(String mapId, String startDate, String endDate) {
+        if (mapId == null) throw new BadRequestException(ResponseMessage.REQUEST_BODY_NULL.getMessage());
 
-        if (mapRepository.findById(mapId).isEmpty()) throw new NotFoundException("api.error.map.not.found");
+        if (mapRepository.findById(mapId).isEmpty())
+            throw new NotFoundException(ResponseMessage.MAP_NOT_FOUND.getMessage());
 
         boolean onlyStartDateGiven = startDate != null && endDate == null;
         boolean onlyEndDateGiven = startDate == null && endDate != null;
@@ -130,14 +133,14 @@ public class ReportServiceImpl implements ReportService {
             response.add(bookingReportResTO);
         });
 
-        return new OkResponse(response);
+        return response;
     }
 
     @Override
-    public OkResponse getByUserId(String userId, String startDate, String endDate) {
-        if (userId == null) throw new BadRequestException("api.error.bad.request");
+    public List<BookingReportResTO> getByUserId(String userId, String startDate, String endDate) {
+        if (userId == null) throw new BadRequestException(ResponseMessage.REQUEST_BODY_NULL.getMessage());
 
-        if (userRepository.findById(userId).isEmpty()) throw new NotFoundException("api.error.user.not.found");
+        if (userRepository.findById(userId).isEmpty()) throw new NotFoundException(ResponseMessage.USER_NOT_FOUND.getMessage());
 
         boolean onlyStartDateGiven = startDate != null && endDate == null;
         boolean onlyEndDateGiven = startDate == null && endDate != null;
@@ -161,11 +164,11 @@ public class ReportServiceImpl implements ReportService {
             response.add(bookingReportResTO);
         });
 
-        return new OkResponse(response);
+        return response;
     }
 
     @Override
-    public OkResponse getAll(String startDate, String endDate) {
+    public List<BookingReportResTO> getAll(String startDate, String endDate) {
         boolean onlyStartDateGiven = startDate != null && endDate == null;
         boolean onlyEndDateGiven = startDate == null && endDate != null;
         boolean bothParamGiven = startDate != null && endDate != null;
@@ -188,7 +191,7 @@ public class ReportServiceImpl implements ReportService {
             response.add(bookingReportResTO);
         });
 
-        return new OkResponse(response);
+        return response;
     }
 
     private Date parseDate(String strDate) {
@@ -197,7 +200,7 @@ public class ReportServiceImpl implements ReportService {
             Date date = formatter.parse(strDate);
             return date;
         } catch (ParseException e) {
-            throw new BadRequestException("api.error.bad.request");
+            throw new BadRequestException(ResponseMessage.BAD_REQUEST.getMessage());
         }
     }
 }
