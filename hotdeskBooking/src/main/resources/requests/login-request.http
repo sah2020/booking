@@ -1,15 +1,16 @@
-###Login request
-POST http://localhost:8123/api/login
+### Login request
+POST {{host}}/login
 Content-type: application/json
 
 {
-  "username": "5097735057",
+  "username": "952633338",
   "password": "password"
 }
 
-#############################
 ### Get current user
-GET http://localhost:8123/api/login/current
+GET {{host}}/login/current
+Content-Type: application/json
+Authorization: Bearer {{token}}
 
 
 

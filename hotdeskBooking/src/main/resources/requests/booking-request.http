@@ -1,153 +1,156 @@
-###
-<!--
-Any Booking recurring CREATE request with dates list
--->
-###
-POST http://localhost:8123/api/booking/any
+### Create booking request (non-recurring and officeId) for one day
+POST {{host}}/booking/any
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5NTI2MzMzMzgiLCJpYXQiOjE2NDc1NDgyMzcsImV4cCI6MTY0NzYzNDYzN30.dz_PedDP-4oXD8pYXi-T3PAr2B8Ay16j1vBAQ6MfaxAzEHz6v--43dZbQpdusxByT61Mmq9ZlHdkpE4V1I1OTw
+Authorization: Bearer {{token}}
 
 {
-  "userId": "17f2277680f0000",
-  "officeId": "test5",
+  "officeId": "{{activeOfficeId}}",
+  "workplaceId": null,
+  "userId": "{{userId}}",
+  "startDate": "2022-04-13",
+  "endDate": null,
+  "isRecurring": false,
+  "datesList": null
+}
+
+### Create booking request (non-recurring and officeId) for continous dates
+POST {{host}}/booking/any
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "officeId": "{{activeOfficeId}}",
+  "workplaceId": null,
+  "userId": "{{userId}}",
+  "startDate": "2022-04-13",
+  "endDate": "2022-04-15",
+  "isRecurring": false,
+  "datesList": null
+}
+
+
+### Create booking request (recurring and officeId) with dates list
+POST {{host}}/booking/any
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "officeId": "{{activeOfficeId}}",
+  "workplaceId": null,
+  "userId": "{{userId}}",
   "startDate": null,
   "endDate": null,
   "isRecurring": true,
-  "frequency": 1,
-  "daysOfWeek": null,
   "datesList": [
     "2022-02-10",
     "2022-02-11"
   ]
-
 }
 
-
-###
-<!--
-Any Booking non-recurring one-day CREATE request with Office ID
--->
-###
-POST http://localhost:7123/api/booking/any
+### Create booking request (non-recurring and workplaceId) for one day
+POST {{host}}/booking
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5NTI2MzMzMzgiLCJpYXQiOjE2NDcxNzA2NTEsImV4cCI6MTY0NzI1NzA1MX0.nQNi_d5ZtQzKMh6LM7CAtpUJTHfYPpJnMji6431jdGTzFqnu4r3L1TsxtvGUPF-a6mTL5LAkUzOKYVgxWBvFCw
+Authorization: Bearer {{token}}
 
 {
-  "userId": "17f2277680f0000                 ",
-  "officeId": "test5",
-  "startDate": "2022-03-13",
+  "officeId": null,
+  "workplaceId": "{{activeWorkplaceId}}",
+  "userId": "{{userId}}",
+  "startDate": "2022-04-13",
   "endDate": null,
   "isRecurring": false,
-  "frequency": 1,
-  "daysOfWeek": null,
   "datesList": null
 }
 
-
-###
-<!--
-Any Booking non-recurring continuous CREATE request with Office ID
--->
-###
-POST http://localhost:7123/api/booking/any
+### Create booking request (non-recurring and workplaceId) for continous dates
+POST {{host}}/booking
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5NTI2MzMzMzgiLCJpYXQiOjE2NDcxNzA2NTEsImV4cCI6MTY0NzI1NzA1MX0.nQNi_d5ZtQzKMh6LM7CAtpUJTHfYPpJnMji6431jdGTzFqnu4r3L1TsxtvGUPF-a6mTL5LAkUzOKYVgxWBvFCw
+Authorization: Bearer {{token}}
 
 {
-  "userId": "17f2277680f0000                 ",
-  "officeId": "test5",
-  "startDate": "2022-03-13",
-  "endDate": "2022-03-15",
+  "officeId": null,
+  "workplaceId": "{{activeWorkplaceId}}",
+  "userId": "{{userId}}",
+  "startDate": "2022-04-13",
+  "endDate": "2022-04-15",
   "isRecurring": false,
-  "frequency": 1,
-  "daysOfWeek": null,
-  "datesList": null
-}
-
-###
-<!--
-Booking non-recurring continuous CREATE request with Workplace ID
--->
-###
-POST http://localhost:7123/api/booking/
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5NTI2MzMzMzgiLCJpYXQiOjE2NDcxNzA2NTEsImV4cCI6MTY0NzI1NzA1MX0.nQNi_d5ZtQzKMh6LM7CAtpUJTHfYPpJnMji6431jdGTzFqnu4r3L1TsxtvGUPF-a6mTL5LAkUzOKYVgxWBvFCw
-
-{
-  "workplaceId": "testWRK                         ",
-  "userId": "17f2277680f0000                 ",
-  "startDate": "2022-02-24",
-  "endDate": "2022-02-26",
-  "isRecurring": false,
-  "frequency": 1,
-  "daysOfWeek": null,
   "datesList": null
 }
 
 
-###
-<!--
-Booking non-recurring one-day CREATE request with Workplace ID
--->
-###
-POST http://localhost:7123/api/booking/
+### Create booking request (recurring and workplaceId) with dates list
+POST {{host}}/booking
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5NTI2MzMzMzgiLCJpYXQiOjE2NDcxNzA2NTEsImV4cCI6MTY0NzI1NzA1MX0.nQNi_d5ZtQzKMh6LM7CAtpUJTHfYPpJnMji6431jdGTzFqnu4r3L1TsxtvGUPF-a6mTL5LAkUzOKYVgxWBvFCw
+Authorization: Bearer {{token}}
 
 {
-  "workplaceId": "testWRK                         ",
-  "userId": "17f2277680f0000                 ",
-  "startDate": "2022-01-24",
-  "endDate": null,
-  "isRecurring": false,
-  "frequency": 1,
-  "daysOfWeek": null,
-  "datesList": null
-}
-
-
-###
-<!--
-Booking recurring CREATE request with Workplace ID and dates list
--->
-###
-POST http://localhost:7123/api/booking/
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5NTI2MzMzMzgiLCJpYXQiOjE2NDcxNzA2NTEsImV4cCI6MTY0NzI1NzA1MX0.nQNi_d5ZtQzKMh6LM7CAtpUJTHfYPpJnMji6431jdGTzFqnu4r3L1TsxtvGUPF-a6mTL5LAkUzOKYVgxWBvFCw
-
-{
-  "workplaceId": "testWRK                         ",
-  "userId": "17f2277680f0000                 ",
+  "officeId": null,
+  "workplaceId": "{{activeWorkplaceId}}",
+  "userId": "{{userId}}",
   "startDate": null,
   "endDate": null,
   "isRecurring": true,
-  "frequency": 1,
-  "daysOfWeek": null,
   "datesList": [
-    "2022-01-11",
-    "2022-01-15",
-    "2022-01-17"
+    "2022-05-10",
+    "2022-05-11"
   ]
 }
 
-###
-<!--
-Booking report get by office ID
--->
-###
-GET http://localhost:7123/api/report/officeId/ff8081817fb07b88017fb07b99d50003
+### Save bookings by IDs
+POST {{host}}/booking/save
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5NTI2MzMzMzgiLCJpYXQiOjE2NDc5NTA2MTcsImV4cCI6MTY0ODAzNzAxN30.JsJYNgHlZC-Nu6J8EqfTa4OqsUkQlgK4sDd6SyLuyAePNSjwpRo__Q14BzXGdTSfymWQHaxC_uDZMnZnoaQ5RQ
-###
-<!--
-Booking report get by office ID
--->
-###
-GET http://localhost:7123/api/report/excel/officeId/test5?startDate="2022-01-01"
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5NTI2MzMzMzgiLCJpYXQiOjE2NDczNjQyMjQsImV4cCI6MTY0NzQ1MDYyNH0.QflRoEiytBt7A7gmge224cN42dqP1FfJFs8A7xscu7E0kqFRiD3BlvP5ZP0M7kFcKKbHhA6uBjh3I8IWwGJl9Q
+Authorization: Bearer {{token}}
 
-###
-GET http://localhost:7123/api/report/all
+{
+  "list": [
+    "ff8081817fb7ed0c017fb7f969ae0002",
+    "ff8081817fb7ed0c017fb7f969ae0003",
+    "ff8081817fb7ed0c017fb7efa1b60000"
+  ]
+}
+
+### Cancel booking by id
+POST {{host}}/booking/cancel?id=ff8081817fb7ed0c017fb7f969ae0003
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5NTI2MzMzMzgiLCJpYXQiOjE2NDc5NTA2MTcsImV4cCI6MTY0ODAzNzAxN30.JsJYNgHlZC-Nu6J8EqfTa4OqsUkQlgK4sDd6SyLuyAePNSjwpRo__Q14BzXGdTSfymWQHaxC_uDZMnZnoaQ5RQ
+Authorization: Bearer {{token}}
+
+### Cancel booking by user id
+POST {{host}}/booking/cancel?userId=ff8081817fb6f11b017fb6f179da0001&all=true
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+### Cancel all bookings (DANGER!)
+POST {{host}}/booking/cancel?all=true
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+### Get booking by id
+GET {{host}}/booking/ff8081817fb7ed0c017fb7f969ae0002
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+### Get booking by user id
+GET {{host}}/booking/userId/{{userId}}
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+### Edit booking (non-recurring and workplaceId)
+PUT {{host}}/booking/ff8081817fb6f11b017fb6f2287f0019
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "officeId": null,
+  "workplaceId": "{{activeWorkplaceId}}",
+  "userId": "{{userId}}",
+  "startDate": "2022-04-27",
+  "endDate": "2022-04-27",
+  "isRecurring": false,
+  "datesList": null
+}
+
+### Delete booking by id
+DELETE {{host}}/booking/ff8081817fb7ed0c017fb7f969ae0002
+Content-Type: application/json
+Authorization: Bearer {{token}}
+

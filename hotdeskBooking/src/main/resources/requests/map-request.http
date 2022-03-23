@@ -1,34 +1,31 @@
-###################################
-###Adding a new map
-POST http://localhost:8123/map
+### Adding a new map
+POST {{host}}/map
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5NTI2MzMzMzgiLCJpYXQiOjE2NDc1NDgyMzcsImV4cCI6MTY0NzYzNDYzN30.dz_PedDP-4oXD8pYXi-T3PAr2B8Ay16j1vBAQ6MfaxAzEHz6v--43dZbQpdusxByT61Mmq9ZlHdkpE4V1I1OTw
+Authorization: Bearer {{token}}
 
 {
-  "office_id": "4028818a7f9d3fc4017f9d40280d0003",
-  "floor": 1,
+  "office_id": "ff8081817fb5b2dd017fb6515ea90001",
+  "floor": 2,
   "kitchen": true,
   "conf_rooms": true
 }
 
-###################################
-###Getting map by id
-GET http://localhost:8123/map/4028818a7f9caf2a017f9caf7a470004
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5NTI2MzMzMzgiLCJpYXQiOjE2NDc1NDgyMzcsImV4cCI6MTY0NzYzNDYzN30.dz_PedDP-4oXD8pYXi-T3PAr2B8Ay16j1vBAQ6MfaxAzEHz6v--43dZbQpdusxByT61Mmq9ZlHdkpE4V1I1OTw
 
-###################################
-###deleting map
-DELETE http://localhost:8123/map/4028818a7f9caf2a017f9caf7a470004
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5NTI2MzMzMzgiLCJpYXQiOjE2NDc1NDgyMzcsImV4cCI6MTY0NzYzNDYzN30.dz_PedDP-4oXD8pYXi-T3PAr2B8Ay16j1vBAQ6MfaxAzEHz6v--43dZbQpdusxByT61Mmq9ZlHdkpE4V1I1OTw
+### Getting map by id
+GET {{host}}/map/ff8081817fb6571e017fb657f2f10000
+Authorization: Bearer {{token}}
 
-###################################
-###updating map
-PUT http://localhost:8123/map/4028818a7f9c950f017f9c9a29f90004
+### Deleting map
+DELETE {{host}}/map/ff8081817fb5b2dd017fb653fa070002
+Authorization: Bearer {{token}}
+
+### Updating map
+PUT {{host}}/map/ff8081817fb6571e017fb657f2f10000
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5NTI2MzMzMzgiLCJpYXQiOjE2NDc1NDgyMzcsImV4cCI6MTY0NzYzNDYzN30.dz_PedDP-4oXD8pYXi-T3PAr2B8Ay16j1vBAQ6MfaxAzEHz6v--43dZbQpdusxByT61Mmq9ZlHdkpE4V1I1OTw
+Authorization: Bearer {{token}}
 
 {
-  "office_id": "4028818a7f9c950f017f9c99c68a0003",
+  "office_id": "ff8081817fb5b2dd017fb6515ea90001",
   "floor": 4,
   "kitchen": false,
   "conf_rooms": false

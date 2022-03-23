@@ -1,5 +1,6 @@
 package uz.exadel.hotdeskbooking.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,7 +13,8 @@ import java.util.Date;
 public class Vacation extends BaseDomain{
 
     private String userId;
-    @ManyToOne(cascade = {CascadeType.PERSIST}, fetch = FetchType.LAZY)
+    @JsonIgnore
+    @ManyToOne(cascade = {CascadeType.PERSIST}, fetch = FetchType.EAGER)
     @JoinColumn(name = "userId", updatable = false, insertable = false)
     private User user;
 

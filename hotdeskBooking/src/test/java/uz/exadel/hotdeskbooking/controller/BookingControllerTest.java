@@ -73,7 +73,6 @@ class BookingControllerTest {
         office.setCreatedAt(mock(Timestamp.class));
         office.setCreatedById("42");
         office.setId("42");
-        office.setMapList(new ArrayList<>());
         office.setName("Name");
         office.setParkingAvailable(true);
         office.setUpdateById("2020-03-01");
@@ -186,7 +185,6 @@ class BookingControllerTest {
         office1.setCreatedAt(mock(Timestamp.class));
         office1.setCreatedById("42");
         office1.setId("42");
-        office1.setMapList(new ArrayList<>());
         office1.setName("Name");
         office1.setParkingAvailable(true);
         office1.setUpdateById("2020-03-01");
@@ -246,7 +244,6 @@ class BookingControllerTest {
         office2.setCreatedAt(mock(Timestamp.class));
         office2.setCreatedById("42");
         office2.setId("42");
-        office2.setMapList(new ArrayList<>());
         office2.setName("Name");
         office2.setParkingAvailable(true);
         office2.setUpdateById("2020-03-01");
@@ -308,7 +305,6 @@ class BookingControllerTest {
         office3.setCreatedAt(mock(Timestamp.class));
         office3.setCreatedById("42");
         office3.setId("42");
-        office3.setMapList(new ArrayList<>());
         office3.setName("Name");
         office3.setParkingAvailable(true);
         office3.setUpdateById("2020-03-01");
@@ -388,7 +384,6 @@ class BookingControllerTest {
         office.setCreatedById("42");
         office.setId("42");
         ArrayList<Map> mapList = new ArrayList<>();
-        office.setMapList(mapList);
         office.setName("Name");
         office.setParkingAvailable(true);
         office.setUpdateById("2020-03-01");

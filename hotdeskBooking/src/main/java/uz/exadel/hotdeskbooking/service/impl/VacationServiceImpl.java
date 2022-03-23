@@ -26,7 +26,6 @@ public class VacationServiceImpl implements VacationService {
 
     @Override
     public String post(VacationDTO vacationDTO) {
-
         Optional<User> byId = userRepository.findById(vacationDTO.getUserId());
         if (byId.isEmpty()) {
             throw new ConflictException(ResponseMessage.USER_NOT_FOUND.getMessage());
@@ -36,7 +35,6 @@ public class VacationServiceImpl implements VacationService {
         vacation.setVacationStart(vacationDTO.getVacationStart());
         vacation.setVacationEnd(vacationDTO.getVacationEnd());
         vacation.setUserId(vacationDTO.getUserId());
-        vacation.setUser(byId.get());
         Vacation savedVacation = repository.save(vacation);
         return savedVacation.getId();
     }
@@ -49,13 +47,14 @@ public class VacationServiceImpl implements VacationService {
     @Override
     public Vacation get(String id) {
         checkVacationExistence(id); //throws an exception, if not found
-        return repository.getById(id);
+        Vacation vacation = repository.findFirstById(id);
+        return vacation;
     }
 
     @Override
     public String put(String vacationId, VacationDTO vacationDTO) {
         checkVacationExistence(vacationId); //throws an exception, if not found
-        Vacation vacation = repository.getById(vacationId);
+        Vacation vacation = repository.findFirstById(vacationId);
 
         vacation.setVacationStart(vacationDTO.getVacationEnd());
         vacation.setVacationStart(vacationDTO.getVacationStart());

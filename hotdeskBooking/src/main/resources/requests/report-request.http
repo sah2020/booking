@@ -1,0 +1,70 @@
+### Get JSON report for all bookings
+GET {{host}}/report/all
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+### Get JSON report for all and filter dates
+GET {{host}}/report/all?startDate=2022-04-18&endDate=2022-05-01
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+### Get EXCEL report for all and filter dates
+GET {{host}}/report/excel/all?endDate=2022-05-01
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+### Get JSON report by office id
+GET {{host}}/report/officeId/{{activeOfficeId}}
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+### Get JSON report by office id and filter dates
+GET {{host}}/report/officeId/{{activeOfficeId}}?startDate=2022-04-18&endDate=2022-05-01
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+### Get EXCEL report by office id
+GET {{host}}/report/excel/officeId/{{activeOfficeId}}
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+### Get JSON report by city
+GET {{host}}/report/city/{{city}}
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+### Get EXCEL report by city
+GET {{host}}/report/city/{{city}}
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+### Get JSON report by map id
+GET {{host}}/report/map/{{activeMapId}}
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+### Get EXCEL report by map id
+GET {{host}}/report/excel/map/{{activeMapId}}
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+### Get JSON report by floor
+GET {{host}}/report/floor/3
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+### Get EXCEL report by floor
+GET {{host}}/report/excel/floor/3
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+### Get JSON report by office id
+GET {{host}}/report/userId/{{userId}}
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+### Get EXCEL report by office id
+GET {{host}}/report/excel/userId/{{userId}}
+Content-Type: application/json
+Authorization: Bearer {{token}}
+

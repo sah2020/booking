@@ -1,0 +1,67 @@
+### Get workplace by param
+GET {{host}}/office/{{activeOfficeId}}/workplace
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+### Get workplace by param (number)
+GET {{host}}/office/{{activeOfficeId}}/workplace?number=2
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+### Get workplace by param (nextToWindow)
+GET {{host}}/office/{{activeOfficeId}}/workplace?nextToWindow=false
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+### Get workplace by param (hasPC and hasPrinter)
+GET {{host}}/office/{{activeOfficeId}}/workplace?hasPC=true&hasPrinter=true
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+### Get workplace by id
+GET {{host}}/workplace/{{activeWorkplaceId}}
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+### Add workplace by mapId
+POST {{host}}/map/{{activeMapId}}/workplace
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "number": "4",
+  "type": "REGULAR",
+  "nextToWindow": true,
+  "hasPC": true,
+  "hasMonitor": true,
+  "hasKeyboard": true,
+  "hasMouse": true,
+  "hasHeadset": true,
+  "floor": true,
+  "kitchen": true,
+  "confRooms": true
+}
+
+### Edit workplace by id
+PUT {{host}}/workplace/{{activeWorkplaceId}}
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "type": "REGULAR",
+  "hasPC": true,
+  "hasMonitor": true,
+  "hasKeyboard": true,
+  "hasMouse": true,
+  "hasHeadset": true
+}
+
+### Delete workplace by id
+DELETE {{host}}/workplace/{{activeWorkplaceId}}
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+
+
+
+

@@ -10,7 +10,7 @@ import uz.exadel.hotdeskbooking.service.MapService;
 import javax.validation.constraints.NotNull;
 
 @RestController
-@RequestMapping("/map")
+@RequestMapping("/api/map")
 @RequiredArgsConstructor
 public class MapController {
 

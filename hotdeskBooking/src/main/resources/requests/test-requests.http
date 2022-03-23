@@ -5,9 +5,9 @@
 Any Booking recurring CREATE request with dates list
 -->
 ###
-POST http://localhost:8123/api/booking/any
+POST {{host}}/booking/any
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5NTI2MzMzMzgiLCJpYXQiOjE2NDc1NDgyMzcsImV4cCI6MTY0NzYzNDYzN30.dz_PedDP-4oXD8pYXi-T3PAr2B8Ay16j1vBAQ6MfaxAzEHz6v--43dZbQpdusxByT61Mmq9ZlHdkpE4V1I1OTw
+Authorization: Bearer {{token}}
 
 {
   "userId": "17f2277680f0000",
@@ -30,9 +30,9 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5NTI2MzMzMzgiLCJpYXQiOjE2N
 Any Booking non-recurring one-day CREATE request with Office ID
 -->
 ###
-POST http://localhost:7123/api/booking/any
+POST {{host}}/booking/any
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5NTI2MzMzMzgiLCJpYXQiOjE2NDcxNzA2NTEsImV4cCI6MTY0NzI1NzA1MX0.nQNi_d5ZtQzKMh6LM7CAtpUJTHfYPpJnMji6431jdGTzFqnu4r3L1TsxtvGUPF-a6mTL5LAkUzOKYVgxWBvFCw
+Authorization: Bearer {{token}}
 
 {
   "userId": "17f2277680f0000                 ",
@@ -51,9 +51,9 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5NTI2MzMzMzgiLCJpYXQiOjE2N
 Any Booking non-recurring continuous CREATE request with Office ID
 -->
 ###
-POST http://localhost:7123/api/booking/any
+POST {{host}}/booking/any
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5NTI2MzMzMzgiLCJpYXQiOjE2NDcxNzA2NTEsImV4cCI6MTY0NzI1NzA1MX0.nQNi_d5ZtQzKMh6LM7CAtpUJTHfYPpJnMji6431jdGTzFqnu4r3L1TsxtvGUPF-a6mTL5LAkUzOKYVgxWBvFCw
+Authorization: Bearer {{token}}
 
 {
   "userId": "17f2277680f0000                 ",
@@ -71,9 +71,9 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5NTI2MzMzMzgiLCJpYXQiOjE2N
 Booking non-recurring continuous CREATE request with Workplace ID
 -->
 ###
-POST http://localhost:7123/api/booking/
+POST {{host}}/booking/
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5NTI2MzMzMzgiLCJpYXQiOjE2NDcxNzA2NTEsImV4cCI6MTY0NzI1NzA1MX0.nQNi_d5ZtQzKMh6LM7CAtpUJTHfYPpJnMji6431jdGTzFqnu4r3L1TsxtvGUPF-a6mTL5LAkUzOKYVgxWBvFCw
+Authorization: Bearer {{token}}
 
 {
   "workplaceId": "testWRK                         ",
@@ -92,9 +92,9 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5NTI2MzMzMzgiLCJpYXQiOjE2N
 Booking non-recurring one-day CREATE request with Workplace ID
 -->
 ###
-POST http://localhost:7123/api/booking/
+POST {{host}}/booking/
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5NTI2MzMzMzgiLCJpYXQiOjE2NDcxNzA2NTEsImV4cCI6MTY0NzI1NzA1MX0.nQNi_d5ZtQzKMh6LM7CAtpUJTHfYPpJnMji6431jdGTzFqnu4r3L1TsxtvGUPF-a6mTL5LAkUzOKYVgxWBvFCw
+Authorization: Bearer {{token}}
 
 {
   "workplaceId": "testWRK                         ",
@@ -113,9 +113,9 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5NTI2MzMzMzgiLCJpYXQiOjE2N
 Booking recurring CREATE request with Workplace ID and dates list
 -->
 ###
-POST http://localhost:7123/api/booking/
+POST {{host}}/booking/
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5NTI2MzMzMzgiLCJpYXQiOjE2NDcxNzA2NTEsImV4cCI6MTY0NzI1NzA1MX0.nQNi_d5ZtQzKMh6LM7CAtpUJTHfYPpJnMji6431jdGTzFqnu4r3L1TsxtvGUPF-a6mTL5LAkUzOKYVgxWBvFCw
+Authorization: Bearer {{token}}
 
 {
   "workplaceId": "testWRK                         ",
@@ -138,7 +138,7 @@ Save/confirm booking
 -->
 
 ###
-POST http://localhost:8123/api/booking/save
+POST {{host}}/booking/save
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5NTI2MzMzMzgiLCJpYXQiOjE2NDc0NDE0MDQsImV4cCI6MTY0NzUyNzgwNH0.XQ69jvuD6bYh6JjXM7XtV5iGbLAGtLH0Qxs5QiozeHrlGCIx8nfqR0ATXHEriruaC8j9V1ZxlvXTTWx_PgZ6yA
 
@@ -155,9 +155,9 @@ Booking report get by office ID
 -->
 
 ###
-GET http://localhost:8123/api/report/officeId/test5
+GET {{host}}/report/excel/officeId/ff8081817fb24925017fb2493a270003
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5NTI2MzMzMzgiLCJpYXQiOjE2NDczNjQyMjQsImV4cCI6MTY0NzQ1MDYyNH0.QflRoEiytBt7A7gmge224cN42dqP1FfJFs8A7xscu7E0kqFRiD3BlvP5ZP0M7kFcKKbHhA6uBjh3I8IWwGJl9Q
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5NTI2MzMzMzgiLCJpYXQiOjE2NDc5NjM4MjgsImV4cCI6MTY0ODA1MDIyOH0.y31DIdjvlAK7Fr-50Ub7kqErmFQeHdGbioRFCWv_DE6bLC6d6AYXgv2_8tBwn0_I_VtuX1cLoDUJr8VFCvpDMg
 
 ###
 <!--
@@ -165,9 +165,9 @@ Booking report get by office ID
 -->
 
 ###
-GET http://localhost:8123/api/report/officeId/test5?startDate="2022-01-01"
+GET {{host}}/report/officeId/test5?startDate="2022-01-01"
 Content-Type: application/json
-#Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5NTI2MzMzMzgiLCJpYXQiOjE2NDc1NDgyMzcsImV4cCI6MTY0NzYzNDYzN30.dz_PedDP-4oXD8pYXi-T3PAr2B8Ay16j1vBAQ6MfaxAzEHz6v--43dZbQpdusxByT61Mmq9ZlHdkpE4V1I1OTw
+#Authorization: Bearer {{token}}
 
 
 

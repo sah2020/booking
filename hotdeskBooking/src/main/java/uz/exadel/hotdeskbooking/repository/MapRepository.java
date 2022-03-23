@@ -13,7 +13,7 @@ public interface MapRepository extends JpaRepository<Map, String> {
 
     boolean existsByFloorAndOfficeId(int floor, String officeId);
 
-    @Query(value = "select id from map m where m.office_id=?", nativeQuery = true)
+    @Query(value = "select id from map m where m.office_id=?1", nativeQuery = true)
     List<String> findIdsByOfficeId(String officeId);
 
 }

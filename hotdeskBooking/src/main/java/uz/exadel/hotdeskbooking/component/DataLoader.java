@@ -27,6 +27,7 @@ public class DataLoader implements CommandLineRunner {
     private final OfficeRepository officeRepository;
     private final MapRepository mapRepository;
     private final WorkplaceRepository workplaceRepository;
+    private final BookingRepository bookingRepository;
 
     @Override
     public void run(String... args) throws Exception {
@@ -58,7 +59,7 @@ public class DataLoader implements CommandLineRunner {
             userAkmaljon.setRoles(roleList);
             userAkmaljon.setEnabled(true);
             userAkmaljon.setPassword(passwordEncoder.encode("password"));
-            users.add(userAkmaljon);
+            User savedUser = userRepository.save(userAkmaljon);
 
             User userQuvonchbek = new User(
                     "5097735057",
@@ -154,7 +155,7 @@ public class DataLoader implements CommandLineRunner {
             workplace1.setHasKeyboard(true);
             workplace1.setHasMouse(true);
             workplace1.setHasHeadset(true);
-            workplaceRepository.save(workplace1);
+            Workplace savedWorkplace1 = workplaceRepository.save(workplace1);
             Thread.sleep(1500);
 
             Workplace workplace2 = new Workplace();
@@ -167,7 +168,7 @@ public class DataLoader implements CommandLineRunner {
             workplace2.setHasKeyboard(false);
             workplace2.setHasMouse(true);
             workplace2.setHasHeadset(true);
-            workplaceRepository.save(workplace2);
+            Workplace savedWorkplace2 = workplaceRepository.save(workplace2);
             Thread.sleep(1500);
 
             Workplace workplace3 = new Workplace();
@@ -180,7 +181,7 @@ public class DataLoader implements CommandLineRunner {
             workplace3.setHasKeyboard(true);
             workplace3.setHasMouse(true);
             workplace3.setHasHeadset(true);
-            workplaceRepository.save(workplace3);
+            Workplace savedWorkplace3 = workplaceRepository.save(workplace3);
             Thread.sleep(1500);
 
             Workplace workplace4 = new Workplace();
@@ -273,6 +274,73 @@ public class DataLoader implements CommandLineRunner {
             workplace10.setHasHeadset(true);
             workplaceRepository.save(workplace10);
             Thread.sleep(1500);
+
+            List<Booking> bookings = new ArrayList<>();
+            Booking booking1 = new Booking();
+            booking1.setWorkplaceId(savedWorkplace1.getId());
+            booking1.setUserId(savedUser.getId());
+            booking1.setStartDate(dateFormat.parse("01-04-2022"));
+            booking1.setEndDate(dateFormat.parse("03-04-2022"));
+            booking1.setIsRecurring(false);
+            bookings.add(booking1);
+
+            Booking booking2 = new Booking();
+            booking2.setWorkplaceId(savedWorkplace1.getId());
+            booking2.setUserId(savedUser.getId());
+            booking2.setStartDate(dateFormat.parse("07-04-2022"));
+            booking2.setEndDate(dateFormat.parse("09-04-2022"));
+            booking2.setIsRecurring(false);
+            bookings.add(booking2);
+
+            Booking booking3 = new Booking();
+            booking3.setWorkplaceId(savedWorkplace2.getId());
+            booking3.setUserId(savedUser.getId());
+            booking3.setStartDate(dateFormat.parse("01-04-2022"));
+            booking3.setEndDate(dateFormat.parse("03-04-2022"));
+            booking3.setIsRecurring(false);
+            bookings.add(booking3);
+
+            Booking booking4 = new Booking();
+            booking4.setWorkplaceId(savedWorkplace2.getId());
+            booking4.setUserId(savedUser.getId());
+            booking4.setStartDate(dateFormat.parse("10-04-2022"));
+            booking4.setEndDate(dateFormat.parse("12-04-2022"));
+            booking4.setIsRecurring(false);
+            bookings.add(booking4);
+
+            Booking booking5 = new Booking();
+            booking5.setWorkplaceId(savedWorkplace2.getId());
+            booking5.setUserId(savedUser.getId());
+            booking5.setStartDate(dateFormat.parse("14-04-2022"));
+            booking5.setEndDate(dateFormat.parse("14-04-2022"));
+            booking5.setIsRecurring(false);
+            bookings.add(booking5);
+
+            Booking booking6 = new Booking();
+            booking6.setWorkplaceId(savedWorkplace2.getId());
+            booking6.setUserId(savedUser.getId());
+            booking6.setStartDate(dateFormat.parse("01-05-2022"));
+            booking6.setEndDate(dateFormat.parse("03-05-2022"));
+            booking6.setIsRecurring(false);
+            bookings.add(booking6);
+
+            Booking booking7 = new Booking();
+            booking7.setWorkplaceId(savedWorkplace1.getId());
+            booking7.setUserId(savedUser.getId());
+            booking7.setStartDate(dateFormat.parse("01-05-2022"));
+            booking7.setEndDate(dateFormat.parse("01-05-2022"));
+            booking7.setIsRecurring(true);
+            bookings.add(booking7);
+
+            Booking booking8 = new Booking();
+            booking8.setWorkplaceId(savedWorkplace1.getId());
+            booking8.setUserId(savedUser.getId());
+            booking8.setStartDate(dateFormat.parse("05-05-2022"));
+            booking8.setEndDate(dateFormat.parse("05-05-2022"));
+            booking8.setIsRecurring(true);
+            bookings.add(booking8);
+
+            bookingRepository.saveAll(bookings);
 
         }
     }

@@ -19,7 +19,7 @@ public interface WorkplaceRepository extends JpaRepository<Workplace, String>, J
     @Query(value = "SELECT workplace.* FROM workplace INNER JOIN map m on m.id = workplace.map_id" +
         "    INNER JOIN office o on o.id=m.office_id WHERE o.id=?1 AND workplace.type=?2 AND workplace.type!='NON_BOOKABLE' AND workplace.id not in ?3 limit 1",
             nativeQuery = true)
-    Workplace findFirstByMap_OfficeIdAndTypeAndIdNotIn(String map_officeId, WorkplaceTypeEnum workplaceTypeEnum, Collection<String> id);
+    Workplace findFirstByMap_OfficeIdAndTypeAndIdNotIn(String map_officeId, String workplaceType, Collection<String> id);
 
     @Query(value = "SELECT workplace.* FROM workplace INNER JOIN map m on m.id = workplace.map_id" +
             "    INNER JOIN office o on o.id=m.office_id WHERE o.id=?1 AND workplace.type!='NON_BOOKABLE' limit 1",
@@ -29,5 +29,5 @@ public interface WorkplaceRepository extends JpaRepository<Workplace, String>, J
     @Query(value = "SELECT workplace.* FROM workplace INNER JOIN map m on m.id = workplace.map_id" +
             "    INNER JOIN office o on o.id=m.office_id WHERE workplace.type=?1 AND o.id=?2 AND workplace.type!='NON_BOOKABLE' limit 1",
             nativeQuery = true)
-    Workplace findFirstByTypeAndMap_OfficeId(WorkplaceTypeEnum workplaceTypeEnum, String map_officeId);
+    Workplace findFirstByTypeAndMap_OfficeId(String workplaceType, String map_officeId);
 }

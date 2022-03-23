@@ -31,7 +31,7 @@ public class MapServiceImpl implements MapService {
     public String addMap(MapDto mapDto) {
         Optional<Office> byId = officeRepository.findById(mapDto.getOfficeId());
         if (byId.isEmpty()) {
-            throw new NotFoundException(ResponseMessage.MAP_NOT_FOUND.getMessage());
+            throw new NotFoundException(ResponseMessage.OFFICE_NOT_FOUND.getMessage());
         }
 
         Map map = modelMapper.map(mapDto, Map.class);
@@ -39,14 +39,14 @@ public class MapServiceImpl implements MapService {
         checkByFloorAndOfficeId(mapDto, byId.get()); //checks by map floor number and office id
 
         mapRepository.save(map);
-        return ResponseMessage.OFFICE_SAVED.getMessage();
+        return ResponseMessage.MAP_SAVED.getMessage();
     }
 
     @Override
     public String deleteMap(String mapId) {
         checkMapExistence(mapId);
         mapRepository.deleteById(mapId);
-        return ResponseMessage.OFFICE_DELETED.getMessage();
+        return ResponseMessage.MAP_DELETED.getMessage();
     }
 
     @Override

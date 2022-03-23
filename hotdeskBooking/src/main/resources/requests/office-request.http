@@ -1,91 +1,77 @@
-###################################
-###Getting all offices list
-GET http://localhost:8123/api/office
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI1MDk3NzM1MDU3IiwiaWF0IjoxNjQ3Njg5MjQ4LCJleHAiOjE2NDc3NzU2NDh9.nHE8e4Mh2EljIKhb8a_uLOf8d7ALM2omufJ1G9tpMOE_tv_ohFoQdIKzOHp4PUju-b6pMyke3NCipcJlsOdQSw
+### Getting all offices list
+GET {{host}}/office
+Authorization: Bearer {{token}}
 
 
-
-####################################
-###Getting office by city name
-GET http://localhost:8123/api/office/city/Tashkent
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5NTI2MzMzMzgiLCJpYXQiOjE2NDc1NDgyMzcsImV4cCI6MTY0NzYzNDYzN30.dz_PedDP-4oXD8pYXi-T3PAr2B8Ay16j1vBAQ6MfaxAzEHz6v--43dZbQpdusxByT61Mmq9ZlHdkpE4V1I1OTw
+### Getting office by city name
+GET {{host}}/office/city/Tashkent
+Authorization: Bearer {{token}}
 
 
-
-####################################
-###Adding office
-POST http://localhost:8123/api/office
+### Adding office
+POST {{host}}/office
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI1MDk3NzM1MDU3IiwiaWF0IjoxNjQ3Njg5MjQ4LCJleHAiOjE2NDc3NzU2NDh9.nHE8e4Mh2EljIKhb8a_uLOf8d7ALM2omufJ1G9tpMOE_tv_ohFoQdIKzOHp4PUju-b6pMyke3NCipcJlsOdQSw
+Authorization: Bearer {{token}}
 
 {
-  "name": "M-1",
-  "country" : "Uzbekistan",
-  "city" : "Tashkent",
-  "address" : "Chilonzor-9",
+  "name": "Office 5",
+  "country": "Uzbekistan",
+  "city": "Tashkent",
+  "address": "Chilonzor-9",
   "is_parking_available": false
 }
 
 
-
-####################################
-###Get office by office id
-GET http://localhost:8123/api/office/4028818a7f9d3fc4017f9d40280d0003
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5NTI2MzMzMzgiLCJpYXQiOjE2NDc1NDgyMzcsImV4cCI6MTY0NzYzNDYzN30.dz_PedDP-4oXD8pYXi-T3PAr2B8Ay16j1vBAQ6MfaxAzEHz6v--43dZbQpdusxByT61Mmq9ZlHdkpE4V1I1OTw
+### Get office details (with map IDs) by office id
+GET {{host}}/office/{{activeOfficeId}}
+Authorization: Bearer {{token}}
 
 
 
-####################################
-###Updating the already existing office
-PUT http://localhost:8123/api/office/4028818a7fa1f75a017fa1f773200003
+### Updating already existing office
+PUT {{host}}/office/ff8081817fb5b2dd017fb6515ea90001
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI1MDk3NzM1MDU3IiwiaWF0IjoxNjQ3Njg5MjQ4LCJleHAiOjE2NDc3NzU2NDh9.nHE8e4Mh2EljIKhb8a_uLOf8d7ALM2omufJ1G9tpMOE_tv_ohFoQdIKzOHp4PUju-b6pMyke3NCipcJlsOdQSw
+Authorization: Bearer {{token}}
 
 {
-  "name": "M-2",
-  "country" : "Uzbekistan",
-  "city" : "Tashkent",
-  "address" : "Chilonzor-9",
+  "name": "Office 33",
+  "country": "Belarus",
+  "city": "Minsk",
+  "address": "Tashkent Street",
   "is_parking_available": false
 }
 
 
-
-####################################
-###Deleting the office by office id
-DELETE http://localhost:8123/api/office/4028818a7f9d3fc4017f9d40280d0002
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5NTI2MzMzMzgiLCJpYXQiOjE2NDc1NDgyMzcsImV4cCI6MTY0NzYzNDYzN30.dz_PedDP-4oXD8pYXi-T3PAr2B8Ay16j1vBAQ6MfaxAzEHz6v--43dZbQpdusxByT61Mmq9ZlHdkpE4V1I1OTw
+### Deleting the office by office id
+DELETE {{host}}/office/ff8081817fb5b2dd017fb5b325480000
+Authorization: Bearer {{token}}
 
 
 
-####################################
-###Getting all the cities regarless of country
-GET http://localhost:8123/api/office/cityList
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5NTI2MzMzMzgiLCJpYXQiOjE2NDc1NDgyMzcsImV4cCI6MTY0NzYzNDYzN30.dz_PedDP-4oXD8pYXi-T3PAr2B8Ay16j1vBAQ6MfaxAzEHz6v--43dZbQpdusxByT61Mmq9ZlHdkpE4V1I1OTw
+
+### Getting all the cities regarless of country
+GET {{host}}/office/cityList
+Authorization: Bearer {{token}}
 
 
 
-####################################
-###Getting all the cities in the country by country name
-GET http://localhost:8123/api/office/cityList/Uzbekistan
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5NTI2MzMzMzgiLCJpYXQiOjE2NDc1NDgyMzcsImV4cCI6MTY0NzYzNDYzN30.dz_PedDP-4oXD8pYXi-T3PAr2B8Ay16j1vBAQ6MfaxAzEHz6v--43dZbQpdusxByT61Mmq9ZlHdkpE4V1I1OTw
+### Getting all the cities in the country by country name
+GET {{host}}/office/cityList/Uzbekistan
+Authorization: Bearer {{token}}
 
 
 
-####################################
-###Getting countries list
-GET http://localhost:8123/api/office/countryList
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5NTI2MzMzMzgiLCJpYXQiOjE2NDc1NDgyMzcsImV4cCI6MTY0NzYzNDYzN30.dz_PedDP-4oXD8pYXi-T3PAr2B8Ay16j1vBAQ6MfaxAzEHz6v--43dZbQpdusxByT61Mmq9ZlHdkpE4V1I1OTw
+### Getting countries list
+GET {{host}}/office/countryList
+Authorization: Bearer {{token}}
 
 
 
-####################################
-###Getting mapList by officeId
-GET http://localhost:8123/api/office/mapList/4028818a7f99b1b7017f99d2fd710004
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5NTI2MzMzMzgiLCJpYXQiOjE2NDc1NDgyMzcsImV4cCI6MTY0NzYzNDYzN30.dz_PedDP-4oXD8pYXi-T3PAr2B8Ay16j1vBAQ6MfaxAzEHz6v--43dZbQpdusxByT61Mmq9ZlHdkpE4V1I1OTw
+### Getting mapList by officeId
+GET {{host}}/office/mapList/{{activeOfficeId}}
+Authorization: Bearer {{token}}
 
 
-####################################
-###Checking whether the specific office has parking slot free
-GET http://localhost:8123/api/office/parking/4028818a7f99eb6a017f99eb946c0003
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5NTI2MzMzMzgiLCJpYXQiOjE2NDc1NDgyMzcsImV4cCI6MTY0NzYzNDYzN30.dz_PedDP-4oXD8pYXi-T3PAr2B8Ay16j1vBAQ6MfaxAzEHz6v--43dZbQpdusxByT61Mmq9ZlHdkpE4V1I1OTw
+### Checking whether the specific office has parking slot free
+GET {{host}}/office/parking/ff8081817fb5357d017fb53588bc0003
+Authorization: Bearer {{token}}

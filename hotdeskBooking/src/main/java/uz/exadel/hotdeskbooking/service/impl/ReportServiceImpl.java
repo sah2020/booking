@@ -267,7 +267,7 @@ public class ReportServiceImpl implements ReportService {
             Date date = formatter.parse(strDate);
             return date;
         } catch (ParseException e) {
-            throw new BadRequestException(ResponseMessage.BAD_REQUEST.getMessage());
+            throw new BadRequestException(ResponseMessage.BAD_REQUEST_DATE.getMessage());
         }
     }
 

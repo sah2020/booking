@@ -2,10 +2,7 @@ package uz.exadel.hotdeskbooking.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import uz.exadel.hotdeskbooking.domain.Booking;
-import uz.exadel.hotdeskbooking.domain.User;
-import uz.exadel.hotdeskbooking.domain.Vacation;
-import uz.exadel.hotdeskbooking.domain.Workplace;
+import uz.exadel.hotdeskbooking.domain.*;
 import uz.exadel.hotdeskbooking.dto.request.BookingCreateTO;
 import uz.exadel.hotdeskbooking.dto.request.StringListDTO;
 import uz.exadel.hotdeskbooking.dto.response.BookingResTO;
@@ -24,7 +21,7 @@ import uz.exadel.hotdeskbooking.response.ResponseMessage;
 import uz.exadel.hotdeskbooking.service.BookingService;
 
 import javax.transaction.Transactional;
-import java.time.temporal.Temporal;
+import java.time.ZoneId;
 import java.util.*;
 
 import static java.time.temporal.ChronoUnit.DAYS;
@@ -58,6 +55,12 @@ public class BookingServiceImpl implements BookingService {
             throw new ForbiddenException(ResponseMessage.SESSION_EXPIRED.getMessage());
         }
 
+        if (bookingCreateTO.getStartDate() != null) {
+            isValidDate(Collections.singletonList(bookingCreateTO.getStartDate()));
+        } else if (!bookingCreateTO.getDatesList().isEmpty()) {
+            isValidDate(bookingCreateTO.getDatesList());
+        }
+
         String selectedWorkplaceId = bookingCreateTO.getWorkplaceId();
         if (selectedWorkplaceId == null) {
             throw new BadRequestException(ResponseMessage.WORKPLACE_NOT_FOUND.getMessage());
@@ -66,7 +69,11 @@ public class BookingServiceImpl implements BookingService {
         Workplace workplace = workplaceRepository.findById(selectedWorkplaceId).orElseThrow(() -> new BadRequestException(ResponseMessage.WORKPLACE_NOT_FOUND.getMessage()));
 
         User currentUser = authServiceImpl.getCurrentUserDetails();
-        boolean isAdmin = currentUser.getRoles().contains(RoleTypeEnum.ROLE_ADMIN);
+        Set<Role> roles = currentUser.getRoles();
+        long count = roles.stream().filter(role -> role.getRoleType().equals(RoleTypeEnum.ROLE_ADMIN)).count();
+
+        boolean isAdmin = count == 1;
+
 
         boolean isOwnBooking = currentUser.getId().equals(bookingCreateTO.getUserId());
         if (!isOwnBooking && !isAdmin) {
@@ -102,7 +109,8 @@ public class BookingServiceImpl implements BookingService {
             }
 
             Set<Date> dates = checkBookingDatesWithVacation(Arrays.asList(startDate, endDate), bookingUser.getId());
-            if (dates.size() < 2) {
+            if ((dates.size() < 2 && !startDate.equals(endDate))
+                    || (dates.size() < 1 && startDate.equals(endDate))) {
                 throw new ConflictException(ResponseMessage.VACATION_FULL_ERROR.getMessage());
             }
 
@@ -145,9 +153,19 @@ public class BookingServiceImpl implements BookingService {
     }
 
     private void checkBookingLength(Date startDate, Date endDate) {
-        long days = DAYS.between((Temporal) startDate, (Temporal) endDate);
+        long days = DAYS.between(
+                (startDate.toInstant().atZone(ZoneId.systemDefault())).toLocalDate(),
+                (endDate.toInstant().atZone(ZoneId.systemDefault())).toLocalDate());
         if (days > 90) {
             throw new BadRequestException(ResponseMessage.BOOKING_LENGTH_ERROR.getMessage());
+        }
+    }
+
+    private void isValidDate(List<Date> dateList) {
+        Date currentDate = new Date();
+        long count = dateList.stream().filter(date -> date.before(currentDate)).count();
+        if (count != 0) {
+            throw new ConflictException(ResponseMessage.BAD_REQUEST_DATE_PASSED.getMessage());
         }
     }
 
@@ -160,13 +178,23 @@ public class BookingServiceImpl implements BookingService {
             throw new ForbiddenException(ResponseMessage.SESSION_EXPIRED.getMessage());
         }
 
+        if (bookingCreateTO.getStartDate() != null) {
+            isValidDate(Collections.singletonList(bookingCreateTO.getStartDate()));
+        } else if (!bookingCreateTO.getDatesList().isEmpty()) {
+            isValidDate(bookingCreateTO.getDatesList());
+        }
+
         String selectedOfficeId = bookingCreateTO.getOfficeId();
         if (selectedOfficeId == null) {
             throw new BadRequestException(ResponseMessage.OFFICE_NOT_FOUND.getMessage());
         }
 
         User currentUser = authServiceImpl.getCurrentUserDetails();
-        boolean isAdmin = currentUser.getRoles().contains(RoleTypeEnum.ROLE_ADMIN);
+        Set<Role> roles = currentUser.getRoles();
+        long count = roles.stream().filter(role -> role.getRoleType().equals(RoleTypeEnum.ROLE_ADMIN)).count();
+
+        boolean isAdmin = count == 1;
+
 
         boolean isOwnBooking = currentUser.getId().equals(bookingCreateTO.getUserId());
         if (!isOwnBooking && !isAdmin) {
@@ -206,7 +234,8 @@ public class BookingServiceImpl implements BookingService {
             }
 
             Set<Date> dates = checkBookingDatesWithVacation(Arrays.asList(startDate, endDate), bookingUser.getId());
-            if (dates.size() < 2) {
+            if ((dates.size() < 2 && !startDate.equals(endDate))
+                    || (dates.size() < 1 && startDate.equals(endDate))) {
                 throw new ConflictException(ResponseMessage.VACATION_FULL_ERROR.getMessage());
             }
 
@@ -255,14 +284,14 @@ public class BookingServiceImpl implements BookingService {
             if (isAdmin) {
                 optionalWorkplace = workplaceRepository.findFirstByMap_OfficeIdAndIdNotIn(selectedOfficeId, bookedWorkplaceIds);
             } else {
-                optionalWorkplace = workplaceRepository.findFirstByMap_OfficeIdAndTypeAndIdNotIn(selectedOfficeId, WorkplaceTypeEnum.REGULAR, bookedWorkplaceIds);
+                optionalWorkplace = workplaceRepository.findFirstByMap_OfficeIdAndTypeAndIdNotIn(selectedOfficeId, WorkplaceTypeEnum.REGULAR.getName(), bookedWorkplaceIds);
             }
 
         } else {
             if (isAdmin) {
                 optionalWorkplace = workplaceRepository.findFirstByMap_OfficeId(selectedOfficeId);
             } else {
-                optionalWorkplace = workplaceRepository.findFirstByTypeAndMap_OfficeId(WorkplaceTypeEnum.REGULAR, selectedOfficeId);
+                optionalWorkplace = workplaceRepository.findFirstByTypeAndMap_OfficeId(WorkplaceTypeEnum.REGULAR.getName(), selectedOfficeId);
             }
         }
         if (optionalWorkplace == null) {
@@ -278,7 +307,7 @@ public class BookingServiceImpl implements BookingService {
             booking.setWorkplaceId(workplace.getId());
             booking.setUserId(user.getId());
             booking.setStartDate(bookingCreateTO.getStartDate());
-            booking.setEndDate(bookingCreateTO.getEndDate() != null ? bookingCreateTO.getEndDate() : null);
+            booking.setEndDate(bookingCreateTO.getEndDate() != null ? bookingCreateTO.getEndDate() : bookingCreateTO.getStartDate());
             booking.setIsRecurring(false);
             booking.setActive(false);
 
@@ -351,7 +380,10 @@ public class BookingServiceImpl implements BookingService {
             if id is given, cancel one booking
         * */
         User currentUser = authServiceImpl.getCurrentUserDetails();
-        boolean isAdmin = currentUser.getRoles().contains(RoleTypeEnum.ROLE_ADMIN);
+        Set<Role> roles = currentUser.getRoles();
+        long count = roles.stream().filter(role -> role.getRoleType().equals(RoleTypeEnum.ROLE_ADMIN)).count();
+
+        boolean isAdmin = count == 1;
 
         if ((userId != null || all) && !Objects.equals(currentUser.getId(), userId) && !isAdmin) {
             throw new ForbiddenException(ResponseMessage.FORBIDDEN.getMessage());
@@ -399,7 +431,10 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public List<BookingResTO> getByUserId(String userId) {
         User currentUser = authServiceImpl.getCurrentUserDetails();
-        boolean isAdmin = currentUser.getRoles().contains(RoleTypeEnum.ROLE_ADMIN);
+        Set<Role> roles = currentUser.getRoles();
+        long count = roles.stream().filter(role -> role.getRoleType().equals(RoleTypeEnum.ROLE_ADMIN)).count();
+
+        boolean isAdmin = count == 1;
         if (!isAdmin && !Objects.equals(currentUser.getId(), userId)) {
             throw new ForbiddenException(ResponseMessage.FORBIDDEN.getMessage());
         }
@@ -421,7 +456,11 @@ public class BookingServiceImpl implements BookingService {
         //user can only edit his own booking
         String bookingUserId = bookingCreateTO.getUserId();
         User currentUser = authServiceImpl.getCurrentUserDetails();
-        boolean isAdmin = currentUser.getRoles().contains(RoleTypeEnum.ROLE_ADMIN);
+        Set<Role> roles = currentUser.getRoles();
+        long count = roles.stream().filter(role -> role.getRoleType().equals(RoleTypeEnum.ROLE_ADMIN)).count();
+
+        boolean isAdmin = count == 1;
+
 
         boolean isOwnBooking = currentUser.getId().equals(bookingCreateTO.getUserId());
         if (!isOwnBooking && !isAdmin) {
@@ -456,8 +495,11 @@ public class BookingServiceImpl implements BookingService {
         bookingRepository.save(existingBooking);
 
         Date startDate = bookingCreateTO.getStartDate();
+
+        isValidDate(Collections.singletonList(startDate));
+
         if (bookingCreateTO.getEndDate() == null) {
-            bookingCreateTO.setEndDate(new Date(startDate.getTime() + 3600000));
+            bookingCreateTO.setEndDate(new Date(startDate.getTime()));
         }
         Date endDate = bookingCreateTO.getEndDate();
         checkBookingLength(startDate, endDate);
@@ -472,7 +514,8 @@ public class BookingServiceImpl implements BookingService {
         }
 
         Set<Date> dates = checkBookingDatesWithVacation(Arrays.asList(startDate, endDate), bookingUser.getId());
-        if (dates.size() < 2) {
+        if ((dates.size() < 2 && !startDate.equals(endDate))
+                || (dates.size() < 1 && startDate.equals(endDate))) {
             throw new ConflictException(ResponseMessage.VACATION_FULL_ERROR.getMessage());
         }
 
@@ -531,7 +574,11 @@ public class BookingServiceImpl implements BookingService {
         }
         String bookingUserId = booking.getUserId();
         User currentUser = authServiceImpl.getCurrentUserDetails();
-        boolean isAdmin = currentUser.getRoles().contains(RoleTypeEnum.ROLE_ADMIN);
+        Set<Role> roles = currentUser.getRoles();
+        long count = roles.stream().filter(role -> role.getRoleType().equals(RoleTypeEnum.ROLE_ADMIN)).count();
+
+        boolean isAdmin = count == 1;
+
         if (!bookingUserId.equals(currentUser.getId()) && !isAdmin) {
             throw new ForbiddenException(ResponseMessage.FORBIDDEN.getMessage());
         }

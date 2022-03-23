@@ -16,7 +16,17 @@ public class WorkplaceMapper {
     }
 
     public WorkplaceResponseDto entityToResponseDTO(Workplace workplace) {
-        WorkplaceResponseDto workplaceResponseDto = mapper.map(workplace, WorkplaceResponseDto.class);
+        WorkplaceResponseDto workplaceResponseDto = new WorkplaceResponseDto();
+        workplaceResponseDto.setMapId(workplace.getMap().getId());
+        workplaceResponseDto.setId(workplace.getId());
+        workplaceResponseDto.setNumber(workplace.getWorkplaceNumber());
+        workplaceResponseDto.setType(workplace.getType());
+        workplaceResponseDto.setNextToWindow(workplace.getNextToWindow());
+        workplaceResponseDto.setHasPC(workplace.getHasPC());
+        workplaceResponseDto.setHasMonitor(workplace.getHasMonitor());
+        workplaceResponseDto.setHasKeyboard(workplace.getHasKeyboard());
+        workplaceResponseDto.setHasMouse(workplace.getHasMouse());
+        workplaceResponseDto.setHasHeadset(workplace.getHasHeadset());
         workplaceResponseDto.setConfRoom(workplace.getMap().isConfRooms());
         workplaceResponseDto.setFloor(workplace.getMap().getFloor());
         workplaceResponseDto.setKitchen(workplace.getMap().isKitchen());

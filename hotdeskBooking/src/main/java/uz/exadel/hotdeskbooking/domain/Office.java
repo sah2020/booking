@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import java.util.List;
 
@@ -23,8 +24,7 @@ public class Office extends BaseDomain {
 
     @JsonProperty("is_parking_available")
     private boolean isParkingAvailable;
-
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    List<Map> mapList;
-
+//
+//    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+//    List<Map> mapList;
 }

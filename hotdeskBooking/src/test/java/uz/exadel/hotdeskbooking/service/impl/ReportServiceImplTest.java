@@ -1,34 +1,12 @@
 package uz.exadel.hotdeskbooking.service.impl;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.atLeast;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
-import java.sql.Timestamp;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Optional;
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import uz.exadel.hotdeskbooking.domain.Booking;
-import uz.exadel.hotdeskbooking.domain.Map;
-import uz.exadel.hotdeskbooking.domain.Office;
-import uz.exadel.hotdeskbooking.domain.User;
-import uz.exadel.hotdeskbooking.domain.Workplace;
+import uz.exadel.hotdeskbooking.domain.*;
 import uz.exadel.hotdeskbooking.dto.response.BookingReportResTO;
 import uz.exadel.hotdeskbooking.enums.WorkplaceTypeEnum;
 import uz.exadel.hotdeskbooking.exception.BadRequestException;
@@ -39,6 +17,18 @@ import uz.exadel.hotdeskbooking.repository.BookingRepository;
 import uz.exadel.hotdeskbooking.repository.MapRepository;
 import uz.exadel.hotdeskbooking.repository.OfficeRepository;
 import uz.exadel.hotdeskbooking.repository.UserRepository;
+
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 @ContextConfiguration(classes = {ReportServiceImpl.class})
 @ExtendWith(SpringExtension.class)
@@ -70,7 +60,6 @@ class ReportServiceImplTest {
         office.setCreatedAt(mock(Timestamp.class));
         office.setCreatedById("42");
         office.setId("42");
-        office.setMapList(new ArrayList<>());
         office.setName("Name");
         office.setParkingAvailable(true);
         office.setUpdateById("2022-03-01");
@@ -94,7 +83,6 @@ class ReportServiceImplTest {
         office.setCreatedAt(mock(Timestamp.class));
         office.setCreatedById("42");
         office.setId("42");
-        office.setMapList(new ArrayList<>());
         office.setName("Name");
         office.setParkingAvailable(true);
         office.setUpdateById("2022-03-01");
@@ -128,7 +116,6 @@ class ReportServiceImplTest {
         office.setCreatedAt(mock(Timestamp.class));
         office.setCreatedById("42");
         office.setId("42");
-        office.setMapList(new ArrayList<>());
         office.setName("Name");
         office.setParkingAvailable(true);
         office.setUpdateById("2022-03-01");
@@ -192,7 +179,6 @@ class ReportServiceImplTest {
         office1.setCreatedAt(mock(Timestamp.class));
         office1.setCreatedById("42");
         office1.setId("42");
-        office1.setMapList(new ArrayList<>());
         office1.setName("yyyy-MM-dd");
         office1.setParkingAvailable(true);
         office1.setUpdateById("2022-03-01");
@@ -265,7 +251,6 @@ class ReportServiceImplTest {
         office.setCreatedAt(mock(Timestamp.class));
         office.setCreatedById("42");
         office.setId("42");
-        office.setMapList(new ArrayList<>());
         office.setName("Name");
         office.setParkingAvailable(true);
         office.setUpdateById("2022-03-01");
@@ -329,7 +314,6 @@ class ReportServiceImplTest {
         office1.setCreatedAt(mock(Timestamp.class));
         office1.setCreatedById("42");
         office1.setId("42");
-        office1.setMapList(new ArrayList<>());
         office1.setName("yyyy-MM-dd");
         office1.setParkingAvailable(true);
         office1.setUpdateById("2022-03-01");
@@ -437,7 +421,6 @@ class ReportServiceImplTest {
         office2.setCreatedAt(mock(Timestamp.class));
         office2.setCreatedById("42");
         office2.setId("42");
-        office2.setMapList(new ArrayList<>());
         office2.setName("yyyy-MM-dd");
         office2.setParkingAvailable(true);
         office2.setUpdateById("2022-03-01");
@@ -518,7 +501,6 @@ class ReportServiceImplTest {
         office.setCreatedAt(mock(Timestamp.class));
         office.setCreatedById("42");
         office.setId("42");
-        office.setMapList(new ArrayList<>());
         office.setName("Name");
         office.setParkingAvailable(true);
         office.setUpdateById("2022-03-01");
@@ -544,7 +526,6 @@ class ReportServiceImplTest {
         office.setCreatedAt(mock(Timestamp.class));
         office.setCreatedById("42");
         office.setId("42");
-        office.setMapList(new ArrayList<>());
         office.setName("Name");
         office.setParkingAvailable(true);
         office.setUpdateById("2022-03-01");
@@ -610,7 +591,6 @@ class ReportServiceImplTest {
         office1.setCreatedAt(mock(Timestamp.class));
         office1.setCreatedById("42");
         office1.setId("42");
-        office1.setMapList(new ArrayList<>());
         office1.setName("yyyy-MM-dd");
         office1.setParkingAvailable(true);
         office1.setUpdateById("2022-03-01");
@@ -683,7 +663,6 @@ class ReportServiceImplTest {
         office.setCreatedAt(mock(Timestamp.class));
         office.setCreatedById("42");
         office.setId("42");
-        office.setMapList(new ArrayList<>());
         office.setName("Name");
         office.setParkingAvailable(true);
         office.setUpdateById("2022-03-01");
@@ -749,7 +728,6 @@ class ReportServiceImplTest {
         office1.setCreatedAt(mock(Timestamp.class));
         office1.setCreatedById("42");
         office1.setId("42");
-        office1.setMapList(new ArrayList<>());
         office1.setName("yyyy-MM-dd");
         office1.setParkingAvailable(true);
         office1.setUpdateById("2022-03-01");
@@ -857,7 +835,6 @@ class ReportServiceImplTest {
         office2.setCreatedAt(mock(Timestamp.class));
         office2.setCreatedById("42");
         office2.setId("42");
-        office2.setMapList(new ArrayList<>());
         office2.setName("yyyy-MM-dd");
         office2.setParkingAvailable(true);
         office2.setUpdateById("2022-03-01");
@@ -931,7 +908,6 @@ class ReportServiceImplTest {
         office.setCreatedAt(mock(Timestamp.class));
         office.setCreatedById("42");
         office.setId("42");
-        office.setMapList(new ArrayList<>());
         office.setName("Name");
         office.setParkingAvailable(true);
         office.setUpdateById("2022-03-01");
@@ -967,7 +943,6 @@ class ReportServiceImplTest {
         office.setCreatedAt(mock(Timestamp.class));
         office.setCreatedById("42");
         office.setId("42");
-        office.setMapList(new ArrayList<>());
         office.setName("Name");
         office.setParkingAvailable(true);
         office.setUpdateById("2022-03-01");
@@ -1012,7 +987,6 @@ class ReportServiceImplTest {
         office.setCreatedAt(mock(Timestamp.class));
         office.setCreatedById("42");
         office.setId("42");
-        office.setMapList(new ArrayList<>());
         office.setName("Name");
         office.setParkingAvailable(true);
         office.setUpdateById("2022-03-01");
@@ -1088,7 +1062,6 @@ class ReportServiceImplTest {
         office1.setCreatedAt(mock(Timestamp.class));
         office1.setCreatedById("42");
         office1.setId("42");
-        office1.setMapList(new ArrayList<>());
         office1.setName("yyyy-MM-dd");
         office1.setParkingAvailable(true);
         office1.setUpdateById("2022-03-01");
@@ -1161,7 +1134,6 @@ class ReportServiceImplTest {
         office.setCreatedAt(mock(Timestamp.class));
         office.setCreatedById("42");
         office.setId("42");
-        office.setMapList(new ArrayList<>());
         office.setName("Name");
         office.setParkingAvailable(true);
         office.setUpdateById("2022-03-01");
@@ -1237,7 +1209,6 @@ class ReportServiceImplTest {
         office1.setCreatedAt(mock(Timestamp.class));
         office1.setCreatedById("42");
         office1.setId("42");
-        office1.setMapList(new ArrayList<>());
         office1.setName("yyyy-MM-dd");
         office1.setParkingAvailable(true);
         office1.setUpdateById("2022-03-01");
@@ -1345,7 +1316,6 @@ class ReportServiceImplTest {
         office2.setCreatedAt(mock(Timestamp.class));
         office2.setCreatedById("42");
         office2.setId("42");
-        office2.setMapList(new ArrayList<>());
         office2.setName("yyyy-MM-dd");
         office2.setParkingAvailable(true);
         office2.setUpdateById("2022-03-01");
@@ -1419,7 +1389,6 @@ class ReportServiceImplTest {
         office.setCreatedAt(mock(Timestamp.class));
         office.setCreatedById("42");
         office.setId("42");
-        office.setMapList(new ArrayList<>());
         office.setName("Name");
         office.setParkingAvailable(true);
         office.setUpdateById("2022-03-01");
@@ -1492,7 +1461,6 @@ class ReportServiceImplTest {
         office.setCreatedAt(mock(Timestamp.class));
         office.setCreatedById("42");
         office.setId("42");
-        office.setMapList(new ArrayList<>());
         office.setName("Name");
         office.setParkingAvailable(true);
         office.setUpdateById("2022-03-01");
@@ -1623,7 +1591,6 @@ class ReportServiceImplTest {
         office.setCreatedAt(mock(Timestamp.class));
         office.setCreatedById("42");
         office.setId("42");
-        office.setMapList(new ArrayList<>());
         office.setName("yyyy-MM-dd");
         office.setParkingAvailable(true);
         office.setUpdateById("2022-03-01");
@@ -1743,7 +1710,6 @@ class ReportServiceImplTest {
         office.setCreatedAt(mock(Timestamp.class));
         office.setCreatedById("42");
         office.setId("42");
-        office.setMapList(new ArrayList<>());
         office.setName("yyyy-MM-dd");
         office.setParkingAvailable(true);
         office.setUpdateById("2022-03-01");
@@ -1851,7 +1817,6 @@ class ReportServiceImplTest {
         office1.setCreatedAt(mock(Timestamp.class));
         office1.setCreatedById("42");
         office1.setId("42");
-        office1.setMapList(new ArrayList<>());
         office1.setName("yyyy-MM-dd");
         office1.setParkingAvailable(true);
         office1.setUpdateById("2022-03-01");

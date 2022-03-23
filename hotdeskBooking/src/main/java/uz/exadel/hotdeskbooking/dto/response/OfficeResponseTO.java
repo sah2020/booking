@@ -2,6 +2,7 @@ package uz.exadel.hotdeskbooking.dto.response;
 
 import lombok.Getter;
 import lombok.Setter;
+import uz.exadel.hotdeskbooking.domain.Map;
 
 import java.io.Serializable;
 import java.util.List;
@@ -19,5 +20,5 @@ public class OfficeResponseTO implements Serializable {
 
     private boolean isParkingAvailable;
 
-    private List<String> mapIds;
+    private List<String> mapIDList;
 }

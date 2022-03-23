@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import uz.exadel.hotdeskbooking.domain.Map;
 import uz.exadel.hotdeskbooking.domain.Office;
 import uz.exadel.hotdeskbooking.dto.request.OfficeDto;
+import uz.exadel.hotdeskbooking.dto.response.MapResponseTO;
 import uz.exadel.hotdeskbooking.dto.response.OfficeResponseTO;
 import uz.exadel.hotdeskbooking.exception.ConflictException;
 import uz.exadel.hotdeskbooking.exception.NotFoundException;
@@ -16,6 +17,7 @@ import uz.exadel.hotdeskbooking.repository.OfficeRepository;
 import uz.exadel.hotdeskbooking.response.ResponseMessage;
 import uz.exadel.hotdeskbooking.service.OfficeService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -52,10 +54,10 @@ public class OfficeServiceImpl implements OfficeService {
         Office office = officeRepository.findById(officeId)
                 .orElseThrow(() -> new NotFoundException(ResponseMessage.OFFICE_NOT_FOUND.getMessage()));
 
-        List<String> idsByOfficeId = mapRepository.findIdsByOfficeId(officeId); //GETTING ALL MAPIDS BY OFFICEiD
+        List<String> mapIds = mapRepository.findIdsByOfficeId(officeId); //GETTING ALL MAPIDS BY OFFICEiD
 
         OfficeResponseTO response = modelMapper.map(office, OfficeResponseTO.class);
-        response.setMapIds(idsByOfficeId);
+        response.setMapIDList(mapIds);
 
         return response;
     }
