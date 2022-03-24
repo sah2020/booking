@@ -23,6 +23,7 @@ public class ExceptionResponseService {
                 case 404 -> handleNotFound(chatId, errorResponse.getMessage());
                 case 400 -> handleBadRequest(chatId, errorResponse.getMessage());
                 case 403 -> handleForbidden(chatId, errorResponse.getMessage());
+                case 401 -> handleUnAuthorized(chatId, errorResponse.getMessage());
             }
         } catch (JsonProcessingException e) {
             e.printStackTrace();
@@ -49,5 +50,9 @@ public class ExceptionResponseService {
 
     private void handleForbidden(String chatId, String message){
         executeService.execute(new SendMessage(chatId,message));
+    }
+
+    private void handleUnAuthorized(String chatId, String message){
+        executeService.execute(new SendMessage(chatId,"Sorry, You are not registered. Please ask from administration for full info!"));
     }
 }

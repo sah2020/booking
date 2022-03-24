@@ -1,7 +1,7 @@
 package com.exadel.demo_telegram_bot.service;
 
+import com.exadel.demo_telegram_bot.dto.LoginDto;
 import com.exadel.demo_telegram_bot.model.BotUser;
-import com.exadel.demo_telegram_bot.response.OkResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -24,12 +24,12 @@ public class BotUserService {
     private final RestWebService restWebService;
     private final ObjectMapper objectMapper;
 
-    public BotUser getUserByTelegramId(String telegramId){
-        ResponseEntity<String> response = restWebService.getForEntity(baseUrl + "/user/" + telegramId, String.class);
+    public BotUser login(String telegramId){
+        LoginDto loginDto = new LoginDto(telegramId, "password");
+        ResponseEntity<String> response = restWebService.postForEntity(baseUrl + "/login", null,loginDto);
         if (response.getStatusCode().toString().startsWith("2")){
             try {
-                OkResponse okResponse = objectMapper.readValue(response.getBody(), OkResponse.class);
-                BotUser botUser = objectMapper.convertValue(okResponse.getData(), BotUser.class);
+                BotUser botUser = objectMapper.readValue(response.getBody(), BotUser.class);
                 botUsers.put(telegramId, botUser);
                 return botUser;
             } catch (JsonProcessingException e) {

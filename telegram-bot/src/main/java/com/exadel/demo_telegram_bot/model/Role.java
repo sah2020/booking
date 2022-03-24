@@ -1,17 +1,16 @@
-package com.exadel.demo_telegram_bot.response;
+package com.exadel.demo_telegram_bot.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class OkResponse {
-    private int code;
-    private String status;
-    private String message;
-    private Object data;
+public class Role {
+    @JsonProperty("roleType")
+    private String name;
 }

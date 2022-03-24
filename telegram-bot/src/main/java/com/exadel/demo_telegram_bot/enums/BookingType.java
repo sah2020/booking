@@ -5,12 +5,11 @@ import lombok.Getter;
 @Getter
 public enum BookingType {
     ONE_DAY("One day"),
-    CONTINUOUS("Continuous"),
-    RECURRING("Recurring");
+    CONTINUOUS("Continuous");
 
     BookingType(String name) {
         this.name = name;
     }
 
-    private String name;
+    private final String name;
 }
