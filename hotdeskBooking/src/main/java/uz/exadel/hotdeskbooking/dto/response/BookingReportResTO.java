@@ -7,6 +7,7 @@ import uz.exadel.hotdeskbooking.domain.Office;
 import uz.exadel.hotdeskbooking.domain.User;
 import uz.exadel.hotdeskbooking.domain.Workplace;
 
+import javax.persistence.ManyToMany;
 import java.util.Date;
 
 @Data
@@ -15,8 +16,7 @@ import java.util.Date;
 public class BookingReportResTO {
     private String id;
     private UserBasicResTO user;
-    private Office office;
-    private Workplace workplace;
+    private WorkplaceResponseDto workplace;
     private Date startDate;
     private Date endDate;
     private boolean isRecurring;

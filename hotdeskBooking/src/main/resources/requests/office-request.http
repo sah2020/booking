@@ -23,13 +23,13 @@ Authorization: Bearer {{token}}
 
 
 ### Get office details (with map IDs) by office id
-GET {{host}}/office/{{activeOfficeId}}
+GET {{host}}/office/2c9f89f97fbaa511017fbacf8bee0000
 Authorization: Bearer {{token}}
 
 
 
 ### Updating already existing office
-PUT {{host}}/office/ff8081817fb5b2dd017fb6515ea90001
+PUT {{host}}/office/2c9f89f97fbaa511017fbacf8bee0000
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
@@ -43,7 +43,7 @@ Authorization: Bearer {{token}}
 
 
 ### Deleting the office by office id
-DELETE {{host}}/office/ff8081817fb5b2dd017fb5b325480000
+DELETE {{host}}/office/2c9f89f97fbaa511017fbacf8bee0000
 Authorization: Bearer {{token}}
 
 

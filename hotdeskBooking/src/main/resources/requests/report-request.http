@@ -58,7 +58,7 @@ GET {{host}}/report/excel/floor/3
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
-### Get JSON report by office id
+### Get JSON report by user id
 GET {{host}}/report/userId/{{userId}}
 Content-Type: application/json
 Authorization: Bearer {{token}}

@@ -38,10 +38,7 @@ public class BookingMapper {
         bookingReportResTO.setId(booking.getId());
         bookingReportResTO.setUser(booking.getUser().toBasic());
         Workplace workplace = booking.getWorkplace();
-        Map map = workplace.getMap();
-        Office office = map.getOffice();
-        bookingReportResTO.setOffice(office);
-        bookingReportResTO.setWorkplace(workplace);
+        bookingReportResTO.setWorkplace(workplaceMapper.entityToResponseDTO(workplace));
         bookingReportResTO.setStartDate(booking.getStartDate());
         bookingReportResTO.setEndDate(booking.getEndDate());
         bookingReportResTO.setRecurring(booking.getIsRecurring());

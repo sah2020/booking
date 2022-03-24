@@ -4,15 +4,15 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-  "office_id": "ff8081817fb5b2dd017fb6515ea90001",
-  "floor": 2,
+  "office_id": "{{activeOfficeId}}",
+  "floor": 4,
   "kitchen": true,
   "conf_rooms": true
 }
 
 
 ### Getting map by id
-GET {{host}}/map/ff8081817fb6571e017fb657f2f10000
+GET {{host}}/map/{{activeMapId}}
 Authorization: Bearer {{token}}
 
 ### Deleting map
@@ -20,12 +20,12 @@ DELETE {{host}}/map/ff8081817fb5b2dd017fb653fa070002
 Authorization: Bearer {{token}}
 
 ### Updating map
-PUT {{host}}/map/ff8081817fb6571e017fb657f2f10000
+PUT {{host}}/map/{{activeMapId}}
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-  "office_id": "ff8081817fb5b2dd017fb6515ea90001",
+  "office_id": "{{activeOfficeId}}",
   "floor": 4,
   "kitchen": false,
   "conf_rooms": false

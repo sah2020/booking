@@ -57,7 +57,7 @@ Authorization: Bearer {{token}}
 }
 
 ### Delete workplace by id
-DELETE {{host}}/workplace/{{activeWorkplaceId}}
+DELETE {{host}}/workplace/2c9f89f97fbaa511017fbad2de7c0002
 Content-Type: application/json
 Authorization: Bearer {{token}}
 

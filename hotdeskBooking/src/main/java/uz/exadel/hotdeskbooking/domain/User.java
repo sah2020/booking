@@ -40,7 +40,7 @@ public class User extends BaseDomain implements UserDetails {
     private String password;
 
     private String preferredWorkplaceId;
-    @ManyToOne(cascade = {CascadeType.PERSIST}, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = {CascadeType.PERSIST}, fetch = FetchType.EAGER)
     @JoinColumn(name = "preferredWorkplaceId", updatable = false, insertable = false)
     private Workplace preferredWorkplace;
 

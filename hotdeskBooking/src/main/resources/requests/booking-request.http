@@ -42,8 +42,8 @@ Authorization: Bearer {{token}}
   "endDate": null,
   "isRecurring": true,
   "datesList": [
-    "2022-02-10",
-    "2022-02-11"
+    "2022-04-10",
+    "2022-04-11"
   ]
 }
 
@@ -103,19 +103,18 @@ Authorization: Bearer {{token}}
 
 {
   "list": [
-    "ff8081817fb7ed0c017fb7f969ae0002",
-    "ff8081817fb7ed0c017fb7f969ae0003",
-    "ff8081817fb7ed0c017fb7efa1b60000"
+    "2c9f89f97fbaa511017fbad4f77a0003",
+    "2c9f89f97fbaa511017fbad4f77b0004"
   ]
 }
 
 ### Cancel booking by id
-POST {{host}}/booking/cancel?id=ff8081817fb7ed0c017fb7f969ae0003
+POST {{host}}/booking/cancel?id=2c9f89f97fbaa511017fbad4f77b0004
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 ### Cancel booking by user id
-POST {{host}}/booking/cancel?userId=ff8081817fb6f11b017fb6f179da0001&all=true
+POST {{host}}/booking/cancel?userId={{userId}}&all=true
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
@@ -125,12 +124,12 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 ### Get booking by id
-GET {{host}}/booking/ff8081817fb7ed0c017fb7f969ae0002
+GET {{host}}/booking/2c9f89f97fbaa511017fbad4f77b0004
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 ### Get booking by user id
-GET {{host}}/booking/userId/{{userId}}
+GET {{host}}/booking/userId/ff8081817fb6f11b017fb6f179da0001
 Content-Type: application/json
 Authorization: Bearer {{token}}
 

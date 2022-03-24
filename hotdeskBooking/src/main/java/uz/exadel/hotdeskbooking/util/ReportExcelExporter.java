@@ -39,34 +39,27 @@ public class ReportExcelExporter {
         font.setBold(true);
         font.setFontHeight(14);
         style.setFont(font);
-
         createCell(row, 0, "Booking ID", style);
         createCell(row, 1, "User ID", style);
         createCell(row, 2, "User Firstname", style);
         createCell(row, 3, "User Lastname", style);
         createCell(row, 4, "User Role", style);
-        createCell(row, 5, "Office ID", style);
-        createCell(row, 6, "Office Name ", style);
-        createCell(row, 7, "Office Country", style);
-        createCell(row, 8, "Office City", style);
-        createCell(row, 9, "Office Address", style);
-        createCell(row, 10, "Office Parking", style);
-        createCell(row, 11, "Workplace ID", style);
-        createCell(row, 12, "Map ID", style);
-        createCell(row, 13, "Map Floor", style);
-        createCell(row, 14, "Map Kitchen", style);
-        createCell(row, 15, "Map Conf Rooms", style);
-        createCell(row, 16, "Workplace Number", style);
-        createCell(row, 17, "Workplace Type", style);
-        createCell(row, 18, "Workplace Next To Window", style);
-        createCell(row, 19, "Workplace Has PC", style);
-        createCell(row, 20, "Workplace Has Monitor", style);
-        createCell(row, 21, "Workplace Has Keyboard", style);
-        createCell(row, 22, "Workplace Has Mouse", style);
-        createCell(row, 23, "Workplace Has Headset", style);
-        createCell(row, 24, "Start Date", style);
-        createCell(row, 25, "End Date", style);
-        createCell(row, 26, "Recurring", style);
+        createCell(row, 5, "Workplace ID", style);
+        createCell(row, 6, "Map ID", style);
+        createCell(row, 7, "Workplace Number", style);
+        createCell(row, 8, "Workplace Type", style);
+        createCell(row, 9, "Workplace Next To Window", style);
+        createCell(row, 10, "Workplace Has PC", style);
+        createCell(row, 11, "Workplace Has Monitor", style);
+        createCell(row, 12, "Workplace Has Keyboard", style);
+        createCell(row, 13, "Workplace Has Mouse", style);
+        createCell(row, 14, "Workplace Has Headset", style);
+        createCell(row, 15, "Map Floor", style);
+        createCell(row, 16, "Map Kitchen", style);
+        createCell(row, 17, "Map Conf Rooms", style);
+        createCell(row, 18, "Start Date", style);
+        createCell(row, 19, "End Date", style);
+        createCell(row, 20, "Recurring", style);
 
     }
 
@@ -107,18 +100,9 @@ public class ReportExcelExporter {
             createCell(row, columnCount++, BookingReportResTO.getUser().getFirstName(), style);
             createCell(row, columnCount++, BookingReportResTO.getUser().getLastName(), style);
             createCell(row, columnCount++, BookingReportResTO.getUser().getRole(), style);
-            createCell(row, columnCount++, BookingReportResTO.getOffice().getId(), style);
-            createCell(row, columnCount++, BookingReportResTO.getOffice().getName(), style);
-            createCell(row, columnCount++, BookingReportResTO.getOffice().getCountry(), style);
-            createCell(row, columnCount++, BookingReportResTO.getOffice().getCity(), style);
-            createCell(row, columnCount++, BookingReportResTO.getOffice().getAddress(), style);
-            createCell(row, columnCount++, BookingReportResTO.getOffice().isParkingAvailable(), style);
             createCell(row, columnCount++, BookingReportResTO.getWorkplace().getId(), style);
-            createCell(row, columnCount++, BookingReportResTO.getWorkplace().getMap().getId(), style);
-            createCell(row, columnCount++, BookingReportResTO.getWorkplace().getMap().getFloor(), style);
-            createCell(row, columnCount++, BookingReportResTO.getWorkplace().getMap().isKitchen(), style);
-            createCell(row, columnCount++, BookingReportResTO.getWorkplace().getMap().isConfRooms(), style);
-            createCell(row, columnCount++, BookingReportResTO.getWorkplace().getWorkplaceNumber(), style);
+            createCell(row, columnCount++, BookingReportResTO.getWorkplace().getMapId(), style);
+            createCell(row, columnCount++, BookingReportResTO.getWorkplace().getNumber(), style);
             createCell(row, columnCount++, BookingReportResTO.getWorkplace().getType().getName(), style);
             createCell(row, columnCount++, BookingReportResTO.getWorkplace().getNextToWindow(), style);
             createCell(row, columnCount++, BookingReportResTO.getWorkplace().getHasPC(), style);
@@ -126,10 +110,12 @@ public class ReportExcelExporter {
             createCell(row, columnCount++, BookingReportResTO.getWorkplace().getHasKeyboard(), style);
             createCell(row, columnCount++, BookingReportResTO.getWorkplace().getHasMouse(), style);
             createCell(row, columnCount++, BookingReportResTO.getWorkplace().getHasHeadset(), style);
+            createCell(row, columnCount++, BookingReportResTO.getWorkplace().getFloor(), style);
+            createCell(row, columnCount++, BookingReportResTO.getWorkplace().getKitchen(), style);
+            createCell(row, columnCount++, BookingReportResTO.getWorkplace().getConfRoom(), style);
             createCell(row, columnCount++, BookingReportResTO.getStartDate(), style);
             createCell(row, columnCount++, BookingReportResTO.getEndDate(), style);
             createCell(row, columnCount++, BookingReportResTO.isRecurring(), style);
-
 
         }
     }
