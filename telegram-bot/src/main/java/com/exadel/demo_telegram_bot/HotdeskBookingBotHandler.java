@@ -1,15 +1,20 @@
 package com.exadel.demo_telegram_bot;
 
+import com.exadel.demo_telegram_bot.enums.UserRoleEnum;
 import com.exadel.demo_telegram_bot.handlers.admin.AdminBotHandler;
 import com.exadel.demo_telegram_bot.handlers.client.ClientBotHandler;
 import com.exadel.demo_telegram_bot.handlers.manager.ManagerBotHandler;
 import com.exadel.demo_telegram_bot.handlers.map_editor.MapEditorBotHandler;
 import com.exadel.demo_telegram_bot.model.BotUser;
+import com.exadel.demo_telegram_bot.model.Role;
 import com.exadel.demo_telegram_bot.service.BotUserService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Update;
+
+import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -20,6 +25,7 @@ public class HotdeskBookingBotHandler {
     private final ClientBotHandler clientBotHandler;
     private final ManagerBotHandler managerBotHandler;
     private final MapEditorBotHandler mapEditorBotHandler;
+    private final ObjectMapper objectMapper;
 
     public void handleUpdate(Update update){
         if (update != null){
@@ -28,15 +34,18 @@ public class HotdeskBookingBotHandler {
             BotUser botUser = botUserService.getBotUserByHashMap(chatId); //this will get the user's current state in the bot
 
             if (botUser==null){
-                botUser = botUserService.getUserByTelegramId(chatId);
+                botUser = botUserService.login(chatId);
             }
 
             if (botUser !=null){
-                switch (botUser.getRole()){
-                    case  ROLE_COMMON_USER-> clientBotHandler.handleUpdate(update);
-                    case ROLE_ADMIN -> adminBotHandler.handleUpdate(update);
-                    case ROLE_MANAGER -> managerBotHandler.handleUpdate(update);
-                    case ROLE_MAP_EDITOR -> mapEditorBotHandler.handleUpdate(update);
+                List<Role> roles = botUser.getRole();
+                if (roles.size()>0){
+                    switch (UserRoleEnum.valueOf(roles.get(0).getName())){
+                        case ROLE_COMMON_USER-> clientBotHandler.handleUpdate(update);
+                        case ROLE_ADMIN -> adminBotHandler.handleUpdate(update);
+                        case ROLE_MANAGER -> managerBotHandler.handleUpdate(update);
+                        case ROLE_MAP_EDITOR -> mapEditorBotHandler.handleUpdate(update);
+                    }
                 }
             }
         }

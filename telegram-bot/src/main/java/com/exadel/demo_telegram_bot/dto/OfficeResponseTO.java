@@ -1,18 +1,16 @@
 package com.exadel.demo_telegram_bot.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+import java.util.List;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class OfficeDto {
-    private String id;
-
+public class OfficeResponseTO implements Serializable {
     private String name;
 
     private String country;
@@ -21,6 +19,7 @@ public class OfficeDto {
 
     private String address;
 
-    @JsonProperty("is_parking_available")
     private boolean isParkingAvailable;
+
+    private List<String> mapIds;
 }

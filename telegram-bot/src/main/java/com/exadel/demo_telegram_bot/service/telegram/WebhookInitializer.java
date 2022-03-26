@@ -16,7 +16,6 @@ public class WebhookInitializer implements CommandLineRunner {
     private final RestTemplate restTemplate;
     private final TelegramBotConfig telegramBotConfig;
 
-
     @Override
     public void run(String... args) throws Exception {
         final String response = restTemplate.getForObject(telegramBotConfig.getBaseUrl() + telegramBotConfig.getBotToken() + "/setWebhook?url=" + webhookUrl, String.class);

@@ -30,6 +30,14 @@ public class ReplyKeyboardButtons {
         );
     }
 
+    public ReplyKeyboardMarkup HOME_BUTTON(){
+        return telegramButtonUtils.replyKeyboardMarkup(
+                telegramButtonUtils.KeyboardRow(
+                        messageService.getMessage("button.home")
+                )
+        );
+    }
+
     public ReplyKeyboardRemove REMOVE_MARKUP() {
         ReplyKeyboardRemove replyKeyboardRemove = new ReplyKeyboardRemove();
         replyKeyboardRemove.setRemoveKeyboard(true);

@@ -97,8 +97,8 @@ public class User extends BaseDomain implements UserDetails {
         userBasicResTO.setId(this.getId());
         userBasicResTO.setFirstName(this.getFirstName());
         userBasicResTO.setLastName(this.getLastName());
-        Object[] roles = this.getRoles().toArray();
-        userBasicResTO.setRole(Arrays.toString(roles));
+//        Object[] roles = this.getRoles().toArray();
+        userBasicResTO.setRole(roles);
         return userBasicResTO;
     }
 }

@@ -19,6 +19,7 @@ import uz.exadel.hotdeskbooking.service.OfficeService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -34,8 +35,11 @@ public class OfficeServiceImpl implements OfficeService {
     }
 
     @Override
-    public List<Office> getOfficeListByCity(String city) {
-        return officeRepository.findAllByCity(city);
+    public List<OfficeDto> getOfficeListByCity(String city) {
+        final List<Office> officeList = officeRepository.findAllByCity(city);
+        return officeList
+                .stream()
+                .map(item -> modelMapper.map(item, OfficeDto.class)).collect(Collectors.toList());
     }
 
     @Override
@@ -103,13 +107,15 @@ public class OfficeServiceImpl implements OfficeService {
     }
 
     @Override
-    public List<Map> getMapListByOfficeId(String officeId) {
+    public List<MapResponseTO> getMapListByOfficeId(String officeId) {
         boolean exists = officeRepository.existsById(officeId);
         if (!exists) {
             throw new NotFoundException(ResponseMessage.OFFICE_NOT_FOUND.getMessage());
         }
 
-        return mapRepository.findAllByOfficeId(officeId);
+        return mapRepository.findAllByOfficeId(officeId)
+                .stream()
+                .map(item -> modelMapper.map(item, MapResponseTO.class)).collect(Collectors.toList());
     }
 
     //checking if the office has parking slot available
