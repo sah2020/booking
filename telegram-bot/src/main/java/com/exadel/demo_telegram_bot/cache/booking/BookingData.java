@@ -1,4 +1,4 @@
-package com.exadel.demo_telegram_bot.cashe.booking;
+package com.exadel.demo_telegram_bot.cache.booking;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

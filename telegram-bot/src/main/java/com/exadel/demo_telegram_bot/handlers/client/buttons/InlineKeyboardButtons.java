@@ -1,7 +1,7 @@
 package com.exadel.demo_telegram_bot.handlers.client.buttons;
 
-import com.exadel.demo_telegram_bot.cashe.booking.BookingData;
-import com.exadel.demo_telegram_bot.cashe.booking.BookingDataCache;
+import com.exadel.demo_telegram_bot.cache.booking.BookingData;
+import com.exadel.demo_telegram_bot.cache.booking.BookingDataCache;
 import com.exadel.demo_telegram_bot.dto.MapResponseTO;
 import com.exadel.demo_telegram_bot.dto.OfficeDto;
 import com.exadel.demo_telegram_bot.dto.WorkplaceResponseDto;

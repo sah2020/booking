@@ -1,7 +1,7 @@
 package com.exadel.demo_telegram_bot.commands;
 
-import com.exadel.demo_telegram_bot.cashe.booking.BookingData;
-import com.exadel.demo_telegram_bot.cashe.booking.BookingDataCache;
+import com.exadel.demo_telegram_bot.cache.booking.BookingData;
+import com.exadel.demo_telegram_bot.cache.booking.BookingDataCache;
 import com.exadel.demo_telegram_bot.enums.BotStateEnum;
 import com.exadel.demo_telegram_bot.enums.UserRoleEnum;
 import com.exadel.demo_telegram_bot.service.BotStateService;
